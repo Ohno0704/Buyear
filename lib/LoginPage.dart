@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/HomePage.dart';
+import 'package:flutter_application_1/root.dart';
+import 'package:flutter_application_1/routes/HomePage.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage(this.name);
@@ -29,7 +30,7 @@ class LoginPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage(),
+                  MaterialPageRoute(builder: (context) => RootWidget(),
                   ),
                 );
                   // Navigator.pop(context, 'Buyear');
