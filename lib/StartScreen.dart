@@ -52,7 +52,7 @@ class LoginButton extends StatelessWidget {
         onPressed: () async{
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage(''),
+                  MaterialPageRoute(builder: (context) => LoginPage(),
                   ),
                 );
               },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
-import 'package:flutter_application_1/routes/Chat/PersonalChat.dart';
-import 'package:flutter_application_1/routes/Chat/OpenChat.dart';
+import 'package:flutter_application_1/routes/Chat/Personal/PersonalChat.dart';
+import 'package:flutter_application_1/routes/Chat/Open/OpenChat.dart';
  
 class ChatPage extends StatelessWidget {
   @override

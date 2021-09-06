@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
+import 'package:flutter_application_1/routes/Chat/Personal/Chatting.dart';
  
 class Tile extends StatelessWidget {
 
@@ -30,14 +31,20 @@ class Tile extends StatelessWidget {
           ),
           title: Text(this.username), // <- 追加：ユーザ名の設定
           subtitle: Text(this.message), // <- 追加：メッセージの設定
-          onTap: () => {},
+          onTap: () => {
+            Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Chatting(this.username)))
+          },
         ),
       ),
       actions: <Widget>[
         IconSlideAction(
           color: Colors.blue,
           icon: Icons.flash_off,
-          onTap: () => {}, // _showSnackBar('Archive'),
+          onTap: () => {
+          }, // _showSnackBar('Archive'),
         ),
         IconSlideAction(
           color: Colors.indigo,
@@ -68,7 +75,6 @@ class Tile extends StatelessWidget {
 }
 class PersonalChat extends StatelessWidget {
   @override
-  var tile = new Tile(Icons.person, "ss", "ss");
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -88,11 +94,6 @@ class PersonalChat extends StatelessWidget {
       ),
       body: ListView(
           children: <Widget>[
-            // Tile(
-            //   icon,
-            //   username,
-            //   message,
-            //   ),
             Tile(
               Icons.person,
               "鹿太郎",

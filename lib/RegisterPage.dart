@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/root.dart';
+import 'package:flutter_application_1/routes/root.dart';
 // import 'package:flutter_application_1/routes/Home/HomePage.dart';
 
 class RegisterPage extends StatelessWidget {
