@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/routes/root.dart';
+import 'package:flutter_application_1/root.dart';
 // import 'package:flutter_application_1/routes/Home/HomePage.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage(this.name);
+class RegisterPage extends StatelessWidget {
+  RegisterPage(this.name);
   final String name;
 
   @override
@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
             Text(''),
             Center(
               child: ElevatedButton(
-                child: Text('ログイン'),
+                child: Text('Register'),
                 onPressed: () {
                   Navigator.push(
                   context,

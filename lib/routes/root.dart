@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_application_1/routes/HomePage.dart';
-import 'package:flutter_application_1/routes/ShoppingPage.dart';
-import 'package:flutter_application_1/routes/InfoPage.dart';
-import 'package:flutter_application_1/routes/ChatPage.dart';
+import 'package:flutter_application_1/routes/Home/HomePage.dart';
+import 'package:flutter_application_1/routes/Shopping/ShoppingPage.dart';
+import 'package:flutter_application_1/routes/Info/InfoPage.dart';
+import 'package:flutter_application_1/routes/Chat/ChatPage.dart';
 
 class RootWidget extends StatefulWidget {
   RootWidget({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class _RootWidgetState extends State<RootWidget> {
  
   static const _footerItemNames = [
     'ホーム',
-    'ショッピング',
+    '売る',
     '情報誌',
     'チャット',
   ];
