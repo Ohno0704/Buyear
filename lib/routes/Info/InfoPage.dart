@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
+import 'package:flutter_application_1/routes/Chat/Open/OpenChat.dart';
  
 class InfoPage extends StatelessWidget {
   @override
@@ -21,7 +22,71 @@ class InfoPage extends StatelessWidget {
             icon: Icon(Icons.account_circle))
         ],
       ),
-      body: Center(child: Text("情報誌") 
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ButtonTheme(
+              minWidth: 180.0,
+              height: 100.0,
+              child: RaisedButton(
+                  child: Text('全体'),
+                  onPressed: () async{
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OpenChat(),
+                      ),
+                    );
+                  }
+                ),
+              ),
+              Text(' '),
+              ButtonTheme(
+              minWidth: 180.0,
+              height: 100.0,
+              child: RaisedButton(
+                  child: Text('部活・サークル'),
+                  onPressed: () async{
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OpenChat(),
+                      ),
+                    );
+                  }
+                ),
+              ),
+              Text(' '),
+              ButtonTheme(
+              minWidth: 180.0,
+              height: 100.0,
+              child: RaisedButton(
+                  child: Text('自動車学校'),
+                  onPressed: () async{
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OpenChat(),
+                      ),
+                    );
+                  }
+                ),
+              ),
+              Text(' '),
+              ButtonTheme(
+              minWidth: 180.0,
+              height: 100.0,
+              child: RaisedButton(
+                  child: Text('アルバイト'),
+                  onPressed: () async{
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OpenChat(),
+                      ),
+                    );
+                  }
+                ),
+              ),
+          ],
+        ) 
           ),
     );
   }

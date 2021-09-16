@@ -30,7 +30,7 @@ class ChatPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
             ButtonTheme(
-              minWidth: 200.0,
+              minWidth: 180.0,
               height: 100.0,
               child: RaisedButton(
                   child: Text('Personal Chat'),
@@ -47,7 +47,7 @@ class ChatPage extends StatelessWidget {
               Text('   '),
 
               ButtonTheme(
-                minWidth: 200.0,
+                minWidth: 180.0,
                 height: 100.0,
                 child: RaisedButton(
                     child: Text('Open Chat'),
@@ -63,30 +63,6 @@ class ChatPage extends StatelessWidget {
             ],
           )
         ],
-        // child: Row(
-        //   children: <Widget>[
-        //     ElevatedButton(
-        //         child: Text('Go to Personal Chat'),
-        //         onPressed: () async{
-        //           await Navigator.push(
-        //             context,
-        //             MaterialPageRoute(builder: (context) => PersonalChat(),
-        //             ),
-        //           );
-        //         }
-        //       ),
-        //       ElevatedButton(
-        //         child: Text('Go to Open Chat'),
-        //         onPressed: () async{
-        //           await Navigator.push(
-        //             context,
-        //             MaterialPageRoute(builder: (context) => OpenChat(),
-        //             ),
-        //           );
-        //         }
-        //       ),
-        //     ],
-        // )
       ),
     );
   }

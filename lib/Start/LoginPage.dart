@@ -15,6 +15,18 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text('大学名'),
+            TextField(
+              decoration: InputDecoration(
+                hintText: '〇〇〇大学'
+              ),
+              onChanged: (text) {
+                maleAdress = text;
+                // print("メールアドレスは $text");
+              },
+            ),
+            Text(''),
+            Text('メールアドレス'),
             TextField(
               decoration: InputDecoration(
                 hintText: '〇〇〇@gmail.com'
@@ -38,24 +50,6 @@ class LoginPage extends StatelessWidget {
             )
           ],
         ),
-        // child: Column(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: <Widget>[
-        //     Center(
-        //       child: ElevatedButton(
-        //         child: Text('ログイン'),
-        //         onPressed: () {
-        //           Navigator.push(
-        //           context,
-        //           MaterialPageRoute(builder: (context) => RootWidget(),
-        //           ),
-        //         );
-        //           // Navigator.pop(context, 'Buyear');
-        //         },
-        //       )
-        //     )
-        //   ]
-        // )
       )
     );
   }

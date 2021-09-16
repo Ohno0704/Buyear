@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/LoginPage.dart';
-import 'package:flutter_application_1/RegisterPage.dart';
+import 'package:flutter_application_1/Start/LoginPage.dart';
+import 'package:flutter_application_1/Start/RegisterPage.dart';
 
 
 class StartScreen extends StatefulWidget {
@@ -24,16 +24,23 @@ class _MyHomePageState extends State<StartScreen> {
       body: Stack(
         children: <Widget>[
           Positioned(
-            bottom: 10.0,
+            // top: 5.0,
+            right: 0.0,
+            width: 400.0,
+            height: 600.0,
+            child: StartImage(),
+          ),
+          Positioned(
+            bottom: 40.0,
             left: 10.0,
-            width: 200.0,
+            width: 160.0,
             height: 100.0,
             child: LoginButton(),
           ),
           Positioned(
-            bottom: 10.0,
+            bottom: 40.0,
             right: 10.0,
-            width: 200.0,
+            width: 160.0,
             height: 100.0,
             child: RegisterButton(),
           ),
@@ -81,6 +88,18 @@ class RegisterButton extends StatelessWidget {
       // alignment: Alignment(1.0, 1.0),
       // color: Colors.lightBlue,
       // child: Text('Log in'),
+    );
+  }
+}
+
+class StartImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Image.asset(
+        'images/buyear_start.png',
+        fit: BoxFit.contain,
+        ),
     );
   }
 }

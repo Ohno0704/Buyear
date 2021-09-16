@@ -13,65 +13,65 @@ class MyPage extends StatelessWidget {
         child: ListView(
           children: const <Widget>[
             ListTile(
-              leading: Icon(Icons.info_rounded),
+              leading: Icon(Icons.phone),
               title: Text('お問い合わせ'),
               trailing:  Icon(Icons.arrow_forward_ios),
             ),
             ListTile(
               leading: Icon(Icons.photo_album),
-              title: Text('Album'),
+              title: Text('出品した商品'),
               trailing:  Icon(Icons.arrow_forward_ios),
             ),
             ListTile(
               leading: Icon(Icons.phone),
-              title: Text('Phone'),
+              title: Text('購入した商品'),
               trailing:  Icon(Icons.arrow_forward_ios),
             ),
-            ListTile(
-              leading: Icon(Icons.map),
-              title: Text('Map'),
-              trailing:  Icon(Icons.arrow_forward_ios),
-            ),
-            ListTile(
-              leading: Icon(Icons.photo_album),
-              title: Text('Album'),
-              trailing:  Icon(Icons.arrow_forward_ios),
-            ),
-            ListTile(
-              leading: Icon(Icons.phone),
-              title: Text('Phone'),
-              trailing:  Icon(Icons.arrow_forward_ios),
-            ),
-            ListTile(
-              leading: Icon(Icons.map),
-              title: Text('Map'),
-              trailing:  Icon(Icons.arrow_forward_ios),
-            ),
-            ListTile(
-              leading: Icon(Icons.photo_album),
-              title: Text('Album'),
-              trailing:  Icon(Icons.arrow_forward_ios),
-            ),
-            ListTile(
-              leading: Icon(Icons.phone),
-              title: Text('Phone'),
-              trailing:  Icon(Icons.arrow_forward_ios),
-            ),
-            ListTile(
-              leading: Icon(Icons.map),
-              title: Text('Map'),
-              trailing:  Icon(Icons.arrow_forward_ios),
-            ),
-            ListTile(
-              leading: Icon(Icons.photo_album),
-              title: Text('Album'),
-              trailing:  Icon(Icons.arrow_forward_ios),
-            ),
-            ListTile(
-              leading: Icon(Icons.phone),
-              title: Text('Phone'),
-              trailing:  Icon(Icons.arrow_forward_ios),
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.map),
+            //   title: Text('Map'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.photo_album),
+            //   title: Text('Album'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.phone),
+            //   title: Text('Phone'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.map),
+            //   title: Text('Map'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.photo_album),
+            //   title: Text('Album'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.phone),
+            //   title: Text('Phone'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.map),
+            //   title: Text('Map'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.photo_album),
+            //   title: Text('Album'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.phone),
+            //   title: Text('Phone'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            // ),
           ],
         )
 

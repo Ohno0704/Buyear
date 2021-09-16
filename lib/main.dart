@@ -1,7 +1,7 @@
 //メイン及び、スタート画面
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/StartScreen.dart';
+import 'package:flutter_application_1/Start/StartScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,11 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Buyear',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.teal,
       ),
       home: StartScreen(title: 'Welcome to Buyear'),
     );
   }
 }
-
-
