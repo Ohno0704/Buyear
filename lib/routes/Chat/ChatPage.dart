@@ -33,7 +33,7 @@ class ChatPage extends StatelessWidget {
               minWidth: 180.0,
               height: 100.0,
               child: RaisedButton(
-                  child: Text('Personal Chat'),
+                  child: Text('個人チャット'),
                   onPressed: () async{
                     await Navigator.push(
                       context,
@@ -50,7 +50,7 @@ class ChatPage extends StatelessWidget {
                 minWidth: 180.0,
                 height: 100.0,
                 child: RaisedButton(
-                    child: Text('Open Chat'),
+                    child: Text('全体チャット'),
                     onPressed: () async{
                       await Navigator.push(
                         context,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
+import 'package:flutter_application_1/routes/Home/ItemPage.dart';
  
 class HomePage extends StatelessWidget {
   @override
@@ -28,12 +29,28 @@ class HomePage extends StatelessWidget {
           children: List.generate(50, (index) {
             return Column(
               children: <Widget>[
-                Expanded(
-                  child: Image.network(
+                GestureDetector(
+                  onTap:  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ItemPage(index),
+                      ),
+                    );
+                  },
+                  child: Expanded(
+                    child: Image.network(
                     'https://pbs.twimg.com/profile_images/1420594554617556992/LmaZQTSv_400x400.jpg'
+                    ),
                   ),
+                  
                 ),
-                Text('$index'),
+                // Expanded(
+                //   child: Image.network(
+                //     'https://pbs.twimg.com/profile_images/1420594554617556992/LmaZQTSv_400x400.jpg'
+                //   ),
+                // ),
+                // Text('$index'),
               ],
             );
           }
