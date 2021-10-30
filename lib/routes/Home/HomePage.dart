@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
 import 'package:flutter_application_1/routes/Home/ItemPage.dart';
- 
+int itemNum = 50;
+
 class HomePage extends StatelessWidget {
+  HomePage(this.item);
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,31 +29,15 @@ class HomePage extends StatelessWidget {
         width: double.infinity,
         child: GridView.count(
           crossAxisCount: 3,
-          children: List.generate(50, (index) {
+          children: List.generate(itemNum, (index) {
             return Column(
               children: <Widget>[
-                GestureDetector(
-                  onTap:  () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ItemPage(index),
-                      ),
-                    );
-                  },
-                  child: Expanded(
-                    child: Image.network(
+                Expanded(
+                  child: Image.network(
                     'https://pbs.twimg.com/profile_images/1420594554617556992/LmaZQTSv_400x400.jpg'
-                    ),
                   ),
-                  
                 ),
-                // Expanded(
-                //   child: Image.network(
-                //     'https://pbs.twimg.com/profile_images/1420594554617556992/LmaZQTSv_400x400.jpg'
-                //   ),
-                // ),
-                // Text('$index'),
+                Text('$index'),
               ],
             );
           }

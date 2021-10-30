@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Start/LoginPage.dart';
-import 'package:flutter_application_1/Start/RegisterPage.dart';
 
 
 class StartScreen extends StatefulWidget {
@@ -26,23 +25,16 @@ class _MyHomePageState extends State<StartScreen> {
           Positioned(
             // top: 5.0,
             right: 0.0,
-            width: 400.0,
+            width: 450.0,
             height: 600.0,
             child: StartImage(),
           ),
           Positioned(
-            bottom: 40.0,
-            left: 10.0,
-            width: 160.0,
-            height: 100.0,
+            bottom: 20.0,
+            left: 90.0,
+            width: 200.0,
+            height: 120.0,
             child: LoginButton(),
-          ),
-          Positioned(
-            bottom: 40.0,
-            right: 10.0,
-            width: 160.0,
-            height: 100.0,
-            child: RegisterButton(),
           ),
         ],
       ),
@@ -55,7 +47,7 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: RaisedButton(
-        child: Text('Log in'),
+        child: Text('Lets Start!'),
         onPressed: () async{
                 await Navigator.push(
                   context,
@@ -71,31 +63,13 @@ class LoginButton extends StatelessWidget {
   }
 }
 
-class RegisterButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: RaisedButton(
-        child: Text('Register'),
-        onPressed: () async{
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RegisterPage('Register to Start!'),
-                  ),
-                );
-              },
-      ),
-      // alignment: Alignment(1.0, 1.0),
-      // color: Colors.lightBlue,
-      // child: Text('Log in'),
-    );
-  }
-}
 
 class StartImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      width: 400,
+      height: 220,
       child: Image.asset(
         'images/buyear_start.png',
         fit: BoxFit.contain,

@@ -32,7 +32,7 @@ class _RootWidgetState extends State<RootWidget> {
 
   // === 追加部分 ===
   var _routes = [
-    HomePage(),
+    HomePage(0),
     ShoppingPage(),
     InfoPage(),
     ChatPage(),
