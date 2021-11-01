@@ -6,8 +6,8 @@ import 'package:flutter_application_1/routes/Info/InfoPage.dart';
 import 'package:flutter_application_1/routes/Chat/ChatPage.dart';
 
 class RootWidget extends StatefulWidget {
-  RootWidget({Key? key}) : super(key: key);
- 
+  // RootWidget({Key? key}) : super(key: key);
+
   @override
   _RootWidgetState createState() => _RootWidgetState();
 }
@@ -32,7 +32,7 @@ class _RootWidgetState extends State<RootWidget> {
 
   // === 追加部分 ===
   var _routes = [
-    HomePage(0),
+    HomePage(),
     ShoppingPage(),
     InfoPage(),
     ChatPage(),

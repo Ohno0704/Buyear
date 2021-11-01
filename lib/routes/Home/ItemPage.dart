@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Chat/Personal/PersonalChat.dart';
+// import 'package:flutter_application_1/routes/Chat/Personal/.dart';
  
 class ItemPage extends StatelessWidget {
   ItemPage(this._index);
@@ -19,7 +20,7 @@ class ItemPage extends StatelessWidget {
                   onPressed: () async{
                     await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PersonalChat(),
+                      MaterialPageRoute(builder: (context) => Tile(Icons.person, '$_index', '$_index'),
                       ),
                     );
                   }

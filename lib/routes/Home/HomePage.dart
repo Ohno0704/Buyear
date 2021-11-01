@@ -4,7 +4,8 @@ import 'package:flutter_application_1/routes/Home/ItemPage.dart';
 int itemNum = 50;
 
 class HomePage extends StatelessWidget {
-  HomePage(this.item);
+  // HomePage(this.itemAdder);
+  // int itemAdder = 0;
   
   @override
   Widget build(BuildContext context) {
@@ -32,12 +33,27 @@ class HomePage extends StatelessWidget {
           children: List.generate(itemNum, (index) {
             return Column(
               children: <Widget>[
-                Expanded(
-                  child: Image.network(
-                    'https://pbs.twimg.com/profile_images/1420594554617556992/LmaZQTSv_400x400.jpg'
+                GridTile(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ItemPage(itemNum-index),
+                        ),
+                      );
+                    },
+                    child: Image.network(
+                      'https://pbs.twimg.com/profile_images/1420594554617556992/LmaZQTSv_400x400.jpg',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-                Text('$index'),
+                // Expanded(
+                //   child: Image.network(
+                //     'https://pbs.twimg.com/profile_images/1420594554617556992/LmaZQTSv_400x400.jpg'
+                //   ),
+                // ),
+                // Text('$index'),
               ],
             );
           }

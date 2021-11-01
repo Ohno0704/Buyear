@@ -25,7 +25,7 @@ class _MyHomePageState extends State<StartScreen> {
           Positioned(
             // top: 5.0,
             right: 0.0,
-            width: 450.0,
+            width: 380.0,
             height: 600.0,
             child: StartImage(),
           ),
@@ -68,7 +68,7 @@ class StartImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
+      width: 450,
       height: 220,
       child: Image.asset(
         'images/buyear_start.png',

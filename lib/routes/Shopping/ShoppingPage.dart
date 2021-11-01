@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
 import 'package:flutter_application_1/routes/Chat/Open/OpenChat.dart';
 import 'package:flutter_application_1/routes/root.dart';
+import 'package:flutter_application_1/routes/Home/HomePage.dart';
 
 class ShoppingPage extends StatelessWidget {
   @override
@@ -71,6 +72,7 @@ class ShoppingPage extends StatelessWidget {
 }
 
 class SellPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     // var itemWidgets = _makeWidgets();
@@ -86,6 +88,7 @@ class SellPage extends StatelessWidget {
               child: RaisedButton(
                   child: Text('出品'),
                   onPressed: () async{
+                    itemNum++;
                     await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => RootWidget(),
