@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
 import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
  
 class Tile extends StatelessWidget {
 
-  // コンストラクタへ代入して初期化しても初期化できない(dartクソ)
   IconData icon = Icons.visibility_off;
   String username = " ";
   String message = " ";
@@ -72,7 +70,26 @@ class Tile extends StatelessWidget {
     );
   }
 }
-class PersonalChat extends StatelessWidget {
+
+class AddMassageState extends StatefulWidget {
+  AddMassageState(this.addFriend);
+  int addFriend = 0;
+  @override
+  PersonalChat createState() => new PersonalChat(addFriend);
+}
+
+class PersonalChat extends State<AddMassageState> {
+  PersonalChat(this.addFriend);
+  int addFriend = 0;
+
+  List<Tile> _massageList = [
+    Tile(
+        Icons.person,
+        "初期化初期太郎",
+        "I am initializer",
+        ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,64 +108,51 @@ class PersonalChat extends StatelessWidget {
             icon: Icon(Icons.account_circle))
         ],
       ),
-      body: ListView(
-          children: <Widget>[
-            Tile(
-              Icons.person,
-              "鹿太郎",
-              "しかし、鹿しかいない",
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: _massageList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return _massageList[index];
+                },
               ),
-            Tile(
-              Icons.person,
-              "久米酒",
-              "おいしいよー",
-              ),
-            Tile(
-              Icons.person, 
-              "くら", 
-              "とっても美味しい沖縄のお酒"
-              ),
-            Tile(
-              Icons.person, 
-              "団長", 
-              "止まるんじゃ、ねぇぞ"
-              ),
-            Tile(
-              Icons.person,
-              "サルーイン",
-              "こい"
-              ),
-            Tile(
-                Icons.person,
-                "がらはど",
-                "だめだ！いくら積まれても..."
+            ),
+
+            Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    setState(() {
+                      _massageList.add(
+                        Tile(
+                          Icons.person,
+                          "鹿太郎",
+                          "しかし、鹿しかいない",
+                          ),
+                      );
+                    });
+                  },
                 ),
-            Tile(
-                Icons.person,
-                "太郎",
-                "だめだ、久しぶりにキレちまったよ"
+                IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: () {
+                    if (_massageList.length == 1) {
+                      // Fluttertoast.showToast(msg: "これ以上減らせません！！");
+                    } else {
+                      setState(() {
+                        _massageList.removeAt(_massageList.length - 1);
+                      });
+                    }
+                  },
                 ),
-            Tile(
-                Icons.person,
-                "Harry",
-                "エクスペクト・パトローナーーム"
-                ),
-            Tile(
-                Icons.person,
-                "くろひげ",
-                "似合ってるぜぃ、そのきずぅ〜"
-                ),
-            Tile(
-              Icons.person,
-              "あすらん",
-              "キラァァァァ"
-              ),
-            Tile(
-              Icons.person,
-              "知人B",
-              "1.14 release !"
-              ),
-          ]),
+              ],
+            )
+          ],
+        ),
+      )
     );
   }
 }

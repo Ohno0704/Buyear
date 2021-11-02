@@ -37,7 +37,7 @@ class ChatPage extends StatelessWidget {
                   onPressed: () async{
                     await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PersonalChat(),
+                      MaterialPageRoute(builder: (context) => AddMassageState(0),
                       ),
                     );
                   }

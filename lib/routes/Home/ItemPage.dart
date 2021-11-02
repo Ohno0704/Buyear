@@ -4,7 +4,7 @@ import 'package:flutter_application_1/routes/Chat/Personal/PersonalChat.dart';
  
 class ItemPage extends StatelessWidget {
   ItemPage(this._index);
-  int _index;
+  int _index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,10 @@ class ItemPage extends StatelessWidget {
           child: RaisedButton(
                   child: Text('購入するため個人チャットへ'),
                   onPressed: () async{
+                    Tile(Icons.person, '$_index', '$_index');
                     await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Tile(Icons.person, '$_index', '$_index'),
+                      MaterialPageRoute(builder: (context) => AddMassageState(1),
                       ),
                     );
                   }
