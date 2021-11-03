@@ -18,7 +18,7 @@ class ItemPage extends StatelessWidget {
           child: RaisedButton(
                   child: Text('購入するため個人チャットへ'),
                   onPressed: () async{
-                    Tile(Icons.person, '$_index', '$_index');
+                    Tile(Icons.person, 'People', '$_index');
                     await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => AddMassageState(1),

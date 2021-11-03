@@ -192,39 +192,120 @@ class Chatting extends StatelessWidget {
               )),
         ],
       ),
-      body: Center(child: Text("Chat")),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
+      body: SafeArea(
+        child: Column(
           children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => {},
-            ),
-            IconButton(
-              icon: Icon(Icons.camera_alt),
-              onPressed: () => {},
-            ),
-            IconButton(
-              icon: Icon(Icons.photo),
-              onPressed: () => {},
-            ),
             Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Aa',
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 32.0,
+                  ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      rightMassage(),
+                      leftMassage(),
+                      rightMassage(),
+                      rightMassage(),
+                      leftMassage(),
+                      leftMassage(),
+                    ]
+                  )),
                 ),
               ),
-            ),
-            IconButton(
-              icon: Icon(Icons.mic),
-              onPressed: () => {},
-            ),
+            textInputWidget(),
           ],
+        )
+      ),
+    );
+  }
+  Container textInputWidget() {
+      return Container(
+              height: 68,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.camera_alt_outlined),
+                    iconSize: 28,
+                    color: Colors.black54,
+                    onPressed: (){},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.photo_outlined),
+                    iconSize: 28,
+                    color: Colors.black54,
+                    onPressed: (){},
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: TextField(
+                        autofocus: true,
+                        decoration: InputDecoration(border: InputBorder.none),
+                      ),
+                    )
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.add),
+                    iconSize: 28,
+                    color: Colors.black54,
+                    onPressed: (){},
+                  ),
+                ],
+              ),
+            );
+    }
+  Padding rightMassage() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 28.0),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(40),
+              topLeft: Radius.circular(40),
+              bottomLeft: Radius.circular(40),
+            ),
+            color: Colors.blue[200],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text("Hello"),
+          ),
         ),
       ),
-
-      backgroundColor: Colors.cyan,
+    );
+  }
+  Padding leftMassage() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 28.0),
+      child: Row(
+        children: <Widget>[
+          CircleAvatar(
+            child: ClipOval(
+              child: Image.asset('images/buyear_start.png'),
+            ),
+          ),
+          const SizedBox(width: 16.0),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(28),
+              color: Colors.grey[350],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text("Fuck"),
+            ),
+          ),
+          
+        ],
+      ),
     );
   }
 }
