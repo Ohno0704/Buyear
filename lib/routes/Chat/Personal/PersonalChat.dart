@@ -93,21 +93,21 @@ class PersonalChat extends State<AddMassageState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(" 個人チャット"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyPage(),
-                  ),
-                );
-            },
-            icon: Icon(Icons.account_circle))
-        ],
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: Text(" 個人チャット"),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         Navigator.push(
+      //             context,
+      //             MaterialPageRoute(builder: (context) => MyPage(),
+      //             ),
+      //           );
+      //       },
+      //       icon: Icon(Icons.account_circle))
+      //   ],
+      // ),
       body: SafeArea(
         child: Column(
           children: [

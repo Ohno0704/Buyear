@@ -5,21 +5,21 @@ class OpenChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("open"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyPage(),
-                  ),
-                );
-            },
-            icon: Icon(Icons.account_circle))
-        ],
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: Text("open"),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         Navigator.push(
+      //             context,
+      //             MaterialPageRoute(builder: (context) => MyPage(),
+      //             ),
+      //           );
+      //       },
+      //       icon: Icon(Icons.account_circle))
+      //   ],
+      // ),
       body: Center(child: Text("open") 
           ),
       bottomNavigationBar: BottomAppBar(
