@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/Start/LoginPage.dart';
 
 
@@ -16,24 +17,25 @@ class _MyHomePageState extends State<StartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // title: Text(widget.title),
+      appBar: NewGradientAppBar(
         title: Text('Enjoy University Life With Buyear!'),
+        gradient:
+          LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400])
       ),
       body: Stack(
         children: <Widget>[
           Positioned(
             // top: 5.0,
             right: 0.0,
-            width: 380.0,
-            height: 600.0,
+            width: 420.0,
+            height: 500.0,
             child: StartImage(),
           ),
           Positioned(
-            bottom: 20.0,
-            left: 90.0,
-            width: 200.0,
-            height: 120.0,
+            bottom: 50.0,
+            left: 125.0,
+            width: 150.0,
+            height: 50.0,
             child: LoginButton(),
           ),
         ],
@@ -47,7 +49,11 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: RaisedButton(
-        child: Text('Lets Start!'),
+        child: const Text('Press to Start!'),
+        color: Colors.blue,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         onPressed: () async{
                 await Navigator.push(
                   context,
@@ -56,10 +62,18 @@ class LoginButton extends StatelessWidget {
                 );
               },
       ),
-      // alignment: Alignment(1.0, 1.0),
-      // color: Colors.lightBlue,
-      // child: Text('Log in'),
     );
+    //   child: RaisedButton(
+    //     child: Text('Lets Start!'),
+    //     onPressed: () async{
+    //             await Navigator.push(
+    //               context,
+    //               MaterialPageRoute(builder: (context) => LoginPage(),
+    //               ),
+    //             );
+    //           },
+    //   ),
+    // );
   }
 }
 
@@ -68,10 +82,10 @@ class StartImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 450,
-      height: 220,
+      width: 300,
+      height: 100,
       child: Image.asset(
-        'images/buyear_start.png',
+        'images/buyear_rogo.jpeg',
         fit: BoxFit.contain,
         ),
     );

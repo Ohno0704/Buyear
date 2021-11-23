@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
  
 class Tile extends StatelessWidget {
@@ -72,15 +73,26 @@ class Tile extends StatelessWidget {
 }
 
 class AddMassageState extends StatefulWidget {
-  AddMassageState(this.addFriend);
-  int addFriend = 0;
+  AddMassageState({Key? key}) : super(key: key);
+  Tile friends = Tile(
+        Icons.person,
+        "初期化初期太郎222",
+        "I am initializer",
+        );
+
   @override
-  PersonalChat createState() => new PersonalChat(addFriend);
+  PersonalChat createState() => new PersonalChat(friends, false);
 }
 
 class PersonalChat extends State<AddMassageState> {
-  PersonalChat(this.addFriend);
-  int addFriend = 0;
+  PersonalChat(this.friends, this.isAdd);
+  Tile friends = Tile(
+        Icons.person,
+        "初期化初期太郎222",
+        "I am initializer",
+        );
+    
+  bool isAdd = true;
 
   List<Tile> _massageList = [
     Tile(
@@ -93,21 +105,6 @@ class PersonalChat extends State<AddMassageState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: Text(" 個人チャット"),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {
-      //         Navigator.push(
-      //             context,
-      //             MaterialPageRoute(builder: (context) => MyPage(),
-      //             ),
-      //           );
-      //       },
-      //       icon: Icon(Icons.account_circle))
-      //   ],
-      // ),
       body: SafeArea(
         child: Column(
           children: [
@@ -115,6 +112,11 @@ class PersonalChat extends State<AddMassageState> {
               child: ListView.builder(
                 itemCount: _massageList.length,
                 itemBuilder: (BuildContext context, int index) {
+                  if(isAdd == true) {
+                    setState(() {
+                      _massageList.add(friends);
+                    });
+                  }
                   return _massageList[index];
                 },
               ),
@@ -122,32 +124,33 @@ class PersonalChat extends State<AddMassageState> {
 
             Row(
               children: [
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    setState(() {
-                      _massageList.add(
-                        Tile(
-                          Icons.person,
-                          "鹿太郎",
-                          "しかし、鹿しかいない",
-                          ),
-                      );
-                    });
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.remove),
-                  onPressed: () {
-                    if (_massageList.length == 1) {
-                      // Fluttertoast.showToast(msg: "これ以上減らせません！！");
-                    } else {
-                      setState(() {
-                        _massageList.removeAt(_massageList.length - 1);
-                      });
-                    }
-                  },
-                ),
+            //     _massageList;
+            //     IconButton(
+            //       icon: Icon(Icons.add),
+            //       onPressed: () {
+            //         setState(() {
+            //           _massageList.add(
+            //             Tile(
+            //               Icons.person,
+            //               "鹿太郎",
+            //               "しかし、鹿しかいない",
+            //               ),
+            //           );
+            //         });
+            //       },
+            //     ),
+            //     IconButton(
+            //       icon: Icon(Icons.remove),
+            //       onPressed: (() {
+            //         if (_massageList.length == 1) {
+            //           // Fluttertoast.showToast(msg: "これ以上減らせません！！");
+            //         } else {
+            //           setState(() {
+            //             _massageList.removeAt(_massageList.length - 1);
+            //           });
+            //         }
+            //       })(),
+            //     ),
               ],
             )
           ],

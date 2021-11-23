@@ -6,9 +6,12 @@ class LoginPage extends StatelessWidget {
   // LoginPage(this.name);
   // final String name;
   String infoText = '';
-  String univercity = '';
+  // String univercity = '';
   String mailAdress = '';
   String password = '';
+  String nickname = '';
+  // List<String> _uniNames = ["豊橋技術科学大学", "その他"];
+  // String _selectedItem = "豊橋技術科学大学";
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +21,39 @@ class LoginPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(labelText: '大学名'),
-                onChanged: (String text) {
-                  univercity = text;
-                },
-              ),
+              // TextFormField(
+              //   decoration: InputDecoration(labelText: '大学名'),
+              //   onChanged: (String text) {
+              //     univercity = text;
+              //   },
+              // ),
+              // DropdownButton<String>(
+              //   value: _selectedItem,
+              //   // onChanged: () {
+              //     // setState(() {
+              //     //   _selectedItem = newValue;
+              //     // });
+              //   // },
+              //   selectedItemBuilder: (context) {
+              //     return _uniNames.map((String item) {
+              //       return Text(
+              //         item,
+              //         style: TextStyle(color: Colors.pink),
+              //       );
+              //     }).toList();
+              //   },
+              //   items: _uniNames.map((String item) {
+              //     return DropdownMenuItem(
+              //       value: item,
+              //       child: Text(
+              //         item,
+              //         style: item == _selectedItem
+              //             ? TextStyle(fontWeight: FontWeight.bold)
+              //             : TextStyle(fontWeight: FontWeight.normal),
+              //       ),
+              //     );
+                // }).toList(),
+                // ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'メールアドレス（〇〇〇@tut.jp）'),
                 onChanged: (text) {
@@ -35,6 +65,12 @@ class LoginPage extends StatelessWidget {
                 obscureText: true,
                 onChanged: (text) {
                   password = text;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'ニックネーム'),
+                onChanged: (text) {
+                  nickname = text;
                 },
               ),
               Text(""),

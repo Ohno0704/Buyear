@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
 import 'package:flutter_application_1/routes/Home/ItemPage.dart';
-int itemNum = 50;
-
+var itemNum = 30;
 class HomePage extends StatelessWidget {
   // HomePage(this.itemAdder);
   // int itemAdder = 0;
@@ -10,9 +10,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: NewGradientAppBar(
         centerTitle: true,
         title: Text("ホーム"),
+        gradient:
+          LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -38,22 +40,16 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ItemPage(itemNum-index),
+                        MaterialPageRoute(builder: (context) => ItemPageAndAddFriend(itemNum-index),
                         ),
                       );
                     },
-                    child: Image.network(
-                      'https://pbs.twimg.com/profile_images/1420594554617556992/LmaZQTSv_400x400.jpg',
+                    child: Image.asset(
+                      'images/buyear_rogo.jpeg',
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                // Expanded(
-                //   child: Image.network(
-                //     'https://pbs.twimg.com/profile_images/1420594554617556992/LmaZQTSv_400x400.jpg'
-                //   ),
-                // ),
-                // Text('$index'),
               ],
             );
           }

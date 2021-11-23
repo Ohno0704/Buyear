@@ -1,57 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+import 'package:flutter_application_1/routes/Chat/Open/AddBoard.dart';
  
 class OpenChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: Text("open"),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {
-      //         Navigator.push(
-      //             context,
-      //             MaterialPageRoute(builder: (context) => MyPage(),
-      //             ),
-      //           );
-      //       },
-      //       icon: Icon(Icons.account_circle))
-      //   ],
-      // ),
-      body: Center(child: Text("open") 
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: Text("open"),
           ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => {},
-            ),
-            IconButton(
-              icon: Icon(Icons.camera_alt),
-              onPressed: () => {},
-            ),
-            IconButton(
-              icon: Icon(Icons.photo),
-              onPressed: () => {},
-            ),
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Aa',
-                ),
-              ),
-            ),
-            IconButton(
-              icon: Icon(Icons.mic),
-              onPressed: () => {},
-            ),
-          ],
-        ),
+        ]
+      ),
+      floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return AddBoard();
+                  }));
+              },
       ),
     );
+
   }
 }

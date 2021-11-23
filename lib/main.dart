@@ -12,8 +12,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Buyear',
+      // gradient: LinearGradient(
+      //       colors: [Colors.lightBlue.shade200, Colors.deepPurple.shade200],
+      //     ),
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
       ),
       home: StartScreen(title: 'Welcome to Buyear'),
     );
