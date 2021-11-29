@@ -33,6 +33,7 @@ dependencies:
   new_gradient_app_bar: ^0.2.0
   firebase_core:
   cloud_firestore:
+  firebase_auth: ^1.0.1
 
 dev_dependencies:
   flutter_test:

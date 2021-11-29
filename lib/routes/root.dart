@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/routes/Home/HomePage.dart';
 import 'package:flutter_application_1/routes/Shopping/ShoppingPage.dart';
 import 'package:flutter_application_1/routes/Info/InfoPage.dart';
 import 'package:flutter_application_1/routes/Chat/ChatPage.dart';
 
 class RootWidget extends StatefulWidget {
+  // RootWidget(this.user);
+  // final User user;
   // RootWidget({Key? key}) : super(key: key);
 
   @override
@@ -13,6 +15,8 @@ class RootWidget extends StatefulWidget {
 }
  
 class _RootWidgetState extends State<RootWidget> {
+  // _RootWidgetState(this.user);
+  // final User user;
   int _selectedIndex = 0;
   final _bottomNavigationBarItems = <BottomNavigationBarItem>[];
  

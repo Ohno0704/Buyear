@@ -1,10 +1,19 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
  
-class AddBoard extends StatelessWidget {
+class AddBoard2 extends StatelessWidget {
   TextEditingController _textEditingController = TextEditingController();
+
+  _onSubmitted(String content){
+    CollectionReference posts = FirebaseFirestore.instance.collection('posts');
+    posts.add({
+      "content": content
+    });
+    
+    /// 入力欄をクリアにする
+    _textEditingController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +27,7 @@ class AddBoard extends StatelessWidget {
       body: Center(
         child: TextField(
           controller: _textEditingController,
+          onSubmitted: _onSubmitted,
           enabled: true,
           maxLength: 50, // 入力数
           maxLengthEnforced: false, // 入力上限になったときに、文字入力を抑制するか
@@ -27,7 +37,7 @@ class AddBoard extends StatelessWidget {
           decoration: const InputDecoration(
             icon: Icon(Icons.speaker_notes),
             hintText: '投稿内容を記載します',
-            labelText: '内容 * ',
+            labelText: '投稿内容 * ',
           ),
         ),
       ),
