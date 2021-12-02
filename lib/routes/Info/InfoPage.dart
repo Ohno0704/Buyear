@@ -26,71 +26,16 @@ class InfoPage extends StatelessWidget {
           LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400])
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ButtonTheme(
-              minWidth: 180.0,
-              height: 100.0,
-              child: RaisedButton(
-                  child: Text('全体'),
-                  onPressed: () async{
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OpenChat(),
-                      ),
-                    );
-                  }
-                ),
-              ),
-              Text(' '),
-              ButtonTheme(
-              minWidth: 180.0,
-              height: 100.0,
-              child: RaisedButton(
-                  child: Text('部活・サークル'),
-                  onPressed: () async{
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OpenChat(),
-                      ),
-                    );
-                  }
-                ),
-              ),
-              Text(' '),
-              ButtonTheme(
-              minWidth: 180.0,
-              height: 100.0,
-              child: RaisedButton(
-                  child: Text('自動車学校'),
-                  onPressed: () async{
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OpenChat(),
-                      ),
-                    );
-                  }
-                ),
-              ),
-              Text(' '),
-              ButtonTheme(
-              minWidth: 180.0,
-              height: 100.0,
-              child: RaisedButton(
-                  child: Text('アルバイト'),
-                  onPressed: () async{
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OpenChat(),
-                      ),
-                    );
-                  }
-                ),
-              ),
-          ],
-        ) 
+        child: Text(
+          "近日公開！", 
+          style: TextStyle(
+            fontSize: 30,
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic
           ),
+        ),
+        ) 
     );
   }
 }

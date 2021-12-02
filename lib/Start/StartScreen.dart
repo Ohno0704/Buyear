@@ -48,12 +48,12 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: RaisedButton(
-        child: const Text('Press to Start!'),
-        color: Colors.blue,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          elevation: 10,
+          shadowColor: Colors.red,
         ),
+        child: const Text('Press to Start!'),
         onPressed: () async{
                 await Navigator.push(
                   context,
@@ -63,17 +63,6 @@ class LoginButton extends StatelessWidget {
               },
       ),
     );
-    //   child: RaisedButton(
-    //     child: Text('Lets Start!'),
-    //     onPressed: () async{
-    //             await Navigator.push(
-    //               context,
-    //               MaterialPageRoute(builder: (context) => LoginPage(),
-    //               ),
-    //             );
-    //           },
-    //   ),
-    // );
   }
 }
 
@@ -82,7 +71,7 @@ class StartImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
+      width: 400,
       height: 100,
       child: Image.asset(
         'images/buyear_rogo.jpeg',

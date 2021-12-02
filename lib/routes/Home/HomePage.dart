@@ -3,10 +3,11 @@ import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
 import 'package:flutter_application_1/routes/Home/ItemPage.dart';
 
-var itemNum = 30;
+// var itemNum = 10;
 class HomePage extends StatelessWidget {
   // HomePage(this.itemAdder);
   // int itemAdder = 0;
+  var itemNum = 10;
   
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               Container(
-                // color: Colors.red,
                 child: Text(
                   "￥$index",
                   style: TextStyle(
