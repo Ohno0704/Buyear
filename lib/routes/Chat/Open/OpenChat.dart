@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Chat/Open/AddBoard.dart';
  
@@ -20,7 +21,9 @@ class OpenChat extends StatelessWidget {
                   title: Text(document['content']),
                   subtitle: Text("サブタイトル"),
                   onTap:() {
-                    //オープンチャットへ移動
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                    return OpenChatting(document['content']);
+                    }));
                   },
                 ),
               );
@@ -29,12 +32,39 @@ class OpenChat extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.mode_edit),
-              onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                  return AddBoard2();
-                  }));
-              },
+        child: Icon(Icons.mode_edit),
+        onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return AddBoard2();
+            }));
+        },
+      ),
+    );
+  }
+}
+
+class OpenChatting extends StatelessWidget {
+  String boardTitle = '';
+ 
+  OpenChatting(String boardTitle) {
+    this.boardTitle = boardTitle;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: NewGradientAppBar(
+        title: Text(this.boardTitle),
+        gradient:
+          LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400])
+      ),
+      body: Center(
+        child: Text(
+          "$boardTitle",
+          style: TextStyle(
+            fontSize: 20,
+            ),
+        ),
       ),
     );
   }

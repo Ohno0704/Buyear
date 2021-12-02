@@ -2,8 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
-import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
  
 class Tile extends StatelessWidget {
 
@@ -39,28 +37,7 @@ class Tile extends StatelessWidget {
           },
         ),
       ),
-      actions: <Widget>[
-        IconSlideAction(
-          color: Colors.blue,
-          icon: Icons.flash_off,
-          onTap: () => {
-          }, // _showSnackBar('Archive'),
-        ),
-        IconSlideAction(
-          color: Colors.indigo,
-          icon: Icons.volume_off,
-          onTap: () => {}, // _showSnackBar('Share'),
-        ),
-      ],
       secondaryActions: <Widget>[
-        IconSlideAction(
-          color: Colors.black45,
-          iconWidget: Text(
-            "非表示",
-            style: TextStyle(color: Colors.white),
-          ),
-          onTap: () => {}, // _showSnackBar('More'),
-        ),
         IconSlideAction(
           color: Colors.red,
           iconWidget: Text(

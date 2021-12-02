@@ -15,8 +15,8 @@ class ChatPage extends StatelessWidget {
   // final User user;
 
   final List<TabInfo> _tabs = [
-    TabInfo("オープンチャット", OpenChat()),
-    TabInfo("パーソナルチャット", AddMassageState()),
+    TabInfo("掲示板", OpenChat()),
+    TabInfo("チャット", AddMassageState()),
   ];
 
   @override
