@@ -25,6 +25,7 @@ class ChatPage extends StatelessWidget {
       length: _tabs.length,
       child: Scaffold(
         appBar: NewGradientAppBar(
+          automaticallyImplyLeading: false,
           bottom: PreferredSize(
             child: TabBar(
               isScrollable: true,

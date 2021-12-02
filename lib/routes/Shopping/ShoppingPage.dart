@@ -7,6 +7,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+import 'package:flutter/services.dart';
 
 class ShoppingPage extends StatelessWidget {
   @override
@@ -84,37 +85,6 @@ class ShoppingPage extends StatelessWidget {
   }
 }
 
-// class SellPage extends StatelessWidget {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // var itemWidgets = _makeWidgets();
-//     return Scaffold(
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: Text("出品"),
-      // ),
-//       body: Center(
-//         child: ButtonTheme(
-//               minWidth: 180.0,
-//               height: 100.0,
-//               child: RaisedButton(
-//                   child: Text('出品'),
-//                   onPressed: () async{
-//                     // itemNum++;
-//                     await Navigator.push(
-//                       context,
-//                       MaterialPageRoute(builder: (context) => RootWidget(),
-//                       ),
-//                     );
-//                   }
-//                 ),
-//               ),
-//       ),
-//     );
-//   }
-// }
-
 class SellPage extends StatefulWidget {
   // SellPage({Key key, this.title}) : super(key: key);
 
@@ -140,34 +110,96 @@ class _SellPageState extends State<SellPage> {
     });
   }
 
+  String _text = '';
+
+  void _handleText(String e) {
+    setState(() {
+      _text = e;
+    });
+  }
+
+  // final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: NewGradientAppBar(
         centerTitle: true,
         title: Text("出品"),
         gradient:
           LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        reverse: true,
+      child: Center(
         // child: _image == null ? Text('No image selected.') : Image.file(_image!),
-        child: _image == null ? Text('商品の画像を選択してください👇', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)) : Column(
+        child: Column(
           children: [
             SizedBox(
-              height: 100,
+              height: 10,
+            ),
+            SizedBox(
+              height: 35,
               width: 100,
+              child: Text("画像を追加", style: TextStyle(fontSize: 20),),
+            ),
+            SizedBox(
+              height: 80,
+              width: 80,
+              child: RaisedButton(
+                        onPressed: () {
+                          _getImage();
+                        },
+                        child: Text('+', style: TextStyle(fontSize: 20, color: Colors.white),),
+                        color: Colors.grey,
+                        shape: CircleBorder(),
+                      ),
+            ),
+            SizedBox(
+              height: 30,
             ),
             SizedBox(
               height: 150,
               width: 180,
-              child: Image.file(_image!),
+              child: _image == null ? Container(color: Colors.grey, width: 150, height: 200,) : Image.file(_image!),
             ),
             SizedBox(
-              height: 100,
-              width: 100,
+              height: 30,
+              width: 50,
             ),
             SizedBox(
-              height: 100,
+              height: 90,
+              width: 350,
+              child: TextField(
+                enabled: true,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                cursorColor: Colors.black,
+                maxLength: 300,
+                onChanged: _handleText,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.mode_edit),
+                  labelText: '商品の状態、説明',
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 90,
+              width: 350,
+              child: TextField(
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[ 
+                  FilteringTextInputFormatter.digitsOnly // ③ 数字入力のみ許可する
+                ], 
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.mode_edit),
+                  labelText: '希望価格',
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 80,
               width: 180,
               child: ElevatedButton(
                     child: Text('出品'),
@@ -184,10 +216,7 @@ class _SellPageState extends State<SellPage> {
           ]
         )
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _getImage,
-        child: Icon(Icons.add),
-      ),
+      )
     );
   }
 }
