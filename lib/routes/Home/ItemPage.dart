@@ -12,11 +12,11 @@ class ItemPageAndAddFriend extends StatefulWidget {
 class ItemPage extends State<ItemPageAndAddFriend> {
   ItemPage(this._index);
   int _index = 0;
-  Tile friends = Tile(
-        Icons.person,
-        "初期化初期太郎",
-        "I am initializer",
-        );
+  // Tile friends = Tile(
+  //       Icons.person,
+  //       "初期化初期太郎",
+  //       "I am initializer",
+  //       );
   bool isPressed = false;
 
   // FriendListController _addFriendController;
@@ -31,29 +31,27 @@ class ItemPage extends State<ItemPageAndAddFriend> {
   //   _addFriendController.dispose();
   // }
 
-  void _addFriend(String name, String message) {
-    if(isPressed == true) {
-      friends = Tile(
-        Icons.person,
-        name,
-        message,
-      );
-      isPressed = false;
-    }
-    setState(() {
-      PersonalChat(friends, true);
-    });
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ChatPage())
-    );
+  // void _addFriend(String name, String message) {
+  //   if(isPressed == true) {
+  //     friends = Tile(
+  //       Icons.person,
+  //       name,
+  //       message,
+  //     );
+  //     isPressed = false;
+  //   }
+  //   setState(() {
+  //     PersonalChat(friends, true);
+  //   });
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => ChatPage())
+  //   );
     // friends = Tile(
     //   Icons.person,
     //     "初期化初期太郎",
     //     "I am initializer",
     // );
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +67,8 @@ class ItemPage extends State<ItemPageAndAddFriend> {
           child: RaisedButton(
                   child: Text('購入するため個人チャットへ'),
                   onPressed: () async{
-                    isPressed = true;
-                    _addFriend('people', '$_index');
+                    // isPressed = true;
+                    // _addFriend('people', '$_index');
                     // Tile(Icons.person, 'People', '$_index');
                     // await Navigator.push(
                     //   context,
@@ -85,7 +83,7 @@ class ItemPage extends State<ItemPageAndAddFriend> {
       body: Column(
         children: <Widget>[
           Center(
-            child: Text('$_index番目の商品'),
+            child: Text('番目の商品'),
           ),
           Center(
             child: Image.asset(
