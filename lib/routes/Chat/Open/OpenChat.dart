@@ -1,44 +1,60 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_1/routes/Chat/Open/BoardListModel.dart';
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Chat/Open/AddBoard.dart';
+import 'package:flutter_application_1/routes/Chat/Open/domain/Board.dart';
+import 'package:provider/provider.dart';
  
 class OpenChat extends StatelessWidget {
+  String content = '';
+  DateTime now = DateTime.now();
+  DateTime appTime = DateTime.now();
+  // DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+  // String date = outputFormat.format(nowTime);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("posts").snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          return ListView(
-            children: snapshot.data!.docs.map((DocumentSnapshot document) {
-              return Card(
-                child: ListTile(
-                  title: Text(document['content']),
-                  subtitle: Text("サブタイトル"),
-                  onTap:() {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                    return OpenChatting(document['content']);
-                    }));
-                  },
-                ),
-              );
-            }).toList(),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.mode_edit),
-        onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return AddBoard2();
-            }));
-        },
-      ),
+    return ChangeNotifierProvider<BoardListModel>(
+      create: (_) => BoardListModel()..fetchBoardList(),
+      child: Scaffold(
+        body: Center(
+          child: Consumer<BoardListModel>(builder: (context, model, child) {
+            final List<Board>? boards = model.boards;
+
+            if(boards == null) {
+              return CircularProgressIndicator();
+            }
+
+            final List<Widget> widgets = boards
+            .map(
+              (board) => ListTile(
+                title: Text(board.title), 
+                subtitle: Text(board.date),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                    return OpenChatting(board.title);
+                  }));
+                },
+              ),
+            ).toList();
+            return ListView(
+              children: widgets,
+            );
+          },),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.mode_edit),
+          onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              appTime = now;
+              return AddBoard2();
+              }));
+          },
+        ),
+      )
     );
   }
 }
@@ -69,6 +85,32 @@ class OpenChatting extends StatelessWidget {
     );
   }
 }
+
+// StreamBuilder<QuerySnapshot>(
+//         stream: FirebaseFirestore.instance.
+//         collection("posts")
+//         .snapshots(),
+//         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return Center(child: CircularProgressIndicator());
+//           }
+//           return ListView(
+//             children: snapshot.data!.docs.map((DocumentSnapshot document) {
+//               return Card(
+//                 child: ListTile(
+//                   title: Text(document['content']),
+//                   subtitle: Text('${appTime.year}/${appTime.month}/${appTime.day}'),
+//                   onTap:() {
+//                     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+//                     return OpenChatting(document['content']);
+//                     }));
+//                   },
+//                 ),
+//               );
+//             }).toList(),
+//           );
+//         },
+//       ),
 
 // class OpenChat extends StatelessWidget {
   

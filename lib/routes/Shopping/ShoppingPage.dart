@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/routes/Home/Account/MyPage.dart';
-import 'package:flutter_application_1/routes/Chat/Open/OpenChat.dart';
 import 'package:flutter_application_1/routes/root.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class ShoppingPage extends StatelessWidget {
   @override
@@ -97,6 +99,9 @@ class SellPage extends StatefulWidget {
 class _SellPageState extends State<SellPage> {
   File? _image;
   final picker = ImagePicker();
+  var storage = FirebaseStorage.instance;
+  bool isLoading = false;
+  List<String?> listOfItem = []; //商品画像ファイル名
 
   Future _getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -204,7 +209,6 @@ class _SellPageState extends State<SellPage> {
               child: ElevatedButton(
                     child: Text('出品'),
                     onPressed: () async{
-                      // itemNum++;
                       await Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => RootWidget(),
@@ -220,3 +224,40 @@ class _SellPageState extends State<SellPage> {
     );
   }
 }
+// setState(() {
+//                         this.isLoading = true;
+//                       });
+//                       listOfItem.forEach((img) async{
+//                         String imageName = img!
+//                           .substring(img.lastIndexOf("/"), img.lastIndexOf("."))
+//                           .replaceAll("/", "");
+
+//                           final Directory systemTempDir = Directory.systemTemp;
+//                           final byteData = await rootBundle.load(img);
+
+//                           final file =
+//                               File('${systemTempDir.path}/$imageName.png');
+//                           await file.writeAsBytes(byteData.buffer.asUint8List(
+//                               byteData.offsetInBytes, byteData.lengthInBytes));
+//                           TaskSnapshot snapshot = await storage
+//                               .ref()
+//                               .child("images/$imageName")
+//                               .putFile(file);
+//                           if (snapshot.state == TaskState.success) {
+//                             final String downloadUrl =
+//                                 await snapshot.ref.getDownloadURL();
+//                             await FirebaseFirestore.instance
+//                                 .collection("images")
+//                                 .add({"url": downloadUrl, "name": imageName});
+//                             setState(() {
+//                               isLoading = false;
+//                             });
+//                             final snackBar =
+//                                 SnackBar(content: Text('Yay! Success'));
+//                             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+//                           } else {
+//                             print(
+//                                 'Error from image repo ${snapshot.state.toString()}');
+//                             throw ('This file is not an image');
+//                           }
+//                        });

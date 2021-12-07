@@ -39,6 +39,7 @@ dependencies:
   flutter_chat_ui: ^1.5.2
   provider: ^5.0.0
   uuid: ^3.0.5
+  firebase_storage: ^8.0.5
 
 
 dev_dependencies:
