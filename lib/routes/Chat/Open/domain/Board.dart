@@ -1,5 +1,6 @@
 class Board {
-  Board(this.title, this.date);
+  Board(this.id, this.title, this.date);
+  String id;
   String title;
   String date;
 }
