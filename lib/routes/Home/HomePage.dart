@@ -104,16 +104,16 @@ class _MyHomePageState extends State<HomePage> {
                         ]),
                         onTap: () {
                           setState(() {
-                            if (listOfStr
-                                .contains(listOfImage[index].assetName)) {
-                              this.clicked = false;
-                              listOfStr.remove(listOfImage[index].assetName);
-                              this.images = null;
-                            } else {
-                              this.images = listOfImage[index].assetName;
-                              listOfStr.add(this.images);
-                              this.clicked = true;
-                            }
+                            // if (listOfStr
+                            //     .contains(listOfImage[index].assetName)) {
+                            //   this.clicked = false;
+                            //   listOfStr.remove(listOfImage[index].assetName);
+                            //   this.images = null;
+                            // } else {
+                            //   this.images = listOfImage[index].assetName;
+                            //   listOfStr.add(this.images);
+                            //   this.clicked = true;
+                            // }
                           });
                         },
                       ),

@@ -4,10 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/routes/Chat/Open/AddBoard.dart';
+import 'package:flutter_application_1/routes/Chat/Open/AddBoardPage.dart';
 import 'package:flutter_application_1/routes/Chat/Open/domain/Board.dart';
 import 'package:provider/provider.dart';
- 
+
 class OpenChat extends StatelessWidget {
   String content = '';
   DateTime now = DateTime.now();
@@ -21,39 +21,60 @@ class OpenChat extends StatelessWidget {
       create: (_) => BoardListModel()..fetchBoardList(),
       child: Scaffold(
         body: Center(
-          child: Consumer<BoardListModel>(builder: (context, model, child) {
-            final List<Board>? boards = model.boards;
+          child: Consumer<BoardListModel>(
+            builder: (context, model, child) {
+              final List<Board>? boards = model.boards;
 
-            if(boards == null) {
-              return CircularProgressIndicator();
-            }
+              if (boards == null) {
+                return CircularProgressIndicator();
+              }
 
-            final List<Widget> widgets = boards
-            .map(
-              (board) => ListTile(
-                title: Text(board.title), 
-                subtitle: Text(board.date),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                    return OpenChatting(board.title);
-                  }));
-                },
-              ),
-            ).toList();
-            return ListView(
-              children: widgets,
+              final List<Widget> widgets = boards
+                  .map(
+                    (board) => ListTile(
+                      title: Text(board.title),
+                      subtitle: Text(board.date),
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return OpenChatting(board.title);
+                        }));
+                      },
+                    ),
+                  ).toList();
+              return ListView(
+                children: widgets,
+              );
+            },
+          ),
+        ),
+        floatingActionButton: Consumer<BoardListModel>(
+          builder: (context, model, child) {
+            return FloatingActionButton(
+              onPressed: () async {
+      
+                final bool? added = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddBoardPage(),
+                    fullscreenDialog: true,
+                  ),
+                );
+      
+                if(added != null && added) {
+                  final snackBar = SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Text('掲示板を追加しました'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+                    
+                model.fetchBoardList();
+              },
+              child: Icon(Icons.mode_edit),
             );
-          },),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.mode_edit),
-          onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              appTime = now;
-              return AddBoard2();
-              }));
-          },
-        ),
+          }
+        )
       )
     );
   }
@@ -61,7 +82,7 @@ class OpenChat extends StatelessWidget {
 
 class OpenChatting extends StatelessWidget {
   String boardTitle = '';
- 
+
   OpenChatting(String boardTitle) {
     this.boardTitle = boardTitle;
   }
@@ -70,16 +91,18 @@ class OpenChatting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NewGradientAppBar(
-        title: Text(this.boardTitle),
-        gradient:
-          LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400])
-      ),
+          title: Text(this.boardTitle),
+          gradient: LinearGradient(colors: [
+            Colors.blue.shade200,
+            Colors.blue.shade300,
+            Colors.blue.shade400
+          ])),
       body: Center(
         child: Text(
           "$boardTitle",
           style: TextStyle(
             fontSize: 20,
-            ),
+          ),
         ),
       ),
     );
