@@ -11,9 +11,10 @@ class AddBoardModel extends ChangeNotifier {
       throw 'タイトルが入力されていません';
     }
 
-    if(date == null || date!.isEmpty) {
-      throw '時間が入力されていません';
-    }
+    // if(date == null || date!.isEmpty) {
+    //   throw '時間が入力されていません';
+    // }
+    date = DateTime.now().toIso8601String();
 
     await FirebaseFirestore.instance.collection('posts').add({
       'content': title,
