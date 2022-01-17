@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
 class _MyHomePageState extends State<HomePage> {
   
   late List<AssetImage> listOfImage; //画像ファイル名の配列
@@ -133,39 +134,4 @@ class _MyHomePageState extends State<HomePage> {
       )
     );
   }
-    //   body: Container(
-    //   width: double.infinity,
-    //   child: GridView.count(
-    //     crossAxisCount: 2,
-    //     children: List.generate(itemNum, (index) {
-    //       return Column(
-    //         children: <Widget>[
-    //           GridTile(
-    //             child: GestureDetector(
-    //               onTap: () {
-    //                 Navigator.push(
-    //                   context,
-    //                   MaterialPageRoute(builder: (context) => ItemPageAndAddFriend(index),
-    //                   ),
-    //                 );
-    //               },
-    //               child: Image.asset(
-    //                 'images/buyear_rogo.jpeg',
-    //                 fit: BoxFit.cover,
-    //               ),
-    //             ),
-    //           ),
-              // Container(
-              //   child: Text(
-              //     "￥$index",
-              //     style: TextStyle(
-              //         fontSize: 16.0, fontWeight: FontWeight.w400, fontFamily: "Roboto"),
-              //   ),
-              // ),
-    //         ],
-    //       );
-    //     }
-    //     )
-    //   ),
-    // )
 }
