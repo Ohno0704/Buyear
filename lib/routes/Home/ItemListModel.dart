@@ -7,7 +7,7 @@ class ItemListModel extends ChangeNotifier {
 
   List<Item>? items;
 
-  void fetchBoardList() async{
+  void fetchItemList() async{
     final QuerySnapshot snapshot = await _userItem.get();
 
     final List<Item> items = snapshot.docs.map((DocumentSnapshot document) {
