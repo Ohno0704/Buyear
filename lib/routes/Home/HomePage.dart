@@ -12,9 +12,7 @@ class HomePage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ItemListModel>(
-      create: (_) => ItemListModel()..fetchItemList(),
-      child: Scaffold(
+    return Scaffold(
       appBar: NewGradientAppBar(
         centerTitle: true,
         title: Text("ホーム"),
@@ -34,15 +32,16 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: Center(
-        // child: StreamBuilder<QuerySnapshot>(
-        //   stream: _userStream,
-        child: Consumer<ItemListModel>(
-          builder: (context, model, child) {
-            final items = model.items;
+        child: StreamBuilder<QuerySnapshot>(
+          stream: _userStream,
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+        // child: Consumer<ItemListModel>(
+          // builder: (context, model, child) {
+            // final items = model.items;
 
-            if (items == null) {
-              return CircularProgressIndicator();
-            }
+            // if (items == null) {
+            //   return CircularProgressIndicator();
+            // }
 
             // if (snapshot.hasError) {
             //   return Text('Something went wrong');
@@ -51,75 +50,31 @@ class HomePage extends StatelessWidget {
             // if (snapshot.connectionState == ConnectionState.waiting) {
             //   return Text('Loading');
             // }
+            
+            // Map<dynamic, dynamic> map = snapshot.data.snapshot.value;
 
-            // final List<Widget> widgets = items
-            //       .map(
-            //         (item) => GridView.count(
-            //           crossAxisCount: 2,
-            //           mainAxisSpacing: 4,
-            //           // padding: const EdgeInsets.all(4),
-            //           children: List.generate(10, (index) {
-            //             return Container(
-            //               padding: const EdgeInsets.all(8.0),
-            //               alignment: Alignment.center,
-            //               child:GridTile(
-            //                 // child: Image.network('https://picsum.photos/250?image=9', fit: BoxFit.cover,),
-            //                 child: Image.network(item.itemURL, fit: BoxFit.cover,),
-            //                 footer: Center(
-            //                   child: Text(
-            //                     '10000円',
-            //                   ),
-            //                 )
-            //               )
-            //             );
-            //           }).toList()////
-            //         )
-            //       ).toList();
-                    // (item) => ListTile(
-                      // title: Text(item.title),
-                      // subtitle: Text(item.date),
-                      // trailing: IconButton(
-                      //   icon: Icon(Icons.delete),
-                      //   onPressed: () async{
-                          //掲示板削除処理
-                          // await showConfirmDialog(context, board, model);
-                          // await FirebaseFirestore.instance
-                          // .collection('posts')
-                          // .doc(boards.id)
-                          // .delete();
-                        // }
-                      // ),
-                      // onTap: () {
-                      //   Navigator.of(context)
-                      //       .push(MaterialPageRoute(builder: (context) {
-                      //     return OpenChatting(board.title);
-                      //   }));
-                      // },
-                    // ),
-              // return GridView(
-              //   children: widgets,
-              // );
-              return GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 4,
-                // padding: const EdgeInsets.all(4),
-                children: List.generate(10, (index) {
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
+              itemCount: snapshot.data!.docs.length,
+              padding: EdgeInsets.all(2.0),
+              itemBuilder: (BuildContext context, int index) {
+                DocumentSnapshot? data = snapshot.data!.docs[index];
                   return Container(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(8.0),
                     alignment: Alignment.center,
                     child:GridTile(
-                      child: Image.network('https://picsum.photos/250?image=9', fit: BoxFit.cover,),
-                      // child: Image.network(data['itemURL'], fit: BoxFit.cover,),
+                      child: Image.network(data["itemURL"]!, fit: BoxFit.cover,),
                       footer: Container(
                         color: Colors.grey[400],
-                        child: Text('10000円'),
+                        child: Text(
+                          '10000円',
+                        ),
                       )
                     )
                   );
-                })
-              );
-          }
-        )
+                });
+            }
         )
       )
     );
@@ -149,3 +104,30 @@ class HomePage extends StatelessWidget {
 //                 }).toList()
 //               );
 //             }
+
+// final List<Widget> widgets = items
+//                   .map(
+//                     (item) => GridView.count(
+//                       crossAxisCount: 2,
+//                       mainAxisSpacing: 4,
+//                       // padding: const EdgeInsets.all(4),
+//                       children: List.generate(10, (index) {
+//                         return Container(
+//                           padding: const EdgeInsets.all(8.0),
+//                           alignment: Alignment.center,
+//                           child:GridTile(
+//                             // child: Image.network('https://picsum.photos/250?image=9', fit: BoxFit.cover,),
+//                             child: Image.network(item.itemURL, fit: BoxFit.cover,),
+//                             footer: Center(
+//                               child: Text(
+//                                 '10000円',
+//                               ),
+//                             )
+//                           )
+//                         );
+//                       }).toList()////
+//                     )
+//                   ).toList();
+//                   return Column(
+//                     children: widgets,
+//                   );
