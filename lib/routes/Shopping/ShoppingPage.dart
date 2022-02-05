@@ -102,6 +102,33 @@ class _SellPageState extends State<SellPage> {
   var storage = FirebaseStorage.instance;
   bool isLoading = false;
   List<String?> listOfItem = []; //商品画像ファイル名
+  String? _text; // 商品の概要
+  String? imageURL;
+  String? price;
+
+  Future addItem() async{
+    
+    setState(() {
+
+      if(_text == null || _text == "") {
+        throw '商品に関する説明が入力されていません';
+      }
+      
+      if (imageURL == null || imageURL == "") {
+        throw '画像が入力されていません';
+      }
+
+      if(price == null || price == "") {
+        throw '希望価格が入力されていません';
+      }
+
+      FirebaseFirestore.instance.collection('items').add({
+        'itemURL': imageURL,
+        'price': price
+      });
+
+    });
+  }
 
   Future _getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -109,17 +136,22 @@ class _SellPageState extends State<SellPage> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        imageURL = pickedFile.path;
       } else {
         print('No image selected.');
       }
     });
   }
 
-  String _text = '';
-
   void _handleText(String e) {
     setState(() {
       _text = e;
+    });
+  }
+
+  void _handlePrice(String e) {
+    setState(() {
+      price = e;
     });
   }
 
@@ -197,6 +229,7 @@ class _SellPageState extends State<SellPage> {
                 inputFormatters: <TextInputFormatter>[ 
                   FilteringTextInputFormatter.digitsOnly // ③ 数字入力のみ許可する
                 ], 
+                onChanged: _handlePrice,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.mode_edit),
                   labelText: '希望価格',
@@ -209,11 +242,19 @@ class _SellPageState extends State<SellPage> {
               child: ElevatedButton(
                     child: Text('出品'),
                     onPressed: () async{
-                      await Navigator.push(
+                      try {
+                        await addItem();
+                        await Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => RootWidget(),
                         ),
                       );
+                      } catch(e) {
+                        final snackBar = SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(e.toString()));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     }
               ),
             )
@@ -224,40 +265,3 @@ class _SellPageState extends State<SellPage> {
     );
   }
 }
-// setState(() {
-//                         this.isLoading = true;
-//                       });
-//                       listOfItem.forEach((img) async{
-//                         String imageName = img!
-//                           .substring(img.lastIndexOf("/"), img.lastIndexOf("."))
-//                           .replaceAll("/", "");
-
-//                           final Directory systemTempDir = Directory.systemTemp;
-//                           final byteData = await rootBundle.load(img);
-
-//                           final file =
-//                               File('${systemTempDir.path}/$imageName.png');
-//                           await file.writeAsBytes(byteData.buffer.asUint8List(
-//                               byteData.offsetInBytes, byteData.lengthInBytes));
-//                           TaskSnapshot snapshot = await storage
-//                               .ref()
-//                               .child("images/$imageName")
-//                               .putFile(file);
-//                           if (snapshot.state == TaskState.success) {
-//                             final String downloadUrl =
-//                                 await snapshot.ref.getDownloadURL();
-//                             await FirebaseFirestore.instance
-//                                 .collection("images")
-//                                 .add({"url": downloadUrl, "name": imageName});
-//                             setState(() {
-//                               isLoading = false;
-//                             });
-//                             final snackBar =
-//                                 SnackBar(content: Text('Yay! Success'));
-//                             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//                           } else {
-//                             print(
-//                                 'Error from image repo ${snapshot.state.toString()}');
-//                             throw ('This file is not an image');
-//                           }
-//                        });
