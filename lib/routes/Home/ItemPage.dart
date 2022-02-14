@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_1/routes/Home/HomePage.dart';
-import 'package:flutter_application_1/routes/root.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/routes/Chat/Personal/PersonalChat.dart';
 import 'package:flutter_application_1/routes/Chat/ChatPage.dart';
@@ -27,13 +24,6 @@ class ItemPage extends StatelessWidget {
       appBar: NewGradientAppBar(
         centerTitle: true,
         title: Text("商品情報"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showConfirmDialog(context);
-            },
-            icon: Icon(Icons.delete))
-        ],
         gradient:
           LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400])
       ),
@@ -64,7 +54,9 @@ class ItemPage extends StatelessWidget {
                 text: price!,
                 style: TextStyle(
                   fontSize: 30,
+                  // color: Colors.red,
                   fontWeight: FontWeight.bold,
+                  // fontStyle: FontStyle.italic
                 ),
                 children: <TextSpan>[
                   TextSpan(
@@ -75,47 +67,8 @@ class ItemPage extends StatelessWidget {
           ]),
         ],
       )
+      
+      
     );
   }
-}
-
-Future showConfirmDialog(BuildContext context) {
-    return showDialog(
-      context: context, 
-      barrierDismissible: false,
-      builder: (_) {
-        return AlertDialog(
-          title: Text("削除の確認"),
-          content: Text("この商品の出品を取り消しますか？"),
-          actions: [
-            TextButton(
-              child: Text("いいえ"),
-              onPressed: () => Navigator.pop(context),
-            ),
-            TextButton(
-              child: Text("はい"),
-              onPressed: () async{
-                deleteItem();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RootWidget(),
-                  ),
-                );
-                final snackBar = SnackBar(
-                  backgroundColor: Colors.red,
-                  content: Text("商品を削除しました"),
-                );
-                ScaffoldMessenger.of(context)
-                .showSnackBar(snackBar);
-              },
-            ),         
-          ],
-        );
-      }
-    );
-  }
-
-Future deleteItem() async{
-  String id = FirebaseFirestore.instance.collection('items').doc().id;
-  return await FirebaseFirestore.instance.collection("items").doc(id).delete();
 }

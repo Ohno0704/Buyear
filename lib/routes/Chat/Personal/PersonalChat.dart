@@ -109,12 +109,109 @@ class PersonalChat extends State<AddMassageState> {
                 },
               ),
             ),
+
+            // Row(
+            //   children: [
+            //     _massageList;
+            //     IconButton(
+            //       icon: Icon(Icons.add),
+            //       onPressed: () {
+            //         setState(() {
+            //           _massageList.add(
+            //             Tile(
+            //               Icons.person,
+            //               "鹿太郎",
+            //               "しかし、鹿しかいない",
+            //               ),
+            //           );
+            //         });
+            //       },
+            //     ),
+            //     IconButton(
+            //       icon: Icon(Icons.remove),
+            //       onPressed: (() {
+            //         if (_massageList.length == 1) {
+            //           // Fluttertoast.showToast(msg: "これ以上減らせません！！");
+            //         } else {
+            //           setState(() {
+            //             _massageList.removeAt(_massageList.length - 1);
+            //           });
+            //         }
+            //       })(),
+            //     ),
+            //   ],
+            // )
           ],
         ),
       )
     );
   }
 }
+
+// class AddMassageState extends StatelessWidget {
+//   // 引数からユーザー情報を受け取れるようにする
+//   AddMassageState();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Column(
+//         children: [
+//           Expanded(
+//             // Stream 非同期処理の結果を元にWidgetを作る
+//             child: StreamBuilder<QuerySnapshot>(
+//             // 投稿メッセージ一覧の取得
+//             stream: FirebaseFirestore.instance
+//                 .collection('chat_room')
+//                 .orderBy('createdAt')
+//                 .snapshots(),
+//             builder: (context, snapshot) {
+//               // データが取得できた場合
+//               if (snapshot.hasData) {
+//                 final List<DocumentSnapshot> documents = snapshot.data!.docs;
+//                 return ListView(
+//                   children: documents.map((document) {
+//                     return Card(
+//                       child: ListTile(
+//                         title: Text(document['name']),
+//                         trailing: IconButton(
+//                           icon: Icon(Icons.input),
+//                           onPressed: () async {
+//                             // チャットページへ画面遷移
+//                             await Navigator.of(context).push(
+//                               MaterialPageRoute(
+//                                 builder: (context) {
+//                                   return Chatting(document['name']);
+//                                 },
+//                               ),
+//                             );
+//                           },
+//                         ),
+//                       ),
+//                     );
+//                   }).toList(),
+//                 );
+//               }
+//               // データが読込中の場合
+//               return Center(
+//                 child: Text('読込中……'),
+//               );
+//             },
+//           )),
+//         ],
+//       ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(Icons.add),
+      //   onPressed: () async {
+      //     await Navigator.of(context)
+      //         .push(MaterialPageRoute(builder: (context) {
+      //       return AddRoomPage();
+      //     }));
+      //   },
+      // ),
+//     );
+//   }
+// }
 
 class Chatting extends StatefulWidget {
   const Chatting(this.name, {Key? key}) : super(key: key);

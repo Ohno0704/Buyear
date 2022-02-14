@@ -19,41 +19,39 @@ class AddBoardPage extends StatelessWidget {
           child: Consumer<AddBoardModel>(builder: (context, model, child) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Column(
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: 'タイトル'
-                      ),
-                      onChanged: (text) {
-                        model.title = text;
-                      },
+              child: Column(
+                children: [
+                  TextField(
+                    decoration: InputDecoration(
+                      hintText: 'タイトル'
                     ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    ElevatedButton(
-                      onPressed: () async{
+                    onChanged: (text) {
+                      model.title = text;
+                    },
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  ElevatedButton(
+                    onPressed: () async{
 
-                        try {
-                          await model.addBoard();
-                          Navigator.of(context).pop(true);
-                        } catch(e) {
-                          final snackBar = SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text(e.toString())
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        }
-                      },
-                      child: Text("投稿する"),
-                    ),
-                  ],
-                )
+                      try {
+                        await model.addBoard();
+                        Navigator.of(context).pop(true);
+                      } catch(e) {
+                        final snackBar = SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(e.toString())
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    },
+                    child: Text("投稿する"),
+                  ),
+                ],
               )
             );
           }),
