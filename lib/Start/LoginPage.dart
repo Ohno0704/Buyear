@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/root.dart';
+import 'package:flutter_application_1/user.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,6 +23,7 @@ class _MyAuthPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Center(
@@ -72,6 +75,8 @@ class _MyAuthPageState extends State<LoginPage> {
                         email: newMailAdress,
                         password: newPassword,
                       );
+                      // ユーザー情報を更新
+                      userState.setUser(result.user!);
                       // ユーザー登録に成功した場合
                       // チャット画面に遷移＋ログイン画面を破棄
                       await Navigator.of(context).pushReplacement(
@@ -102,6 +107,8 @@ class _MyAuthPageState extends State<LoginPage> {
                         email: newMailAdress,
                         password: newPassword,
                       );
+                      // ユーザー情報を更新
+                      userState.setUser(result.user!);
                       // ログインに成功した場合
                       // チャット画面に遷移＋ログイン画面を破棄
                       await Navigator.of(context).pushReplacement(

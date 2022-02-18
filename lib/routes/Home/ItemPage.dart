@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/user.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ItemPage extends StatelessWidget {
   ItemPage(this.itemURL, this.price);
   String? itemURL;
   String? price;
-  int _index = 0;
   bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
+    final User user = userState.user!;
     return Scaffold(
       appBar: NewGradientAppBar(
         centerTitle: true,
-        title: Text("商品情報"),
+        title: Text("${user.email}"),
         gradient:
           LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400])
       ),

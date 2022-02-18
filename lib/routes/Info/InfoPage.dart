@@ -59,7 +59,7 @@ class InfoPage extends StatelessWidget {
               child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: snapshot.data!.docs.length,
-              // padding: EdgeInsets.all(2.0),
+              padding: EdgeInsets.all(2.0),
               itemBuilder: (BuildContext context, int index) {
                 final bool checked = checkedList.contains(index);
                 DocumentSnapshot? data = snapshot.data!.docs[index];
@@ -111,7 +111,7 @@ class InfoPage extends StatelessWidget {
               child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: snapshot.data!.docs.length,
-              // padding: EdgeInsets.all(2.0),
+              padding: EdgeInsets.all(2.0),
               itemBuilder: (BuildContext context, int index) {
                 final bool checked = checkedList.contains(index);
                 DocumentSnapshot? data = snapshot.data!.docs[index];
@@ -163,7 +163,7 @@ class InfoPage extends StatelessWidget {
               child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: snapshot.data!.docs.length,
-              // padding: EdgeInsets.all(2.0),
+              padding: EdgeInsets.all(2.0),
               itemBuilder: (BuildContext context, int index) {
                 final bool checked = checkedList.contains(index);
                 DocumentSnapshot? data = snapshot.data!.docs[index];
