@@ -1,16 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
-import 'package:flutter_application_1/routes/Chat/Personal/PersonalChat.dart';
-import 'package:flutter_application_1/routes/Chat/ChatPage.dart';
 
-// class ItemPageAndAddFriend extends StatefulWidget {
-//   ItemPageAndAddFriend(this._index);
-//   int _index = 0;
-//   @override
-//   ItemPage createState() => ItemPage(_index);
-// } 
-// class ItemPage extends State<ItemPageAndAddFriend> {
-  // ItemPage(this._index);
 class ItemPage extends StatelessWidget {
   ItemPage(this.itemURL, this.price);
   String? itemURL;
