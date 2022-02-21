@@ -3,11 +3,13 @@ import 'package:flutter_application_1/user.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ItemPage extends StatelessWidget {
-  ItemPage(this.itemURL, this.price);
+  ItemPage(this.itemURL, this.price, this.contributor);
   String? itemURL;
   String? price;
+  String? contributor;
   bool isPressed = false;
 
   @override
@@ -19,7 +21,20 @@ class ItemPage extends StatelessWidget {
         centerTitle: true,
         title: Text("${user.email}"),
         gradient:
-          LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400])
+          LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
+        actions: [
+          // contributor == user.email
+          // ? IconButton(
+          //   onPressed: () {
+          //     FirebaseFirestore.instance.collection("posts").doc(board.id).delete();
+          //     Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => MyPage(),
+          //         ),
+          //       );
+          //   },
+          //   icon: Icon(Icons.account_circle))
+        ],
       ),
       persistentFooterButtons: <Widget>[
         Center(

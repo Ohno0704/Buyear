@@ -46,13 +46,6 @@ class HomePage extends StatelessWidget {
         child: StreamBuilder<QuerySnapshot>(
           stream: _userStream,
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-        // child: Consumer<ItemListModel>(
-          // builder: (context, model, child) {
-            // final items = model.items;
-
-            // if (items == null) {
-            //   return CircularProgressIndicator();
-            // }
 
             if (snapshot.hasError) {
               return Text('Something went wrong');
@@ -61,8 +54,6 @@ class HomePage extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator();
             }
-            
-            // Map<dynamic, dynamic> map = snapshot.data.snapshot.value;
 
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -77,14 +68,11 @@ class HomePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ItemPage(data["itemURL"], data["price"]),
+                          builder: (context) => ItemPage(data["itemURL"], data["price"], data["contributor"]),
                           fullscreenDialog: true,
                         )
                       );
                     },
-                    // return Container
-                    // padding: const EdgeInsets.all(8.0),
-                    // alignment: Alignment.center,
                     child:GridTile(
                       child: Image.network(data["itemURL"]!, fit: BoxFit.cover,),
                       footer: Container(
