@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class AddBoardModel extends ChangeNotifier {
   String? title;
   String? date;
+  String? contributor;
 
   Future addBoard() async{
 
@@ -18,7 +19,8 @@ class AddBoardModel extends ChangeNotifier {
 
     await FirebaseFirestore.instance.collection('posts').add({
       'content': title,
-      'date': date
+      'date': date,
+      'contributor': contributor,
     });
   }
 }

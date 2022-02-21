@@ -2,11 +2,15 @@ import 'package:flutter_application_1/routes/Chat/Open/AddBoardModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+import 'package:flutter_application_1/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
  
 class AddBoardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
+    final User user = userState.user!;
     return ChangeNotifierProvider<AddBoardModel>(
       create: (_) => AddBoardModel(),
       child: Scaffold(
@@ -39,6 +43,7 @@ class AddBoardPage extends StatelessWidget {
                     onPressed: () async{
 
                       try {
+                        model.contributor = user.email;
                         await model.addBoard();
                         Navigator.of(context).pop(true);
                       } catch(e) {
