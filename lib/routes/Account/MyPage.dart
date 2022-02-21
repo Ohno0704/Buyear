@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/routes/Account/AccountPage.dart';
  
 class MyPage extends StatelessWidget {
   @override
@@ -11,11 +12,17 @@ class MyPage extends StatelessWidget {
       body: Container(
         width: double.infinity,
         child: ListView(
-          children: const <Widget>[
+          children: <Widget>[
             ListTile(
               leading: Icon(Icons.phone),
               title: Text('アカウント'),
               trailing:  Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return AccountPage();
+                }));
+              },
             ),
             ListTile(
               leading: Icon(Icons.phone),

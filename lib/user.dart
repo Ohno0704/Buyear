@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 
 class UserState extends ChangeNotifier {
   User? user;
+  String? userName;
 
   void setUser(User newUser) {
     user = newUser;
     notifyListeners();
+  }
+
+  void setUserName(String newUserName) {
+    userName = newUserName;
   }
 }
