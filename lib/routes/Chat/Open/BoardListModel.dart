@@ -16,9 +16,10 @@ class BoardListModel extends ChangeNotifier {
       final String id = document.id;
       final String title = data['content'];
       final String date = data['date'];
+      final String contributor = data['contributor'];
       // if (data['date'] == null) data['date'] = '';
       
-      return Board(id, title, date);
+      return Board(id, title, date, contributor);
     }).toList();
 
       this.boards = boards;
