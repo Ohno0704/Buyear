@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Chat/Open/AddBoardPage.dart';
 import 'package:flutter_application_1/routes/Chat/Open/domain/Board.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_application_1/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class OpenChat extends StatelessWidget {
   String content = '';
@@ -14,6 +16,8 @@ class OpenChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
+    final User user = userState.user!;
     return ChangeNotifierProvider<BoardListModel>(
       create: (_) => BoardListModel()..fetchBoardList(),
       child: Scaffold(
@@ -31,17 +35,14 @@ class OpenChat extends StatelessWidget {
                     (board) => ListTile(
                       title: Text(board.title),
                       subtitle: Text(board.date),
-                      trailing: IconButton(
+                      trailing: board.contributor == user.email
+                      ? IconButton(
                         icon: Icon(Icons.delete),
                         onPressed: () async{
                           //掲示板削除処理
                           await showConfirmDialog(context, board, model);
-                          // await FirebaseFirestore.instance
-                          // .collection('posts')
-                          // .doc(boards.id)
-                          // .delete();
                         }
-                      ),
+                      ): null,
                       onTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
