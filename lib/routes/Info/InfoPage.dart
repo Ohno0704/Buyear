@@ -10,11 +10,7 @@ class InfoPage extends StatelessWidget {
   final Stream<QuerySnapshot> _info_job_Stream = FirebaseFirestore.instance.collection('info_job').snapshots();
 
   final List<int> checkedList = [];
-
-  var info_school_index = 1;
-  var info_circle_index = 1;
-  var info_job_index = 1;
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

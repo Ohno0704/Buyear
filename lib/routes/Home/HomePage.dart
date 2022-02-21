@@ -9,18 +9,6 @@ class HomePage extends StatelessWidget {
   final Stream<QuerySnapshot> _userStream = FirebaseFirestore.instance.collection('items').snapshots();
   final List<int> checkedList = [];
 
-  // void _check(int index) {
-  //   setState(() {
-  //     checkedList.add(index);
-  //   });
-  // }
-
-  // void _uncheck(int index) {
-  //   this.setState(() {
-  //     checkedList.remove(index);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -16,10 +16,6 @@ class _MyAuthPageState extends State<LoginPage> {
 
   String newMailAdress = '';
   String newPassword = '';
-  // String newUseName = '';
-  // String univercity = '';
-  // List<String> _uniNames = ["豊橋技術科学大学", "その他"];
-  // String _selectedItem = "豊橋技術科学大学";
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +47,6 @@ class _MyAuthPageState extends State<LoginPage> {
                   });
                 },
               ),
-              // TextFormField(
-              //   decoration: InputDecoration(labelText: 'ニックネーム'),
-              //   onChanged: (text) {
-              //     nickname = text;
-              //   },
-              // ),
               Container(
                 padding: EdgeInsets.all(8),
                 // メッセージ表示
@@ -87,7 +77,7 @@ class _MyAuthPageState extends State<LoginPage> {
                     } catch (e) {
                       // ユーザー登録に失敗した場合
                       setState(() {
-                        infoText = "登録に失敗しました：${e.toString()}";
+                        infoText = "登録に失敗しました";
                       });
                     }
                   },
@@ -119,7 +109,7 @@ class _MyAuthPageState extends State<LoginPage> {
                     } catch (e) {
                       // ログインに失敗した場合
                       setState(() {
-                        infoText = "ログインに失敗しました：${e.toString()}";
+                        infoText = "ログインに失敗しました";
                       });
                     }
                   },

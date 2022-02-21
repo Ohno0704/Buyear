@@ -11,8 +11,6 @@ class OpenChat extends StatelessWidget {
   String content = '';
   DateTime now = DateTime.now();
   DateTime appTime = DateTime.now();
-  // DateFormat outputFormat = DateFormat('yyyy-MM-dd');
-  // String date = outputFormat.format(nowTime);
 
   @override
   Widget build(BuildContext context) {
