@@ -15,8 +15,10 @@
 //       Map<String, dynamic>? data = document.data() as Map<String, dynamic>;
 //       final String id = document.id;
 //       final String itemURL = data['itemURL'];
+//       final String price = data['price'];
+//       final String contributor = data['contributor'];
       
-//       return Item(id, itemURL);
+//       return Item(id, itemURL, price);
 //     }).toList();
 
 //       this.items = items;

@@ -3,7 +3,6 @@ import 'package:flutter_application_1/user.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ItemPage extends StatelessWidget {
   ItemPage(this.itemURL, this.price, this.contributor);
