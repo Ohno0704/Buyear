@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserState extends ChangeNotifier {
   User? user;
@@ -11,6 +12,9 @@ class UserState extends ChangeNotifier {
   }
 
   void setUserName(String newUserName) {
-    userName = newUserName;
+    FirebaseFirestore.instance.collection('user').add({
+      'userName': newUserName,
+    });
+    notifyListeners();
   }
 }
