@@ -135,6 +135,7 @@ class _SellPageState extends State<SellPage> {
           'itemURL': imageURL!,
           'price': price,
           'contributor': "ono.hiroyuki.ok@tut.jp",
+          'text':_text,
         });
       // }
       
@@ -143,6 +144,7 @@ class _SellPageState extends State<SellPage> {
         'itemURL': _image, //imageURL,
         'price': price,
         'contributor': "ono.hiroyuki.ok@tut.jp",
+        'text':_text,
       });
 
     });
