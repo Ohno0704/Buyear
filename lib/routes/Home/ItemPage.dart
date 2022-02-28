@@ -81,7 +81,9 @@ class ItemPage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Center(
-            child: Expanded(
+            child: SizedBox(
+              width: double.infinity,
+              height: 300.0,
               child: Image.network(
                 itemURL!,
                 fit: BoxFit.contain,

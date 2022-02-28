@@ -12,6 +12,8 @@ class LoginPage extends StatefulWidget {
 
 class _MyAuthPageState extends State<LoginPage> {
 
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
   // 登録、ログインに関する情報を表示
   String infoText = '';
   String loginInfoText = '';
@@ -51,16 +53,25 @@ class _MyAuthPageState extends State<LoginPage> {
                   });
                 },
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'ユーザーネーム'),
-                // パスワードが見えないようにする
-                obscureText: true,
+              Form(
+                key: _key,
+                child: TextFormField(
                 onChanged: (String text) {
                   setState(() {
                     newUsername = text;
                   });
                 },
+                validator: (value) {
+                  if(value!.length == 0 || value.length > 10) {
+                    return ('1~10文字のユーザーネームを決めてください');
+                  }
+                },
+                onSaved: (value) => null,
+                decoration: InputDecoration(labelText: 'ユーザーネーム'),
+                // パスワードが見えないようにする
+                obscureText: true,
               ),
+                ),
               Container(
                 padding: EdgeInsets.all(8),
                 // メッセージ表示
@@ -73,6 +84,8 @@ class _MyAuthPageState extends State<LoginPage> {
                   child: Text('ユーザー登録'),
                   onPressed: () async {
                     try {
+                      if (!_key.currentState!.validate()) return;
+                      _key.currentState!.save();
                       // メール/パスワードでユーザー登録
                       final FirebaseAuth auth = FirebaseAuth.instance;
                       final result = await auth.createUserWithEmailAndPassword(
