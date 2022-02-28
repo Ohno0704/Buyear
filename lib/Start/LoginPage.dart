@@ -20,7 +20,8 @@ class _MyAuthPageState extends State<LoginPage> {
 
   String newMailAdress = '';
   String newPassword = '';
-  String newUsername = '';
+  // String newUsername = '';
+  String? newUsername;
   String loginMailAdress = '';
   String loginPassword = '';
 
@@ -99,7 +100,10 @@ class _MyAuthPageState extends State<LoginPage> {
                       });
                       // ユーザー情報を更新
                       userState.setUser(result.user!);
-                      // userState.setUserName(newUsername);
+                      // if(newUsername != null) {
+                        userState.setUserName(newUsername!);
+                      // }
+                      
                       // ユーザー登録に成功した場合
                       // チャット画面に遷移＋ログイン画面を破棄
                       await Navigator.of(context).pushReplacement(

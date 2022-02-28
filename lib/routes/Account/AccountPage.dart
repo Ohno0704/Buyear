@@ -9,6 +9,7 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserState userState = Provider.of<UserState>(context);
     final User user = userState.user!;
+    final String userName = userState.userName!;
     return Scaffold(
       appBar: AppBar(
         title: Text('チャット'),
@@ -33,7 +34,7 @@ class AccountPage extends StatelessWidget {
       body: Column(
         children: [
           Text("ここにユーザーネーム"),
-          Text("mail adress:${user.email}"),
+          Text("${userName}"),
           Text("ログアウト"),
 
         ],
