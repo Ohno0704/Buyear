@@ -106,7 +106,7 @@ class _MyAuthPageState extends State<LoginPage> {
                       // ユーザー情報を更新
                       userState.setUser(result.user!);
                       // if(newUsername != null) {
-                        userState.setUserName(newUsername!);
+                      userState.setUserName(newUsername!);
                       // }
                       
                       // ユーザー登録に成功した場合

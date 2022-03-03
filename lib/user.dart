@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class UserState extends ChangeNotifier {
   User? user;
   String? userName;
-  String? userIntroduce;
+  String userIntroduce = "更新してください";
 
   void setUser(User newUser) {
     user = newUser;
@@ -18,5 +18,6 @@ class UserState extends ChangeNotifier {
 
   void setIntroduce(String newIntroduce) {
     userIntroduce = newIntroduce;
+    notifyListeners();
   }
 }
