@@ -25,9 +25,16 @@ class AddBoardPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  Text("特定の人物名を後悔すること、ダメ"),
+                  SizedBox(
+                    height: 16.0,
+                  ),
                   TextField(
                     decoration: InputDecoration(
-                      hintText: 'タイトル'
+                      hintText: '掲示板タイトル'
                     ),
                     onChanged: (text) {
                       model.title = text;

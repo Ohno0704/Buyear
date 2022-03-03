@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/routes/Account/MyPage.dart';
-import 'package:flutter_application_1/routes/Shopping/SellPage.dart';
 
 class ShoppingPage extends StatelessWidget {
   @override
@@ -35,10 +34,11 @@ class ShoppingPage extends StatelessWidget {
                 child: ElevatedButton(
                   child: Text('出品'),
                   onPressed: () async{
-                    await Navigator.push(
+                    await Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(builder: (context) => SellPage(),
-                      ),
+                      // MaterialPageRoute(builder: (context) => SellPage(),
+                      // ),
+                      '/SellPage',
                     );
                   }
                 ),
@@ -62,12 +62,12 @@ class ShoppingPage extends StatelessWidget {
                 height: 100,
                 width: 180,
                 child: ElevatedButton(
-                  child: Text('取引中の商品'),
+                  child: Text('ほしいものリスト'),
                   onPressed: () async{
-                    await Navigator.push(
+                    await Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(builder: (context) => SellPage(),
-                      ),
+                      // MaterialPageRoute(builder: (context) => WantListPage(),
+                      '/WantListPage'
                     );
                   }
                 ),

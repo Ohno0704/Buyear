@@ -9,8 +9,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class OpenChat extends StatelessWidget {
   String content = '';
-  DateTime now = DateTime.now();
-  DateTime appTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
