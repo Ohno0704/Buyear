@@ -217,123 +217,127 @@ class _SellPageState extends State<SellPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
-        firebase_storage.Reference imageRef = firebase_storage.FirebaseStorage.instance
-        .ref()
-        .child('items/${basename(storageURL!)}');
-        imageRef.delete();
-        Navigator.of(context).pop();
+      onWillPop: () async{
+        if(storageURL != null) {
+          firebase_storage.Reference imageRef = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child('items/${basename(storageURL!)}');
+          imageRef.delete();
+          Navigator.of(context).pop();
+        } else {
+          Navigator.of(context).pop();
+        }
         return Future.value(false);
       },
-    child: Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: NewGradientAppBar(
-        centerTitle: true,
-        title: Text("出品"),
-        gradient:
-          LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
-      ),
-      body: SingleChildScrollView(
-        reverse: true,
-      child: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 35,
-              width: 100,
-              child: Text("画像を追加", style: TextStyle(fontSize: 20),),
-            ),
-            SizedBox(
-              height: 80,
-              width: 80,
-              child: RawMaterialButton(
-                fillColor: Theme.of(context).accentColor,
-                child: Icon(Icons.add_photo_alternate_rounded,
-                color: Colors.white,),
-                elevation: 8,
-                onPressed: () async{                          
-                  await _getImage(true);
-                  await saveImages(_images,sightingRef);
-                },
-                padding: EdgeInsets.all(15),
-                shape: CircleBorder(),
-              )
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            SizedBox(
-              height: 150,
-              width: 180,
-              child: _image == null ? Container(color: Colors.grey, width: 150, height: 200,) : Image.file(_image!),
-            ),
-            SizedBox(
-              height: 30,
-              width: 50,
-            ),
-            SizedBox(
-              height: 90,
-              width: 350,
-              child: TextField(
-                enabled: true,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                cursorColor: Colors.black,
-                maxLength: 300,
-                onChanged: _handleText,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.mode_edit),
-                  labelText: '商品の状態、説明',
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: NewGradientAppBar(
+          centerTitle: true,
+          title: Text("出品"),
+          gradient:
+            LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
+        ),
+        body: SingleChildScrollView(
+          reverse: true,
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 35,
+                width: 100,
+                child: Text("画像を追加", style: TextStyle(fontSize: 20),),
+              ),
+              SizedBox(
+                height: 80,
+                width: 80,
+                child: RawMaterialButton(
+                  fillColor: Theme.of(context).accentColor,
+                  child: Icon(Icons.add_photo_alternate_rounded,
+                  color: Colors.white,),
+                  elevation: 8,
+                  onPressed: () async{                          
+                    await _getImage(true);
+                    await saveImages(_images,sightingRef);
+                  },
+                  padding: EdgeInsets.all(15),
+                  shape: CircleBorder(),
+                )
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              SizedBox(
+                height: 150,
+                width: 180,
+                child: _image == null ? Container(color: Colors.grey, width: 150, height: 200,) : Image.file(_image!),
+              ),
+              SizedBox(
+                height: 30,
+                width: 50,
+              ),
+              SizedBox(
+                height: 90,
+                width: 350,
+                child: TextField(
+                  enabled: true,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  cursorColor: Colors.black,
+                  maxLength: 300,
+                  onChanged: _handleText,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.mode_edit),
+                    labelText: '商品の状態、説明',
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 90,
-              width: 350,
-              child: TextField(
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[ 
-                  FilteringTextInputFormatter.digitsOnly // ③ 数字入力のみ許可する
-                ], 
-                onChanged: _handlePrice,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.mode_edit),
-                  labelText: '希望価格',
+              SizedBox(
+                height: 90,
+                width: 350,
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[ 
+                    FilteringTextInputFormatter.digitsOnly // ③ 数字入力のみ許可する
+                  ], 
+                  onChanged: _handlePrice,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.mode_edit),
+                    labelText: '希望価格',
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 80,
-              width: 180,
-              child: ElevatedButton(
-                    child: Text('出品'),
-                    onPressed: () async{
-                      try {
-                        
-                        await addItem();                      
-                        await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RootWidget(),
-                        ),
-                      );
-                      } catch(e) {
-                        print(e);
-                        final snackBar = SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text(e.toString()));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              SizedBox(
+                height: 80,
+                width: 180,
+                child: ElevatedButton(
+                      child: Text('出品'),
+                      onPressed: () async{
+                        try {
+                          
+                          await addItem();                      
+                          await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RootWidget(),
+                          ),
+                        );
+                        } catch(e) {
+                          print(e);
+                          final snackBar = SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text(e.toString()));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                       }
-                    }
-              ),
-            )
-          ]
+                ),
+              )
+            ]
+          )
+        ),
         )
-      ),
       )
-    )
     );
   }
 }

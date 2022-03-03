@@ -73,7 +73,7 @@ class _AccountPageState extends State<AccountPage> {
                   height: 20.0,
                 ),
                 Text(
-                  "自己紹介文", 
+                  "自己紹介", 
                   style: TextStyle(
                     color:  Colors.blue[300],
                     fontSize: 25.0,
@@ -87,6 +87,13 @@ class _AccountPageState extends State<AccountPage> {
                 ),
                 SizedBox(
                   height: 20.0,
+                ),
+                Text(
+                  "自己紹介の更新", 
+                  style: TextStyle(
+                    color:  Colors.blue[300],
+                    fontSize: 25.0,
+                  ),
                 ),
                 TextField(
                   controller: myController,

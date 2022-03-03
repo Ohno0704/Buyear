@@ -52,7 +52,7 @@ class _MyAuthPageState extends State<LoginPage> {
               TextFormField(
                 decoration: InputDecoration(labelText: 'パスワード'),
                 // パスワードが見えないようにする
-                obscureText: true,
+                // obscureText: true,
                 onChanged: (String text) {
                   setState(() {
                     newPassword = text;
@@ -75,7 +75,7 @@ class _MyAuthPageState extends State<LoginPage> {
                 onSaved: (value) => null,
                 decoration: InputDecoration(labelText: 'ユーザーネーム'),
                 // パスワードが見えないようにする
-                obscureText: true,
+                // obscureText: true,
               ),
                 ),
               Container(
