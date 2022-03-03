@@ -7,7 +7,7 @@ class MyPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("MyPage"),
+        title: Text("マイページ"),
       ),
       body: Container(
         width: double.infinity,

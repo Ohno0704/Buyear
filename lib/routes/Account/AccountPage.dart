@@ -12,7 +12,7 @@ class AccountPage extends StatelessWidget {
     final String userName = userState.userName!;
     return Scaffold(
       appBar: AppBar(
-        title: Text('チャット'),
+        title: Text('アカウント情報'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.logout),
@@ -33,12 +33,57 @@ class AccountPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Text("ここにユーザーネーム"),
-          Text("${userName}"),
-          Text("ログアウト"),
-
+          SizedBox(
+            height: 30.0,
+          ),
+          Center(
+            child: Column(
+              children: [
+                Text(
+                  "ユーザーネーム", 
+                  style: TextStyle(
+                    color:  Colors.blue[300],
+                    fontSize: 25.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  "${userName}",
+                  style: TextStyle(
+                    fontSize: 25.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Text(
+                  "自己紹介文", 
+                  style: TextStyle(
+                    color:  Colors.blue[300],
+                    fontSize: 25.0,
+                  ),
+                ),
+                TextField(
+                  maxLines: 6,
+                  keyboardType: TextInputType.multiline,
+                  textAlign: TextAlign.left,
+                  decoration: new InputDecoration(
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                  ),
+                  // decoration: InputDecoration.collapsed(
+                  //   hintText: "簡単な自己紹介文を決めましょう！"
+                  // ),
+                ),
+              ],
+            ),
+          ),
         ],
       )
-          );
+    );
   }
 }
