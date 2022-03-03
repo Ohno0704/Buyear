@@ -28,9 +28,14 @@ class _MyAuthPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final UserState userState = Provider.of<UserState>(context);
+    final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Center(
+      body: SingleChildScrollView(
+        reverse: true,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: bottomSpace),
+      child: Center(
         child:Container(
           padding: EdgeInsets.all(32),
           child: Column(
@@ -179,6 +184,8 @@ class _MyAuthPageState extends State<LoginPage> {
           ),
         )
       )
+        )
+    )
     );
   }
 }
