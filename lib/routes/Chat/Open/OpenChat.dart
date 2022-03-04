@@ -28,23 +28,25 @@ class OpenChat extends StatelessWidget {
 
               final List<Widget> widgets = boards
                   .map(
-                    (board) => ListTile(
-                      title: Text(board.title),
-                      subtitle: Text(board.date),
-                      trailing: board.contributor == user.email
-                      ? IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () async{
-                          //掲示板削除処理
-                          await showConfirmDialog(context, board, model);
-                        }
-                      ): null,
-                      onTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return OpenChatting(board.title);
-                        }));
-                      },
+                    (board) => Card(
+                      child: ListTile(
+                        title: Text(board.title),
+                        subtitle: Text(board.date),
+                        trailing: board.contributorID == userState.userID
+                        ? IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () async{
+                            //掲示板削除処理
+                            await showConfirmDialog(context, board, model);
+                          }
+                        ): null,
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return OpenChatting(board.title);
+                          }));
+                        },
+                      )
                     ),
                   ).toList();
               return ListView(

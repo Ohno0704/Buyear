@@ -50,6 +50,7 @@ class _AccountPageState extends State<AccountPage> {
         reverse: true,
         child: Column(
         children: [
+          Text("${userState.userID}"),
           SizedBox(
             height: 20.0,
           ),

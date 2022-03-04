@@ -14,11 +14,11 @@ class BoardListModel extends ChangeNotifier {
 
       Map<String, dynamic>? data = document.data() as Map<String, dynamic>;
       final String id = document.id;
-      final String title = data['content'];
+      final String title = data['title'];
       final String date = data['date'];
-      final String contributor = data['contributor'];
+      final String contributorID = data['contributorID'];
       
-      return Board(id, title, date, contributor);
+      return Board(id, title, date, contributorID);
     }).toList();
 
       this.boards = boards;

@@ -11,6 +11,7 @@ class AddBoardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserState userState = Provider.of<UserState>(context);
     final User user = userState.user!;
+    String? userID = userState.userID;
     return ChangeNotifierProvider<AddBoardModel>(
       create: (_) => AddBoardModel(),
       child: Scaffold(
@@ -50,7 +51,7 @@ class AddBoardPage extends StatelessWidget {
                     onPressed: () async{
 
                       try {
-                        model.contributor = user.email;
+                        model.contributorID = userID;
                         await model.addBoard();
                         Navigator.of(context).pop(true);
                       } catch(e) {
