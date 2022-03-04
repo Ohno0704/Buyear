@@ -1,13 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/routes/Account/AccountPage.dart';
  
 class MyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: NewGradientAppBar(
         centerTitle: true,
         title: Text("マイページ"),
+        gradient:
+          LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
+        actions: [
+          // contributor == user.email
+          // ? IconButton(
+          //   onPressed: () {
+          //     FirebaseFirestore.instance.collection("posts").doc(board.id).delete();
+          //     Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => MyPage(),
+          //         ),
+          //       );
+          //   },
+          //   icon: Icon(Icons.account_circle))
+        ],
       ),
       body: Container(
         width: double.infinity,

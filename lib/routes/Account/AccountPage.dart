@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/user.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,19 +12,21 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
 
-  final myController = TextEditingController();
+  final name_controller = TextEditingController();
+  final introduce_controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final UserState userState = Provider.of<UserState>(context);
-    // final User user = userState.user!;
     final String userName = userState.userName!;
     final String userIntroduce = userState.userIntroduce;
-    // String userIntroduce = "初めまして！";
+    String newUserName = "";
     String newIntroduce = "";
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: NewGradientAppBar(
+        gradient:
+          LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
         title: Text('アカウント情報'),
         actions: <Widget>[
           IconButton(
@@ -48,15 +51,37 @@ class _AccountPageState extends State<AccountPage> {
         child: Column(
         children: [
           SizedBox(
-            height: 30.0,
+            height: 20.0,
           ),
           Center(
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "ユーザーネーム", 
+                      style: TextStyle(
+                        color:  Colors.blue[300],
+                        fontSize: 25.0,
+                      ),
+                    ),
+                    // SizedBox(width: 10.0,),
+                    // SizedBox(
+                    //   width: 30.0,
+                    //   child: FloatingActionButton(
+                    //     backgroundColor: Colors.grey,
+                    //     // tooltip: 'Action!',
+                    //     child: Icon(Icons.mode_edit), // Text()でもOK
+                    //     onPressed: () {},
+                    //   ),
+                    // ),
+                  ],
+                ),
+                SizedBox(height: 10.0,),
                 Text(
-                  "ユーザーネーム", 
+                  "${userName}",
                   style: TextStyle(
-                    color:  Colors.blue[300],
                     fontSize: 25.0,
                   ),
                 ),
@@ -64,10 +89,43 @@ class _AccountPageState extends State<AccountPage> {
                   height: 10.0,
                 ),
                 Text(
-                  "${userName}",
+                  "ユーザーネームの更新", 
                   style: TextStyle(
+                    color:  Colors.blue[300],
                     fontSize: 25.0,
                   ),
+                ),
+                TextField(
+                  controller: name_controller,
+                  maxLines: 1,
+                  keyboardType: TextInputType.multiline,
+                  textAlign: TextAlign.left,
+                  decoration: new InputDecoration(
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                  ),
+                  onChanged: (text){
+                    setState(() {
+                      newUserName = text;
+                    });
+                  },
+                ),
+                ElevatedButton(
+                  child: Text('更新'),
+                  onPressed: () async{
+                    final nameText = name_controller.text;
+                    final snackBar = SnackBar(
+                      backgroundColor: Colors.green,
+                      content: Text('自己紹介を更新しました！'),
+                    );
+                    userState.setUserName(nameText);
+                    // userState.setIntroduce(newIntroduce);
+                    // userIntroduce = userState.userIntroduce;
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    name_controller.clear();
+                  }
                 ),
                 SizedBox(
                   height: 20.0,
@@ -96,8 +154,8 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                 ),
                 TextField(
-                  controller: myController,
-                  maxLines: 6,
+                  controller: introduce_controller,
+                  maxLines: 3,
                   keyboardType: TextInputType.multiline,
                   textAlign: TextAlign.left,
                   decoration: new InputDecoration(
@@ -118,15 +176,16 @@ class _AccountPageState extends State<AccountPage> {
                 ElevatedButton(
                   child: Text('更新'),
                   onPressed: () async{
-                    final hobbyText = myController.text;
+                    final introduceText = introduce_controller.text;
                     final snackBar = SnackBar(
                       backgroundColor: Colors.green,
                       content: Text('自己紹介を更新しました！'),
                     );
-                    userState.setIntroduce(hobbyText);
+                    userState.setIntroduce(introduceText);
                     // userState.setIntroduce(newIntroduce);
                     // userIntroduce = userState.userIntroduce;
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    introduce_controller.clear();
                   }
                 ),
               ],
@@ -138,37 +197,3 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 }
-
-// Future showConfirmDialog(BuildContext context, String text, UserState userState) {
-//     return showDialog(
-//       context: context, 
-//       barrierDismissible: false,
-//       builder: (_) {
-//         return AlertDialog(
-//           title: Text("更新しました！"),
-//           content: Text("「${board.title}」を削除しますか？"),
-//           actions: [
-//             TextButton(
-//               child: Text("いいえ"),
-//               onPressed: () => Navigator.pop(context),
-//             ),
-//             TextButton(
-//               child: Text("はい"),
-//               onPressed: () async{
-//                 await model.deleteboard(board);
-//                 Navigator.pop(context);
-//                 final snackBar = SnackBar(
-//                   backgroundColor: Colors.red,
-//                   content: Text("「${board.title}」を削除しました"),
-//                 );
-//                 model.fetchBoardList();
-//                 ScaffoldMessenger.of(context)
-//                 .showSnackBar(snackBar);
-//               },
-//             ),         
-//           ],
-//         );
-//       }
-//     );
-//   }
-// }

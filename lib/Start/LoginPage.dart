@@ -41,6 +41,7 @@ class _MyAuthPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              const SizedBox(height: 16.0),
               TextFormField(
                 decoration: InputDecoration(labelText: 'メールアドレス（〇〇〇@tut.jp）'),
                 onChanged: (String text) {
