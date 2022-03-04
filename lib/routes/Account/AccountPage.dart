@@ -66,16 +66,6 @@ class _AccountPageState extends State<AccountPage> {
                         fontSize: 25.0,
                       ),
                     ),
-                    // SizedBox(width: 10.0,),
-                    // SizedBox(
-                    //   width: 30.0,
-                    //   child: FloatingActionButton(
-                    //     backgroundColor: Colors.grey,
-                    //     // tooltip: 'Action!',
-                    //     child: Icon(Icons.mode_edit), // Text()でもOK
-                    //     onPressed: () {},
-                    //   ),
-                    // ),
                   ],
                 ),
                 SizedBox(height: 10.0,),

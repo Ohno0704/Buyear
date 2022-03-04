@@ -103,12 +103,12 @@ class _MyAuthPageState extends State<LoginPage> {
                         'email': newMailAdress,
                         'password': newPassword,
                         'userName': newUsername,
+                        'userID': result.user!.uid,
                       });
                       // ユーザー情報を更新
                       userState.setUser(result.user!);
-                      // if(newUsername != null) {
                       userState.setUserName(newUsername!);
-                      // }
+                      userState.setUserID(result.user!.uid);
                       
                       // ユーザー登録に成功した場合
                       // チャット画面に遷移＋ログイン画面を破棄

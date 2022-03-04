@@ -5,6 +5,7 @@ class UserState extends ChangeNotifier {
   User? user;
   String? userName;
   String userIntroduce = "更新してください";
+  String? userID;
 
   void setUser(User newUser) {
     user = newUser;
@@ -18,6 +19,11 @@ class UserState extends ChangeNotifier {
 
   void setIntroduce(String newIntroduce) {
     userIntroduce = newIntroduce;
+    notifyListeners();
+  }
+
+  void setUserID(String newUserID) {
+    userID = newUserID;
     notifyListeners();
   }
 }

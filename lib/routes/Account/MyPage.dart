@@ -12,17 +12,6 @@ class MyPage extends StatelessWidget {
         gradient:
           LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
         actions: [
-          // contributor == user.email
-          // ? IconButton(
-          //   onPressed: () {
-          //     FirebaseFirestore.instance.collection("posts").doc(board.id).delete();
-          //     Navigator.push(
-          //         context,
-          //         MaterialPageRoute(builder: (context) => MyPage(),
-          //         ),
-          //       );
-          //   },
-          //   icon: Icon(Icons.account_circle))
         ],
       ),
       body: Container(
@@ -30,7 +19,7 @@ class MyPage extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             ListTile(
-              leading: Icon(Icons.phone),
+              leading: Icon(Icons.person),
               title: Text('アカウント'),
               trailing:  Icon(Icons.arrow_forward_ios),
               onTap: () {
@@ -45,16 +34,16 @@ class MyPage extends StatelessWidget {
               title: Text('お問い合わせ'),
               trailing:  Icon(Icons.arrow_forward_ios),
             ),
-            ListTile(
-              leading: Icon(Icons.photo_album),
-              title: Text('出品した商品'),
-              trailing:  Icon(Icons.arrow_forward_ios),
-            ),
-            ListTile(
-              leading: Icon(Icons.phone),
-              title: Text('購入した商品'),
-              trailing:  Icon(Icons.arrow_forward_ios),
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.photo_album),
+            //   title: Text('出品した商品'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.phone),
+            //   title: Text('購入した商品'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            // ),
           ],
         )
 
