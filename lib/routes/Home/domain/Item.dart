@@ -1,7 +1,9 @@
 class Item {
-  Item(this.id, this.itemURL, this.price, this.contributor);
+  Item(this.id, this.contributorID, this.itemURL, this.price, this.text, this.userName);
   String id;
+  String contributorID;
   String itemURL;
   String price;
-  String contributor;
+  String text;
+  String userName;
 }

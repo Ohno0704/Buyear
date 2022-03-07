@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
  
  // flutter_chat_uiを使うためのパッケージをインポート
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
@@ -60,8 +61,9 @@ class Tile extends StatelessWidget {
   }
 }
 
-class AddMassageState extends StatefulWidget {
-  AddMassageState({Key? key}) : super(key: key);
+class PersonalChat extends StatefulWidget {
+  PersonalChat({Key? key}) : super(key: key);
+
   Tile friends = Tile(
         Icons.person,
         "初期化初期太郎222",
@@ -69,16 +71,17 @@ class AddMassageState extends StatefulWidget {
         );
 
   @override
-  PersonalChat createState() => new PersonalChat(friends, false);
+  _PersonalChatState createState() => new _PersonalChatState(false);
 }
 
-class PersonalChat extends State<AddMassageState> {
-  PersonalChat(this.friends, this.isAdd);
-  Tile friends = Tile(
-        Icons.person,
-        "初期化初期太郎222",
-        "I am initializer",
-        );
+class _PersonalChatState extends State<PersonalChat> {
+  _PersonalChatState(this.isAdd);
+
+  // Tile friends = Tile(
+  //       Icons.person,
+  //       "初期化初期太郎222",
+  //       "I am initializer",
+  //       );
     
   bool isAdd = true;
 
@@ -90,6 +93,27 @@ class PersonalChat extends State<AddMassageState> {
         ),
   ];
 
+  fetchFriendList() async {
+    
+    return _massageList;
+  }
+
+  fetchUserData() async {
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    final userName = _firebaseAuth.currentUser!.uid;
+    // final _userName = docu
+    DocumentSnapshot snapshot = await _firestore.doc('chat_room/${userName}').get();
+    // print(snapshot.data()['email']);
+    Tile friends = Tile(
+      Icons.person,
+      "${userName}",
+      "I am initializer",
+    );
+    _massageList.add(friends);
+    return snapshot.data();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,118 +124,18 @@ class PersonalChat extends State<AddMassageState> {
               child: ListView.builder(
                 itemCount: _massageList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  if(isAdd == true) {
-                    setState(() {
-                      _massageList.add(friends);
-                    });
-                  }
+                  fetchUserData();
+                  print(_massageList.length);
                   return _massageList[index];
                 },
               ),
             ),
-
-            // Row(
-            //   children: [
-            //     _massageList;
-            //     IconButton(
-            //       icon: Icon(Icons.add),
-            //       onPressed: () {
-            //         setState(() {
-            //           _massageList.add(
-            //             Tile(
-            //               Icons.person,
-            //               "鹿太郎",
-            //               "しかし、鹿しかいない",
-            //               ),
-            //           );
-            //         });
-            //       },
-            //     ),
-            //     IconButton(
-            //       icon: Icon(Icons.remove),
-            //       onPressed: (() {
-            //         if (_massageList.length == 1) {
-            //           // Fluttertoast.showToast(msg: "これ以上減らせません！！");
-            //         } else {
-            //           setState(() {
-            //             _massageList.removeAt(_massageList.length - 1);
-            //           });
-            //         }
-            //       })(),
-            //     ),
-            //   ],
-            // )
           ],
         ),
       )
     );
   }
 }
-
-// class AddMassageState extends StatelessWidget {
-//   // 引数からユーザー情報を受け取れるようにする
-//   AddMassageState();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Column(
-//         children: [
-//           Expanded(
-//             // Stream 非同期処理の結果を元にWidgetを作る
-//             child: StreamBuilder<QuerySnapshot>(
-//             // 投稿メッセージ一覧の取得
-//             stream: FirebaseFirestore.instance
-//                 .collection('chat_room')
-//                 .orderBy('createdAt')
-//                 .snapshots(),
-//             builder: (context, snapshot) {
-//               // データが取得できた場合
-//               if (snapshot.hasData) {
-//                 final List<DocumentSnapshot> documents = snapshot.data!.docs;
-//                 return ListView(
-//                   children: documents.map((document) {
-//                     return Card(
-//                       child: ListTile(
-//                         title: Text(document['name']),
-//                         trailing: IconButton(
-//                           icon: Icon(Icons.input),
-//                           onPressed: () async {
-//                             // チャットページへ画面遷移
-//                             await Navigator.of(context).push(
-//                               MaterialPageRoute(
-//                                 builder: (context) {
-//                                   return Chatting(document['name']);
-//                                 },
-//                               ),
-//                             );
-//                           },
-//                         ),
-//                       ),
-//                     );
-//                   }).toList(),
-//                 );
-//               }
-//               // データが読込中の場合
-//               return Center(
-//                 child: Text('読込中……'),
-//               );
-//             },
-//           )),
-//         ],
-//       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(Icons.add),
-      //   onPressed: () async {
-      //     await Navigator.of(context)
-      //         .push(MaterialPageRoute(builder: (context) {
-      //       return AddRoomPage();
-      //     }));
-      //   },
-      // ),
-//     );
-//   }
-// }
 
 class Chatting extends StatefulWidget {
   const Chatting(this.name, {Key? key}) : super(key: key);

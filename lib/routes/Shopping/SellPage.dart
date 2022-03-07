@@ -8,6 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart';
+import 'package:flutter_application_1/user.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SellPage extends StatefulWidget {
 
@@ -26,6 +29,8 @@ class _SellPageState extends State<SellPage> {
   String? imageURL;
   String? price;
   String? storageURL;
+  String? userName;
+  String? contributorID;
 
   Future addItem() async{
     
@@ -51,8 +56,9 @@ class _SellPageState extends State<SellPage> {
         FirebaseFirestore.instance.collection('items').add({
           'itemURL': imageURL!,
           'price': price,
-          'contributor': "ono.hiroyuki.ok@tut.jp",
+          'contributorID': contributorID,
           'text':_text,
+          'userName': userName,
         });
       // }
 
@@ -125,6 +131,10 @@ class _SellPageState extends State<SellPage> {
 
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
+    final String _userName = userState.userName!;
+    userName = _userName;
+    contributorID = userState.userID;
     return WillPopScope(
       onWillPop: () async{
         if(storageURL != null) {
