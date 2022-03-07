@@ -1,14 +1,12 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_application_1/routes/Chat/Open/BoardListModel.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
-import 'package:flutter_application_1/routes/root.dart';
-import 'dart:async';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter/services.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:path/path.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/routes/Shopping/WantListModel.dart';
+import 'package:flutter_application_1/routes/Shopping/AddWantListPage.dart';
+import 'package:flutter_application_1/routes/Shopping/domain/WantList.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_application_1/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class WantListPage extends StatefulWidget {
 
@@ -19,267 +17,98 @@ class WantListPage extends StatefulWidget {
 class _WantListPageState extends State<WantListPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: NewGradientAppBar(
-          centerTitle: true,
-          title: Text("ほしいものリスト"),
-          gradient:
-            LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
-        ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () async{
-          await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddWantList(),
-            )
-          );
-        },
-      ),
-      body: Container(
-      )
-    );
-  }
-}
-
-class AddWantList extends StatefulWidget {
-
-  @override
-  _AddWantListState createState() => _AddWantListState();
-}
-
-class _AddWantListState extends State<AddWantList> {
-  List<File> _images = [];
-  File? _image;
-  DocumentReference sightingRef = FirebaseFirestore.instance.collection("items").doc();
-  var storage = firebase_storage.FirebaseStorage.instance;
-  bool isLoading = false;
-  List<String?> listOfItem = []; //商品画像ファイル名
-  String? _text; // 商品の概要
-  String? imageURL;
-  String? price;
-  String? storageURL;
-
-  Future addItem() async{
-    
-    setState(() {
-
-      if(_text == null || _text == "") {
-        throw '商品に関する説明が入力されていません';
-      }
-      
-      // if (imageURL == null || imageURL == "") {
-      //   throw '画像が入力されていません';
-      // }
-
-      if (_image == null) {
-        throw '画像が入力されていません';
-      }
-
-      if(price == null || price == "") {
-        throw '希望価格が入力されていません';
-      }
-
-      // if(imageURL != null) {
-        FirebaseFirestore.instance.collection('items').add({
-          'itemURL': imageURL!,
-          'price': price,
-          'contributor': "ono.hiroyuki.ok@tut.jp",
-          'text':_text,
-        });
-      // }
-
-    });
-  }
-
-  Future _getImage(bool gallery) async {
-    ImagePicker picker = ImagePicker();
-    PickedFile? pickedFile;
-    // PickedFile pickedFile;
-    // Let user select photo from gallery
-    if(gallery) {
-      pickedFile = await picker.getImage(
-          source: ImageSource.gallery,);
-    } 
-    // Otherwise open camera to get new photo
-    else{
-      pickedFile = await picker.getImage(
-          source: ImageSource.camera,);
-    }
-
-    setState(() {
-      if (pickedFile != null) {
-        _images.add(File(pickedFile.path));
-        _image = File(pickedFile.path); // Use if you only need a single picture
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  Future<void> saveImages(List<File> _images, DocumentReference ref) async {
-      _images.forEach((image) async {
-        String _imageURL = await uploadFile(image);
-        ref.update({"items": FieldValue.arrayUnion([_imageURL])});
-      });
-  }
-
-  Future<String> uploadFile(File _image) async {
-    
-    // final task = await firebase_storage.FirebaseStorage.instance.ref('items/${doc.id}').putFile(_image);
-    // final _imageURL = await task.ref.getDownloadURL();
-    // return _imageURL;
-    firebase_storage.Reference storageReference = firebase_storage.FirebaseStorage.instance
-        .ref()
-        .child('items/${basename(_image.path)}');
-    storageURL = _image.path;
-    firebase_storage.UploadTask uploadTask = storageReference.putFile(_image);
-    await uploadTask;
-    print('File Uploaded');
-    String? returnURL;
-    await storageReference.getDownloadURL().then((fileURL) {
-      returnURL =  fileURL;
-      imageURL = fileURL;
-    });
-    return returnURL!;
-  }
-
-  void _handleText(String e) {
-    setState(() {
-      _text = e;
-    });
-  }
-
-  void _handlePrice(String e) {
-    setState(() {
-      price = e;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async{
-        if(storageURL != null) {
-          firebase_storage.Reference imageRef = firebase_storage.FirebaseStorage.instance
-          .ref()
-          .child('items/${basename(storageURL!)}');
-          imageRef.delete();
-          Navigator.of(context).pop();
-        } else {
-          Navigator.of(context).pop();
-        }
-        return Future.value(false);
-      },
+    return ChangeNotifierProvider<WantListModel>(
+      create: (_) => WantListModel()..fetchWantList(),
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
         appBar: NewGradientAppBar(
-          centerTitle: true,
-          title: Text("ほしいものを追加"),
-          gradient:
-            LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
-        ),
-        body: SingleChildScrollView(
-          reverse: true,
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 35,
-                width: 100,
-                child: Text("画像を追加", style: TextStyle(fontSize: 20),),
-              ),
-              SizedBox(
-                height: 80,
-                width: 80,
-                child: RawMaterialButton(
-                  fillColor: Theme.of(context).accentColor,
-                  child: Icon(Icons.add_photo_alternate_rounded,
-                  color: Colors.white,),
-                  elevation: 8,
-                  onPressed: () async{                          
-                    await _getImage(true);
-                    await saveImages(_images,sightingRef);
-                  },
-                  padding: EdgeInsets.all(15),
-                  shape: CircleBorder(),
-                )
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              SizedBox(
-                height: 150,
-                width: 180,
-                child: _image == null ? Container(color: Colors.grey, width: 150, height: 200,) : Image.file(_image!),
-              ),
-              SizedBox(
-                height: 30,
-                width: 50,
-              ),
-              SizedBox(
-                height: 90,
-                width: 350,
-                child: TextField(
-                  enabled: true,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  cursorColor: Colors.black,
-                  maxLength: 300,
-                  onChanged: _handleText,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.mode_edit),
-                    labelText: '商品の状態、説明',
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 90,
-                width: 350,
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[ 
-                    FilteringTextInputFormatter.digitsOnly // ③ 数字入力のみ許可する
-                  ], 
-                  onChanged: _handlePrice,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.mode_edit),
-                    labelText: '希望価格',
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 80,
-                width: 180,
-                child: ElevatedButton(
-                      child: Text('出品'),
-                      onPressed: () async{
-                        try {
-                          
-                          await addItem();                      
-                          await Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => RootWidget(),
-                          ),
-                        );
-                        } catch(e) {
-                          print(e);
-                          final snackBar = SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text(e.toString()));
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        }
-                      }
-                ),
+            centerTitle: true,
+            title: Text("ほしいものリスト"),
+            gradient:
+              LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
+          ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () async{
+            await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddWantListPage(),
               )
-            ]
-          )
+            );
+          },
         ),
+        body: Container(
+          child: Consumer<WantListModel>(
+            builder: (context, model, child) {
+              final List<WantList>? wantLists = model.wantLists;
+
+              if (wantLists == null) {
+                return CircularProgressIndicator();
+              }
+
+              final List<Widget> widgets = wantLists
+                  .map(
+                    (wantList) => Card(
+                      child: ListTile(
+                        leading: Image.network(wantList.itemURL),
+                        title: Text(wantList.title),
+                        subtitle: Text(wantList.date),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () async{
+                            //掲示板削除処理
+                            // await showConfirmDialog(context, wantList, model);
+                          }
+                        ),
+                        onTap: () {
+                          // Navigator.of(context)
+                          //     .push(MaterialPageRoute(builder: (context) {
+                          //   return OpenChatting(wantList.title);
+                          // }));
+                        },
+                      )
+                    ),
+                  ).toList();
+              return ListView(
+                itemExtent: 100,
+                children: widgets,
+              );
+            },
+          ),
         )
       )
     );
   }
 }
+
+Future showConfirmDialog(BuildContext context, WantList wantList, WantListModel model) {
+    return showDialog(
+      context: context, 
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("削除の確認"),
+          content: Text("「${wantList.title}」を削除しますか？"),
+          actions: [
+            TextButton(
+              child: Text("いいえ"),
+              onPressed: () => Navigator.pop(context),
+            ),
+            TextButton(
+              child: Text("はい"),
+              onPressed: () async{
+                await model.deleteboard(wantList);
+                Navigator.pop(context);
+                final snackBar = SnackBar(
+                  backgroundColor: Colors.red,
+                  content: Text("「${wantList.title}」を削除しました"),
+                );
+                model.fetchWantList();
+                ScaffoldMessenger.of(context)
+                .showSnackBar(snackBar);
+              },
+            ),         
+          ],
+        );
+      }
+    );
+  }

@@ -108,6 +108,7 @@ class ItemPage extends StatelessWidget {
                     ),
                 )
               ),
+              // 価格
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -116,7 +117,7 @@ class ItemPage extends StatelessWidget {
                     text: price!,
                     style: TextStyle(
                       fontSize: 30,
-                      // color: Colors.red,
+                      color: Colors.red,
                       fontWeight: FontWeight.bold,
                       // fontStyle: FontStyle.italic
                     ),
@@ -127,33 +128,59 @@ class ItemPage extends StatelessWidget {
                     ]
                   ),),
               ]),
+              // 商品の説明
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                    text: "商品の説明",
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      // fontStyle: FontStyle.italic
+                    ),
+                  ),),
+              ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text.rich(
                     TextSpan(
                     text: text!,
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 20,
                       // color: Colors.red,
                       fontWeight: FontWeight.bold,
                       // fontStyle: FontStyle.italic
                     ),
-                    // children: <TextSpan>[
-                    //   TextSpan(
-                    //     text: "円"
-                    //   )
-                    // ]
+                  ),),
+              ]),
+              // 出品者情報
+              SizedBox(height: 10.0,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                    text: "出品者",
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      // fontStyle: FontStyle.italic
+                    ),
                   ),),
               ]),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text.rich(
                     TextSpan(
                     text: userName!,
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 20,
                       // color: Colors.red,
                       fontWeight: FontWeight.bold,
                       // fontStyle: FontStyle.italic
