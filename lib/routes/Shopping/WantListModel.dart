@@ -14,13 +14,15 @@ class WantListModel extends ChangeNotifier {
 
       Map<String, dynamic>? data = document.data() as Map<String, dynamic>;
       final String id = document.id;
-      final String title = data['title'];
+      final String contributorID = data['contributorID'];
       final String date = data['date'];
       final String itemURL = data['itemURL'];
       final String price = data['price'];
-      final String contributorID = data['contributorID'];
+      final String text = data['text'];
+      final String title = data['title'];
+      final String userName= data['userName'];
       
-      return WantList(id, title, itemURL, date, price, contributorID);
+      return WantList(id, contributorID, date, itemURL, price, text, title, userName);
     }).toList();
 
       this.wantLists = wantLists;

@@ -10,6 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart';
+import 'package:flutter_application_1/user.dart';
+import 'package:provider/provider.dart';
 
 class AddWantListPage extends StatefulWidget {
 
@@ -28,6 +30,10 @@ class _AddWantListState extends State<AddWantListPage> {
   String? imageURL;
   String? price;
   String? storageURL;
+  String? userID;
+  String date = DateTime.now().toIso8601String();
+  String text = '新品';
+  String? userName;
 
   Future addItem() async{
     
@@ -52,10 +58,12 @@ class _AddWantListState extends State<AddWantListPage> {
       // if(imageURL != null) {
         FirebaseFirestore.instance.collection('wantList').add({
           'itemURL': imageURL!,
-          'title': 'hoge',
+          'title': '${_text}',
           'price': price,
-          'contributorID': "hoge",
-          'date': 'today',
+          'contributorID': "${userID}",
+          'date': '${date}',
+          'text': '${text}',
+          'userName': '${userName}'
         });
       // }
 
@@ -128,6 +136,9 @@ class _AddWantListState extends State<AddWantListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
+    userName = userState.userName;
+    userID = userState.userID;
     return WillPopScope(
       onWillPop: () async{
         if(storageURL != null) {

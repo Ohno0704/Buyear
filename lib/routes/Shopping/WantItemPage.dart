@@ -3,9 +3,7 @@ import 'package:flutter_application_1/user.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_1/routes/Home/ItemListModel.dart';
-import 'package:flutter_application_1/routes/Home/domain/Item.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter_application_1/routes/Chat/Personal/PersonalChat.dart';
 // ランダムなIDを採番してくれるパッケージ
 import 'package:uuid/uuid.dart';
@@ -15,14 +13,16 @@ import 'package:uuid/uuid.dart';
 //   _AccountPageState createState() => _AccountPageState();
 // }
 
-class ItemPage extends StatelessWidget {
-  ItemPage(this. documentID, this.itemURL, this.price, this.text, this.userName, this.contributorID);
+class WantItemPage extends StatelessWidget {
+  WantItemPage(this. documentID, this.contributorID, this.date, this.itemURL, this.price, this.text, this. itemName, this.userName);
 
   // 商品情報
-  final _itemData = FirebaseFirestore.instance.collection('items');
+  final _itemData = FirebaseFirestore.instance.collection('wantList');
   String? documentID;
+  String? itemName;
   String? contributorID;
   String? itemURL;
+  String? date;
   String? price;
   String? text;
   String? userName;
@@ -37,7 +37,7 @@ class ItemPage extends StatelessWidget {
       appBar: NewGradientAppBar(
         gradient:
           LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
-        title: Text('商品情報'),
+        title: Text("aaa"),// Text('${itemName}'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.delete),
@@ -47,32 +47,6 @@ class ItemPage extends StatelessWidget {
           ),
         ],
       ),
-      persistentFooterButtons: <Widget>[
-          Center(
-            child: RaisedButton(
-                    child: Text('購入するため個人チャットへ'),
-                    // child: Text("${fetchItemData}"),
-                    onPressed: () async{
-                      await FirebaseFirestore.instance
-                      .collection('chat_room')
-                      .doc(userName)
-                      .collection('contents')
-                      .add({
-                        'uid': contributorID,
-                        'name': userName,
-                        'createdAT': DateTime.now().millisecondsSinceEpoch,
-                        'id': randomId,
-                        'text': "",
-                      });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Chatting(userName!),
-                      ),
-                );
-                    }
-              ),
-          )
-        ],
         body: Column(
             children: <Widget>[
               Center(
@@ -141,7 +115,7 @@ class ItemPage extends StatelessWidget {
                 children: [
                   Text.rich(
                     TextSpan(
-                    text: "出品者",
+                    text: "希望者",
                     style: TextStyle(
                       fontSize: 30,
                       color: Colors.blue,
@@ -162,11 +136,6 @@ class ItemPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       // fontStyle: FontStyle.italic
                     ),
-                    // children: <TextSpan>[
-                    //   TextSpan(
-                    //     text: "円"
-                    //   )
-                    // ]
                   ),),
               ]),
             ],
@@ -175,63 +144,3 @@ class ItemPage extends StatelessWidget {
 
   }
 }
-
-    // return ChangeNotifierProvider<ItemListModel>(
-    //   create: (_) => ItemListModel()..fetchItemList(),
-    //   child: Scaffold(
-    //     appBar: NewGradientAppBar(
-    //       centerTitle: true,
-    //       title: Text("商品情報"),
-    //       gradient:
-    //         LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
-    //       actions: [
-    //         // contributor == user.email
-    //         // ? IconButton(
-    //         //   onPressed: () {
-    //         //     FirebaseFirestore.instance.collection("posts").doc(board.id).delete();
-    //         //     Navigator.push(
-    //         //         context,
-    //         //         MaterialPageRoute(builder: (context) => MyPage(),
-    //         //         ),
-    //         //       );
-    //         //   },
-    //         //   icon: Icon(Icons.account_circle))
-    //       ],
-    //     ),
-    //     body: SingleChildScrollView(
-    //       child: Consumer<ItemListModel>(
-    //         builder: (context, model, child) {
-    //           final List<Item>? items = model.items;
-
-    //           if(items == null) {
-    //             return CircularProgressIndicator();
-    //           }
-
-    //           // final Widget widget = items.map((item) => null)
-
-    //           final List<Widget> widgets = items
-    //           .map(
-    //             (item) => Column(
-    //               children: <Widget>[
-    //                 documentID == item.id
-    //                 ? Center(
-    //                     child: SizedBox(
-    //                       width: double.infinity,
-    //                       height: 300.0,
-    //                       child: Image.network(
-    //                         item.itemURL,
-    //                         fit: BoxFit.contain,
-    //                         ),
-    //                     )
-    //                   ):Center(
-    //                     child: Text("Loading"),
-    //                   ),
-    //               ],
-    //             ),
-    //           ).toList();
-
-    //           return Column(
-    //             children: widgets,
-    //           );
-    //         },
-    //       )

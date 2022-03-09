@@ -1,8 +1,10 @@
 import 'package:flutter_application_1/routes/Chat/Open/BoardListModel.dart';
+import 'package:flutter_application_1/routes/Shopping/WantItemPage.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Shopping/WantListModel.dart';
 import 'package:flutter_application_1/routes/Shopping/AddWantListPage.dart';
+import 'package:flutter_application_1/routes/Shopping/WantItemPage.dart';
 import 'package:flutter_application_1/routes/Shopping/domain/WantList.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/user.dart';
@@ -17,6 +19,7 @@ class WantListPage extends StatefulWidget {
 class _WantListPageState extends State<WantListPage> {
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
     return ChangeNotifierProvider<WantListModel>(
       create: (_) => WantListModel()..fetchWantList(),
       child: Scaffold(
@@ -50,20 +53,44 @@ class _WantListPageState extends State<WantListPage> {
                     (wantList) => Card(
                       child: ListTile(
                         leading: Image.network(wantList.itemURL),
-                        title: Text(wantList.title),
-                        subtitle: Text(wantList.date),
-                        trailing: IconButton(
+                        title: Text.rich(
+                          TextSpan(
+                          text: wantList.title,
+                          style: TextStyle(
+                            fontSize: 18,
+                            // color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                            // fontStyle: FontStyle.italic
+                          ),
+                        ),),
+                        subtitle: Text.rich(
+                          TextSpan(
+                          text: wantList.price,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                            // fontStyle: FontStyle.italic
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "円"
+                            )
+                          ]
+                        ),),
+                        trailing: wantList.contributorID == userState.userID
+                        ? IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () async{
                             //掲示板削除処理
-                            // await showConfirmDialog(context, wantList, model);
+                            await showConfirmDialog(context, wantList, model);
                           }
-                        ),
+                        ): null,
                         onTap: () {
-                          // Navigator.of(context)
-                          //     .push(MaterialPageRoute(builder: (context) {
-                          //   return OpenChatting(wantList.title);
-                          // }));
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return WantItemPage(wantList.id, wantList.contributorID, wantList.date, wantList.itemURL, wantList.price, wantList.text, wantList.title, wantList.userName);
+                          }));
                         },
                       )
                     ),

@@ -1,9 +1,11 @@
 class WantList {
-  WantList(this.id, this.title, this.itemURL, this.date, this.price, this.contributorID);
+  WantList(this.id, this.contributorID, this.date, this.itemURL, this.price, this.text, this.title, this.userName);
   String id;
-  String itemURL;
-  String title;
-  String date;
-  String price;
   String contributorID;
+  String date;
+  String itemURL;
+  String price;
+  String text;
+  String title;
+  String userName;
 }
