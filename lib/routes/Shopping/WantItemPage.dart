@@ -38,14 +38,6 @@ class WantItemPage extends StatelessWidget {
         gradient:
           LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
         title: Text("aaa"),// Text('${itemName}'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () async {
-              // 商品を削除
-            },
-          ),
-        ],
       ),
         body: Column(
             children: <Widget>[

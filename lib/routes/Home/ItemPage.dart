@@ -39,12 +39,14 @@ class ItemPage extends StatelessWidget {
           LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
         title: Text('商品情報'),
         actions: <Widget>[
-          IconButton(
+          userState.userID == contributorID
+          ? IconButton(
             icon: Icon(Icons.delete),
             onPressed: () async {
               // 商品を削除
+              // showConfirmDialog(context, userName!);
             },
-          ),
+          ):Text("")
         ],
       ),
       persistentFooterButtons: <Widget>[
@@ -175,6 +177,39 @@ class ItemPage extends StatelessWidget {
 
   }
 }
+
+Future showConfirmDialog(BuildContext context, String title) {
+    return showDialog(
+      context: context, 
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("削除の確認"),
+          content: Text("「${title}」を削除しますか？"),
+          actions: [
+            TextButton(
+              child: Text("いいえ"),
+              onPressed: () => Navigator.pop(context),
+            ),
+            TextButton(
+              child: Text("はい"),
+              onPressed: () async{
+                // await model.deleteboard(wantList);
+                Navigator.pop(context);
+                final snackBar = SnackBar(
+                  backgroundColor: Colors.red,
+                  content: Text("「${title}」を削除しました"),
+                );
+                // model.fetchWantList();
+                ScaffoldMessenger.of(context)
+                .showSnackBar(snackBar);
+              },
+            ),         
+          ],
+        );
+      }
+    );
+  }
 
     // return ChangeNotifierProvider<ItemListModel>(
     //   create: (_) => ItemListModel()..fetchItemList(),

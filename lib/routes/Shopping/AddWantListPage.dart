@@ -1,8 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/routes/Shopping/WantListPage.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
-import 'package:flutter_application_1/routes/root.dart';
-import 'package:flutter_application_1/routes/Shopping/AddWantListPage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -241,11 +239,12 @@ class _AddWantListState extends State<AddWantListPage> {
                         try {
                           
                           await addItem();  
-                          Navigator.of(context).pop();                    
-                          // await Navigator.pop(
-                          // context,
-                          // MaterialPageRoute(builder: (context) => RootWidget(),
-                          // ),
+                          // Navigator.of(context).pop();                    
+                          await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => WantListPage(),
+                          ),
+                          );
                         } catch(e) {
                           print(e);
                           final snackBar = SnackBar(
