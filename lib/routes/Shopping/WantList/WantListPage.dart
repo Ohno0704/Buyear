@@ -1,10 +1,9 @@
-import 'package:flutter_application_1/routes/Chat/Open/BoardListModel.dart';
-import 'package:flutter_application_1/routes/Shopping/WantItemPage.dart';
+import 'package:flutter_application_1/routes/Shopping/WantList/WantItemPage.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/routes/Shopping/WantListModel.dart';
-import 'package:flutter_application_1/routes/Shopping/AddWantListPage.dart';
-import 'package:flutter_application_1/routes/Shopping/WantItemPage.dart';
+import 'package:flutter_application_1/routes/Shopping/WantList/WantListModel.dart';
+import 'package:flutter_application_1/routes/Shopping/WantList/AddWantListPage.dart';
+import 'package:flutter_application_1/routes/Shopping/WantList/WantItemPage.dart';
 import 'package:flutter_application_1/routes/Shopping/domain/WantList.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/user.dart';

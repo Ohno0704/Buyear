@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/Start/StartScreen.dart';
-import 'package:flutter_application_1/routes/Shopping/WantListPage.dart';
+import 'package:flutter_application_1/routes/Shopping/WantList/WantListPage.dart';
 import 'package:flutter_application_1/routes/Shopping/SellPage.dart';
 import 'package:flutter_application_1/user.dart';
 
