@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/routes/root.dart';
 import 'package:flutter_application_1/user.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ class ItemPage extends StatelessWidget {
             icon: Icon(Icons.delete),
             onPressed: () async {
               // 商品を削除
-              // showConfirmDialog(context, userName!);
+              showConfirmDialog(context, userName!, documentID!);
             },
           ):Text("")
         ],
@@ -68,7 +69,7 @@ class ItemPage extends StatelessWidget {
                       });
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Chatting(userName!),
+                        MaterialPageRoute(builder: (context) => Chatting(userName!, contributorID!),
                       ),
                 );
                     }
@@ -178,14 +179,14 @@ class ItemPage extends StatelessWidget {
   }
 }
 
-Future showConfirmDialog(BuildContext context, String title) {
+Future showConfirmDialog(BuildContext context, String title, String documentID) {
     return showDialog(
       context: context, 
       barrierDismissible: false,
       builder: (_) {
         return AlertDialog(
           title: Text("削除の確認"),
-          content: Text("「${title}」を削除しますか？"),
+          content: Text("「この商品のを出品を取り消しますか？"),
           actions: [
             TextButton(
               child: Text("いいえ"),
@@ -194,13 +195,16 @@ Future showConfirmDialog(BuildContext context, String title) {
             TextButton(
               child: Text("はい"),
               onPressed: () async{
-                // await model.deleteboard(wantList);
-                Navigator.pop(context);
+                FirebaseFirestore.instance.collection("items").doc(documentID).delete();
+                await Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) {
+                    return RootWidget();
+                  }),
+                );
                 final snackBar = SnackBar(
                   backgroundColor: Colors.red,
-                  content: Text("「${title}」を削除しました"),
+                  content: Text("出品を取り消しました"),
                 );
-                // model.fetchWantList();
                 ScaffoldMessenger.of(context)
                 .showSnackBar(snackBar);
               },

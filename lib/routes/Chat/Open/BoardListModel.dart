@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/routes/Chat/Open/domain/Board.dart';
+import 'package:flutter_application_1/routes/Chat/Open/MutterListModel.dart';
 
 class BoardListModel extends ChangeNotifier {
   final  _userBoard = FirebaseFirestore.instance.collection("posts");
@@ -26,7 +27,7 @@ class BoardListModel extends ChangeNotifier {
   }
 
   Future deleteboard(Board board) {
-    FirebaseFirestore.instance.collection("mutter").doc(board.title).delete();
+    FirebaseFirestore.instance.collection("mutter").doc('${board.title}').delete();
     return FirebaseFirestore.instance.collection("posts").doc(board.id).delete();
   }
 }

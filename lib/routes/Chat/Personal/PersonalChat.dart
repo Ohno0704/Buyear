@@ -40,10 +40,10 @@ class Tile extends StatelessWidget {
           title: Text(this.username), // <- 追加：ユーザ名の設定
           subtitle: Text(this.message), // <- 追加：メッセージの設定
           onTap: () => {
-            Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Chatting(this.username)))
+            // Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => Chatting(this.username)))
           },
         ),
       ),
@@ -138,18 +138,22 @@ class _PersonalChatState extends State<PersonalChat> {
 }
 
 class Chatting extends StatefulWidget {
-  const Chatting(this.name, {Key? key}) : super(key: key);
+  const Chatting(this.name, this.contributorID);
 
   final String name;
+  final String contributorID;
   @override
-  _ChatPageState createState() => _ChatPageState(name);
+  _ChatPageState createState() => _ChatPageState(name, contributorID);
 }
 
 class _ChatPageState extends State<Chatting> {
-  String username = '';
-  _ChatPageState(this.username) {
+  String? username;
+  _ChatPageState(this.username, contributorID) {
     this.username = username;
+    this.contributorID = contributorID;
   }
+
+  String? contributorID;
   List<types.Message> _messages = [];
   String randomId = Uuid().v4();
   final _user = const types.User(id: '06c33e8b-e835-4736-80f4-63f44b66666c', firstName: '名前');
@@ -232,7 +236,7 @@ class _ChatPageState extends State<Chatting> {
 
     return Scaffold(
       appBar: NewGradientAppBar(
-        title: Text(username),
+        title: Text(username!),
         gradient:
           LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400])
       ),
