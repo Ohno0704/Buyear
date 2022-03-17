@@ -3,7 +3,7 @@ import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Chat/Open/AddBoardPage.dart';
 import 'package:flutter_application_1/routes/Chat/Open/domain/Board.dart';
-import 'package:flutter_application_1/routes/Chat/Open/BoardPage.dart';
+import 'package:flutter_application_1/routes/Chat/Open/MutterPage.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,7 +44,7 @@ class OpenChat extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                            return BoardPage(board.title);
+                            return MutterPage(board.title);
                           }));
                         },
                       )

@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/routes/Chat/Open/domain/Mutter.dart';
 
 class MutterListModel extends ChangeNotifier {
-  final  _mutters = FirebaseFirestore.instance.collection("mutter");
+  final  _mutters = FirebaseFirestore.instance.collection("mutter").doc('コメント一覧').collection('コメント');
 
   List<Mutter>? mutters;
 
@@ -14,12 +14,12 @@ class MutterListModel extends ChangeNotifier {
 
       Map<String, dynamic>? data = document.data() as Map<String, dynamic>;
       final String id = document.id;
-      final String title = data['title'];
+      // final String title = data['title'];
       final String date = data['date'];
       final String comment = data['comment'];
       final String contributorID = data['contributorID'];
       
-      return Mutter(id, title, date, comment, contributorID);
+      return Mutter(id, date, comment, contributorID);
     }).toList();
 
       this.mutters = mutters;
