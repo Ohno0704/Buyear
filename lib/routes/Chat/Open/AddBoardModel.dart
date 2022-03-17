@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AddBoardModel extends ChangeNotifier {
+  String? documentID;
   String? title;
   String? date;
   String? contributorID;
@@ -21,6 +22,12 @@ class AddBoardModel extends ChangeNotifier {
       'title': title,
       'date': date,
       'contributorID': contributorID,
+    });
+
+    await FirebaseFirestore.instance.collection('mutter').doc('${documentID}').collection('コメント').add({
+      'comment': 'なにかつぶやいてみましょう！',
+      'contributorID': contributorID,
+      'date': DateTime.now().toIso8601String(),
     });
   }
 }

@@ -52,6 +52,7 @@ class AddBoardPage extends StatelessWidget {
 
                       try {
                         model.contributorID = userID;
+                        model.documentID = model.title;
                         await model.addBoard();
                         Navigator.of(context).pop(true);
                       } catch(e) {

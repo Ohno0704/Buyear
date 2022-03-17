@@ -7,6 +7,7 @@ import 'package:flutter_application_1/routes/Chat/Open/MutterPage.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OpenChat extends StatelessWidget {
   String content = '';
@@ -43,8 +44,8 @@ class OpenChat extends StatelessWidget {
                         ): null,
                         onTap: () {
                           Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return MutterPage(board.title);
+                            .push(MaterialPageRoute(builder: (context) {
+                              return MutterPage(board.id, board.title);
                           }));
                         },
                       )

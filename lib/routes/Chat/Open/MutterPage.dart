@@ -10,19 +10,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
+import 'dart:async';
+
 class MutterPage extends StatefulWidget {
-  MutterPage(this.boardTitle);
+  MutterPage(this.documentID, this.boardTitle);
+  String documentID;
   String boardTitle;
   @override
-  _MutterPageState createState() => _MutterPageState(boardTitle);
+  _MutterPageState createState() => _MutterPageState(documentID, boardTitle);
 }
 
 class _MutterPageState extends State<MutterPage> {
-  _MutterPageState(String boardTitle) {
+  _MutterPageState(String documentID, String boardTitle) {
+    this.documentID = documentID;
     this.boardTitle = boardTitle;
   }
 
-  String boardTitle = '';
+  String? documentID;
+  String? boardTitle;
   String? comment;
   String? date;
   String? contributorID;
@@ -34,7 +39,7 @@ class _MutterPageState extends State<MutterPage> {
     // });
     await FirebaseFirestore.instance
         .collection('mutter')
-        .doc('コメント一覧')
+        .doc('${boardTitle}')
         .collection('コメント')
         .add({
       'comment': comment,
@@ -43,11 +48,38 @@ class _MutterPageState extends State<MutterPage> {
     });
   }
 
+  final messageTextInputCtl = new TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  ScrollController _scrollController = new ScrollController();
+
+  void _addMessage(String _comment) {
+    setState(() {
+      FirebaseFirestore.instance
+        .collection('mutter')
+        .doc('${boardTitle}')
+        .collection('コメント')
+        .add({
+          'comment': _comment,
+          'contributorID': contributorID,
+          'date': DateTime.now().toIso8601String(),
+        });
+    });
+  }
+
+  void _scrollToBottom(){
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent + MediaQuery.of(context).viewInsets.bottom,
+      curve: Curves.easeOut,
+      duration: const Duration(milliseconds: 300),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final UserState userState = Provider.of<UserState>(context);
+    contributorID = userState.userID;
     return ChangeNotifierProvider<MutterListModel>(
-      create: (_) => MutterListModel()..fetchMutterList(),
+      create: (_) => MutterListModel()..fetchMutterList(boardTitle!),
       child: Scaffold(
         appBar: NewGradientAppBar(
         gradient:
@@ -68,13 +100,7 @@ class _MutterPageState extends State<MutterPage> {
                     (mutter) => ListTile(
                         title: Text(mutter.comment),
                         subtitle: Text(mutter.date),
-                        trailing: IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () async{
-                            //掲示板削除処理
-                            // await showConfirmDialog(context, board, model);
-                          }
-                        ),
+                        // documentID = mutter.id;
                         // onTap: () {
                         //   Navigator.of(context)
                         //       .push(MaterialPageRoute(builder: (context) {
@@ -83,24 +109,81 @@ class _MutterPageState extends State<MutterPage> {
                         // },
                       )
                   ).toList();
-              return ListView(
-                children: widgets,
+              return Stack(
+                alignment: Alignment.bottomCenter,
+                children: <Widget>[
+                  ListView(
+                    controller: _scrollController,
+                    children: widgets,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      new Container(
+                        color: Colors.green[100],
+                        child: Column(
+                          children: <Widget>[
+                            new Form(
+                              key: _formKey, 
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  new Flexible(
+                                    child: new TextFormField(
+                                      controller: messageTextInputCtl,
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: 5,
+                                      minLines: 1,
+                                      decoration: const InputDecoration(
+                                        hintText: 'コメントを入力してください',
+                                      ),
+                                      onTap: (){
+                                        // タイマーを入れてキーボード分スクロールする様に
+                                        Timer(
+                                          Duration(milliseconds: 200),
+                                          _scrollToBottom,
+                                        );
+                                      },
+                                    )
+                                  ),
+                                  Material(
+                                    color: Colors.green[100],
+                                    child: Center(
+                                      child: Ink(
+                                        decoration: const ShapeDecoration(
+                                          color: Colors.green,
+                                            shape: CircleBorder(),
+                                          ),
+                                          child: IconButton(
+                                            icon: Icon(Icons.send),
+                                            color: Colors.white,
+                                            onPressed: () {
+                                              _addMessage(messageTextInputCtl.text);
+                                              FocusScope.of(context).unfocus();
+                                              messageTextInputCtl.clear();
+                                              Timer(
+                                                Duration(milliseconds: 200),
+                                                _scrollToBottom,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ]
+                                )
+                              ),
+                            ]
+                          )
+                        ),
+                      ],
+                    )
+
+                ]
               );
             },
           ),
         ),
-        persistentFooterButtons: <Widget>[
-          TextFormField(
-            decoration: InputDecoration(
-              suffixIcon: ElevatedButton(
-                child: Icon(Icons.send),
-                onPressed: () {
-
-                },
-              )
-            ),
-          ),
-        ],
       )
     );
   }

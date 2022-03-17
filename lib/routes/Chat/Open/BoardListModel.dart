@@ -26,6 +26,7 @@ class BoardListModel extends ChangeNotifier {
   }
 
   Future deleteboard(Board board) {
+    FirebaseFirestore.instance.collection("mutter").doc(board.title).delete();
     return FirebaseFirestore.instance.collection("posts").doc(board.id).delete();
   }
 }

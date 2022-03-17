@@ -3,11 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/routes/Chat/Open/domain/Mutter.dart';
 
 class MutterListModel extends ChangeNotifier {
-  final  _mutters = FirebaseFirestore.instance.collection("mutter").doc('コメント一覧').collection('コメント');
+  // String? boardTitle;
 
   List<Mutter>? mutters;
 
-  void fetchMutterList() async{
+  void fetchMutterList(String boardTitle) async{
+    final  _mutters = FirebaseFirestore.instance.collection("mutter").doc('${boardTitle}').collection('コメント');
     final QuerySnapshot snapshot = await _mutters.get();
 
     final List<Mutter> mutters = snapshot.docs.map((DocumentSnapshot document) {
