@@ -1,8 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/routes/Chat/Personal/ChattingPage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_application_1/routes/Chat/Personal/PersonalChatModel.dart';
+import 'package:flutter_application_1/routes/Chat/Personal/domain/Personal.dart';
 
 class Tile extends StatelessWidget {
 
@@ -18,7 +22,7 @@ class Tile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Slidable(
+    return Slidable( //TODO
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.20,
       child: Container(
@@ -107,22 +111,54 @@ class _PersonalChatState extends State<PersonalChat> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: _massageList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  fetchUserData();
-                  print(_massageList.length);
-                  return _massageList[index];
-                },
-              ),
-            ),
-          ],
-        ),
+    return ChangeNotifierProvider<PersonalChatModel>(
+      create: (_) => PersonalChatModel()..fetchPersonalChat(),
+      child: Scaffold(
+        body: SafeArea(
+          child: Consumer<PersonalChatModel>(
+            builder: (context, model, child) {
+              final List<Personal>? friends = model.friends;
+
+              if (friends == null) {
+                return CircularProgressIndicator();
+              }
+
+              final List<Widget> widgets = friends
+                  .map(
+                    (friend) => Card(
+                      child: ListTile(
+                        leading: Icon(Icons.person),
+                        title: Text(friend.id),
+                        // subtitle: Text(friend.text),
+                        onTap: () {
+                          // Navigator.of(context)
+                          //   .push(MaterialPageRoute(builder: (context) {
+                          //     return ChattingPage(friend.id, friend.name);
+                          // }));
+                        },
+                      )
+                    ),
+                  ).toList();
+              return ListView(
+                children: widgets,
+              );
+            },
+            // child: Column(
+            //   children: [
+            //     Expanded(
+            //       child: ListView.builder(
+            //         itemCount: _massageList.length,
+            //         itemBuilder: (BuildContext context, int index) {
+            //           fetchUserData();
+            //           print(_massageList.length);
+            //           return _massageList[index];
+            //         },
+            //       ),
+            //     ),
+            //   ],
+            // ),
+          )
+        )
       )
     );
   }

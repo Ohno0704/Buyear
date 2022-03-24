@@ -64,9 +64,9 @@ class ItemPage extends StatelessWidget {
                       .add({
                         'uid': contributorID,
                         'name': userName,
-                        'createdAT': DateTime.now().millisecondsSinceEpoch,
+                        'date': DateTime.now().millisecondsSinceEpoch,
                         'id': randomId,
-                        'text': "",
+                        'text': "hello",
                       });
                       Navigator.push(
                         context,
