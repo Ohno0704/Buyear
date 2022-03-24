@@ -8,6 +8,7 @@ import 'package:flutter_application_1/routes/Home/ItemListModel.dart';
 import 'package:flutter_application_1/routes/Home/domain/Item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/routes/Chat/Personal/PersonalChat.dart';
+import 'package:flutter_application_1/routes/Chat/Personal/ChattingPage.dart';
 // ランダムなIDを採番してくれるパッケージ
 import 'package:uuid/uuid.dart';
 
@@ -69,7 +70,7 @@ class ItemPage extends StatelessWidget {
                       });
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Chatting(userName!, contributorID!),
+                        MaterialPageRoute(builder: (context) => ChattingPage(userName!, contributorID!),
                       ),
                 );
                     }
