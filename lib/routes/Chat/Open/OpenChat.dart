@@ -32,7 +32,16 @@ class OpenChat extends StatelessWidget {
                   .map(
                     (board) => Card(
                       child: ListTile(
-                        title: Text(board.title),
+                        title: Text.rich(
+                          TextSpan(
+                          text: board.title,
+                          style: TextStyle(
+                            fontSize: 18,
+                            // color: Colors.red,
+                            // fontWeight: FontWeight.bold,
+                            // fontStyle: FontStyle.italic
+                          ),
+                        ),),
                         subtitle: Text(board.date),
                         trailing: board.contributorID == userState.userID
                         ? IconButton(
@@ -52,6 +61,7 @@ class OpenChat extends StatelessWidget {
                     ),
                   ).toList();
               return ListView(
+                itemExtent: 100,
                 children: widgets,
               );
             },

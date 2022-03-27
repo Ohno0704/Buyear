@@ -84,14 +84,11 @@ class ItemPage extends StatelessWidget {
                           .add({
                             'name': userName,
                           });
+                          showFriendAdd(context, userName!);
+                        } else {
+                          showExistFriend(context, userName!);
                         }
                       });
-                      showFriendAdd(context, userName!);
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => PersonalChat(),
-                      // ),
-                    // );
                     }
               ),
           )
@@ -235,6 +232,7 @@ Future showConfirmDialog(BuildContext context, String title, String documentID) 
     );
   }
 
+// フレンド追加前と後でわざわざ二つ関数用意しているバカ
 Future showFriendAdd(BuildContext context, String friendName) {
     return showDialog(
       context: context, 
@@ -248,13 +246,26 @@ Future showFriendAdd(BuildContext context, String friendName) {
               child: Text("はい"),
               onPressed: () async{
                 Navigator.pop(context);
-                // final snackBar = SnackBar(
-                //   backgroundColor: Colors.red,
-                //   content: Text("「${friend.id}」を削除しました"),
-                // );
-                // model.fetchPersonalChat();
-                // ScaffoldMessenger.of(context)
-                // .showSnackBar(snackBar);
+              },
+            ),         
+          ],
+        );
+      }
+    );
+  }
+
+Future showExistFriend(BuildContext context, String friendName) {
+    return showDialog(
+      context: context, 
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("${friendName}はすでにフレンドです！"),
+          actions: [
+            TextButton(
+              child: Text("OK"),
+              onPressed: () async{
+                Navigator.pop(context);
               },
             ),         
           ],

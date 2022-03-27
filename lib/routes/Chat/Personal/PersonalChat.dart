@@ -175,8 +175,17 @@ Future showConfirmDialog(BuildContext context, Personal friend, PersonalChatMode
       barrierDismissible: false,
       builder: (_) {
         return AlertDialog(
-          title: Text("削除の確認"),
-          content: Text("「${friend.id}」を削除しますか？"),
+          title: Text("${friend.name}とのチャットを削除しますか？"),
+          content: Text.rich(
+                    TextSpan(
+                    text: "${friend.name}が再度出品するまでチャットできなくなります！",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      // fontStyle: FontStyle.italic
+                    ),
+                  ),),
           actions: [
             TextButton(
               child: Text("いいえ"),
@@ -189,7 +198,7 @@ Future showConfirmDialog(BuildContext context, Personal friend, PersonalChatMode
                 Navigator.pop(context);
                 final snackBar = SnackBar(
                   backgroundColor: Colors.red,
-                  content: Text("「${friend.id}」を削除しました"),
+                  content: Text("「${friend.name}」を削除しました"),
                 );
                 model.fetchPersonalChat();
                 ScaffoldMessenger.of(context)

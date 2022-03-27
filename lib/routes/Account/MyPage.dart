@@ -29,21 +29,22 @@ class MyPage extends StatelessWidget {
                 }));
               },
             ),
+            // ListTile(
+            //   leading: Icon(Icons.person_add),
+            //   title: Text('フレンドリスト'),
+            //   trailing:  Icon(Icons.arrow_forward_ios),
+            //   onTap: () {
+            //     Navigator.of(context)
+            //         .push(MaterialPageRoute(builder: (context) {
+            //       return AccountPage();
+            //     }));
+            //   },
+            // ),
             ListTile(
               leading: Icon(Icons.phone),
               title: Text('お問い合わせ'),
               trailing:  Icon(Icons.arrow_forward_ios),
             ),
-            // ListTile(
-            //   leading: Icon(Icons.photo_album),
-            //   title: Text('出品した商品'),
-            //   trailing:  Icon(Icons.arrow_forward_ios),
-            // ),
-            // ListTile(
-            //   leading: Icon(Icons.phone),
-            //   title: Text('購入した商品'),
-            //   trailing:  Icon(Icons.arrow_forward_ios),
-            // ),
           ],
         )
 

@@ -90,7 +90,9 @@ class _HomePageState extends State<HomePage> {
 
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 6,
+                          crossAxisSpacing: 6,),
               itemCount: snapshot.data!.docs.length,
               padding: EdgeInsets.all(2.0),
               itemBuilder: (BuildContext context, int index) {
