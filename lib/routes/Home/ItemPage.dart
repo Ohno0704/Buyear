@@ -51,23 +51,13 @@ class ItemPage extends StatelessWidget {
           ):Text("")
         ],
       ),
+      
       persistentFooterButtons: <Widget>[
-          Center(
+        userState.userID != contributorID
+        ? Center(
             child: RaisedButton(
                     child: Text('購入するためにフレンドになる'),
-                    // child: Text("${fetchItemData}"),
                     onPressed: () async{
-                      // await FirebaseFirestore.instance
-                      // .collection('chat_room')
-                      // .doc("${userName}")
-                      // .collection('contents')
-                      // .add({
-                      //   'uid': contributorID,
-                      //   'name': userName,
-                      //   'date': DateTime.now().millisecondsSinceEpoch,
-                      //   'id': randomId,
-                      //   'text': "hello",
-                      // });
                       Future<QuerySnapshot> snapshot;
                       snapshot = FirebaseFirestore.instance
                       .collection("chat_room")
@@ -91,7 +81,13 @@ class ItemPage extends StatelessWidget {
                       });
                     }
               ),
-          )
+          ):Center(child: Text(
+                      "チャットが来るのを待ちましょう！", 
+                      style: TextStyle(
+                        // color:  Colors.blue[300],
+                        fontSize: 15.0,
+                      ),
+                    ),)
         ],
         body: Column(
             children: <Widget>[
