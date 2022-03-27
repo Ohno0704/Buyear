@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/routes/Account/AccountPage.dart';
+import 'package:flutter_application_1/routes/Account/InquiryPage.dart';
  
 class MyPage extends StatelessWidget {
   @override
@@ -41,9 +42,15 @@ class MyPage extends StatelessWidget {
             //   },
             // ),
             ListTile(
-              leading: Icon(Icons.phone),
+              leading: Icon(Icons.person),
               title: Text('お問い合わせ'),
               trailing:  Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return InquiryPage();
+                }));
+              },
             ),
           ],
         )
