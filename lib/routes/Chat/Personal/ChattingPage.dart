@@ -14,19 +14,20 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class ChattingPage extends StatefulWidget {
-  const ChattingPage(this.name, this.contributorID);
+  const ChattingPage(this.documentID, this.name);
 
+  final String documentID;
   final String name;
-  final String contributorID;
   @override
-  _ChatPageState createState() => _ChatPageState(name, contributorID);
+  _ChatPageState createState() => _ChatPageState(documentID, name);
 }
 
 class _ChatPageState extends State<ChattingPage> {
+  String? documentID;
   String? username;
-  _ChatPageState(this.username, contributorID) {
+  _ChatPageState(this.documentID, this.username) {
+    this.documentID = documentID;
     this.username = username;
-    this.contributorID = contributorID;
   }
 
   String? contributorID;
@@ -44,7 +45,7 @@ class _ChatPageState extends State<ChattingPage> {
   void _getMessages() async {
     final getData = await FirebaseFirestore.instance
         .collection('chat_room')
-        .doc(widget.name)
+        .doc(documentID)
         .collection('contents')
         .get();
 
@@ -69,7 +70,7 @@ class _ChatPageState extends State<ChattingPage> {
     });
     await FirebaseFirestore.instance
         .collection('chat_room')
-        .doc(widget.name)
+        .doc(documentID)
         .collection('contents')
         .add({
       'uid': message.author.id,

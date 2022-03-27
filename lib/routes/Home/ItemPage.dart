@@ -54,25 +54,44 @@ class ItemPage extends StatelessWidget {
       persistentFooterButtons: <Widget>[
           Center(
             child: RaisedButton(
-                    child: Text('購入するため個人チャットへ'),
+                    child: Text('購入するためにフレンドになる'),
                     // child: Text("${fetchItemData}"),
                     onPressed: () async{
-                      await FirebaseFirestore.instance
-                      .collection('chat_room')
-                      .doc(userName)
-                      .collection('contents')
-                      .add({
-                        'uid': contributorID,
-                        'name': userName,
-                        'date': DateTime.now().millisecondsSinceEpoch,
-                        'id': randomId,
-                        'text': "hello",
+                      // await FirebaseFirestore.instance
+                      // .collection('chat_room')
+                      // .doc("${userName}")
+                      // .collection('contents')
+                      // .add({
+                      //   'uid': contributorID,
+                      //   'name': userName,
+                      //   'date': DateTime.now().millisecondsSinceEpoch,
+                      //   'id': randomId,
+                      //   'text': "hello",
+                      // });
+                      Future<QuerySnapshot> snapshot;
+                      snapshot = FirebaseFirestore.instance
+                      .collection("chat_room")
+                      .where('name', isEqualTo: userName)
+                      .get();
+                      int document_num = 0;
+                      // bool existFriend = true; // すでに追加済みのフレンドか確認する
+                      snapshot.then((value) {
+                        print(value.docs.length);
+                        document_num = value.docs.length;
+                        if(document_num == 0) {
+                          FirebaseFirestore.instance
+                          .collection("chat_room")
+                          .add({
+                            'name': userName,
+                          });
+                        }
                       });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ChattingPage(userName!, contributorID!),
-                      ),
-                );
+                      showFriendAdd(context, userName!);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => PersonalChat(),
+                      // ),
+                    // );
                     }
               ),
           )
@@ -216,62 +235,30 @@ Future showConfirmDialog(BuildContext context, String title, String documentID) 
     );
   }
 
-    // return ChangeNotifierProvider<ItemListModel>(
-    //   create: (_) => ItemListModel()..fetchItemList(),
-    //   child: Scaffold(
-    //     appBar: NewGradientAppBar(
-    //       centerTitle: true,
-    //       title: Text("商品情報"),
-    //       gradient:
-    //         LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
-    //       actions: [
-    //         // contributor == user.email
-    //         // ? IconButton(
-    //         //   onPressed: () {
-    //         //     FirebaseFirestore.instance.collection("posts").doc(board.id).delete();
-    //         //     Navigator.push(
-    //         //         context,
-    //         //         MaterialPageRoute(builder: (context) => MyPage(),
-    //         //         ),
-    //         //       );
-    //         //   },
-    //         //   icon: Icon(Icons.account_circle))
-    //       ],
-    //     ),
-    //     body: SingleChildScrollView(
-    //       child: Consumer<ItemListModel>(
-    //         builder: (context, model, child) {
-    //           final List<Item>? items = model.items;
-
-    //           if(items == null) {
-    //             return CircularProgressIndicator();
-    //           }
-
-    //           // final Widget widget = items.map((item) => null)
-
-    //           final List<Widget> widgets = items
-    //           .map(
-    //             (item) => Column(
-    //               children: <Widget>[
-    //                 documentID == item.id
-    //                 ? Center(
-    //                     child: SizedBox(
-    //                       width: double.infinity,
-    //                       height: 300.0,
-    //                       child: Image.network(
-    //                         item.itemURL,
-    //                         fit: BoxFit.contain,
-    //                         ),
-    //                     )
-    //                   ):Center(
-    //                     child: Text("Loading"),
-    //                   ),
-    //               ],
-    //             ),
-    //           ).toList();
-
-    //           return Column(
-    //             children: widgets,
-    //           );
-    //         },
-    //       )
+Future showFriendAdd(BuildContext context, String friendName) {
+    return showDialog(
+      context: context, 
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("${friendName}をフレンドに追加しました！"),
+          content: Text("チャットに移動して交渉してみましょう！"),
+          actions: [
+            TextButton(
+              child: Text("はい"),
+              onPressed: () async{
+                Navigator.pop(context);
+                // final snackBar = SnackBar(
+                //   backgroundColor: Colors.red,
+                //   content: Text("「${friend.id}」を削除しました"),
+                // );
+                // model.fetchPersonalChat();
+                // ScaffoldMessenger.of(context)
+                // .showSnackBar(snackBar);
+              },
+            ),         
+          ],
+        );
+      }
+    );
+  }

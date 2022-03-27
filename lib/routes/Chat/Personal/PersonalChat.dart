@@ -126,16 +126,35 @@ class _PersonalChatState extends State<PersonalChat> {
               final List<Widget> widgets = friends
                   .map(
                     (friend) => Card(
-                      child: ListTile(
-                        leading: Icon(Icons.person),
-                        title: Text(friend.id),
-                        // subtitle: Text(friend.text),
-                        onTap: () {
-                          // Navigator.of(context)
-                          //   .push(MaterialPageRoute(builder: (context) {
-                          //     return ChattingPage(friend.id, friend.name);
-                          // }));
-                        },
+                      child: Slidable(
+                        actionPane: SlidableDrawerActionPane(),
+                        actionExtentRatio: 0.20,
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            child: Icon(Icons.person), // <- 追加：アイコンの設定
+                            backgroundColor: Colors.pink,
+                          ),
+                          title: Text(friend.name),
+                          // subtitle: Text(friend.text),
+                          onTap: () {
+                            Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                                return ChattingPage(friend.id, friend.name);
+                            }));
+                          },
+                        ),
+                        secondaryActions: <Widget>[
+                          IconSlideAction(
+                            color: Colors.red,
+                            iconWidget: Text(
+                              "削除",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onTap: () => {
+                              showConfirmDialog(context, friend, model)
+                            }, // _showSnackBar('Delete'),
+                          ),
+                        ],
                       )
                     ),
                   ).toList();
@@ -143,23 +162,42 @@ class _PersonalChatState extends State<PersonalChat> {
                 children: widgets,
               );
             },
-            // child: Column(
-            //   children: [
-            //     Expanded(
-            //       child: ListView.builder(
-            //         itemCount: _massageList.length,
-            //         itemBuilder: (BuildContext context, int index) {
-            //           fetchUserData();
-            //           print(_massageList.length);
-            //           return _massageList[index];
-            //         },
-            //       ),
-            //     ),
-            //   ],
-            // ),
           )
         )
       )
     );
   }
 }
+
+Future showConfirmDialog(BuildContext context, Personal friend, PersonalChatModel model) {
+    return showDialog(
+      context: context, 
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("削除の確認"),
+          content: Text("「${friend.id}」を削除しますか？"),
+          actions: [
+            TextButton(
+              child: Text("いいえ"),
+              onPressed: () => Navigator.pop(context),
+            ),
+            TextButton(
+              child: Text("はい"),
+              onPressed: () async{
+                await model.deletefriend(friend);
+                Navigator.pop(context);
+                final snackBar = SnackBar(
+                  backgroundColor: Colors.red,
+                  content: Text("「${friend.id}」を削除しました"),
+                );
+                model.fetchPersonalChat();
+                ScaffoldMessenger.of(context)
+                .showSnackBar(snackBar);
+              },
+            ),         
+          ],
+        );
+      }
+    );
+  }
