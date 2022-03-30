@@ -36,6 +36,11 @@ class _WantListPageState extends State<WantListPage> {
               MaterialPageRoute(builder: (context) => AddWantListPage(),
               )
             );
+            // Navigator.pushAndRemoveUntil(
+            //   context, 
+            //   MaterialPageRoute(builder: (context) => AddWantListPage(),
+            //   (route) => false,
+            // );
           },
         ),
         body: Container(
@@ -56,7 +61,7 @@ class _WantListPageState extends State<WantListPage> {
                           TextSpan(
                           text: wantList.title,
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 15,
                             // color: Colors.red,
                             fontWeight: FontWeight.bold,
                             // fontStyle: FontStyle.italic

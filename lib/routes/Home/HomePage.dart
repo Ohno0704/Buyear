@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ItemPage(data.id, data["itemURL"], data["price"], data['text'], data['userName'], data["contributorID"]),
+                          builder: (context) => ItemPage(data.id, data["itemURL"], data["price"], data['text'], data['userName'], data["contributorID"], data['itemName']),
                           fullscreenDialog: true,
                         )
                       );

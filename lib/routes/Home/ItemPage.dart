@@ -18,7 +18,7 @@ import 'package:uuid/uuid.dart';
 // }
 
 class ItemPage extends StatelessWidget {
-  ItemPage(this. documentID, this.itemURL, this.price, this.text, this.userName, this.contributorID);
+  ItemPage(this. documentID, this.itemURL, this.price, this.text, this.userName, this.contributorID, this.itemName);
 
   // 商品情報
   final _itemData = FirebaseFirestore.instance.collection('items');
@@ -28,6 +28,7 @@ class ItemPage extends StatelessWidget {
   String? price;
   String? text;
   String? userName;
+  String? itemName;
   String randomId = Uuid().v4();
 
   @override
@@ -89,7 +90,9 @@ class ItemPage extends StatelessWidget {
                       ),
                     ),)
         ],
-        body: Column(
+        body: SingleChildScrollView(
+          reverse: true,
+          child: Column(
             children: <Widget>[
               Center(
                 child: SizedBox(
@@ -101,6 +104,20 @@ class ItemPage extends StatelessWidget {
                     ),
                 )
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                    text: itemName!,
+                    style: TextStyle(
+                      fontSize: 20,
+                      // color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      // fontStyle: FontStyle.italic
+                    ),
+                  ),),
+              ]),
               // 価格
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -129,27 +146,35 @@ class ItemPage extends StatelessWidget {
                     TextSpan(
                     text: "商品の説明",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 20,
                       color: Colors.blue,
                       fontWeight: FontWeight.bold,
                       // fontStyle: FontStyle.italic
                     ),
                   ),),
               ]),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text.rich(
-                    TextSpan(
-                    text: text!,
-                    style: TextStyle(
-                      fontSize: 20,
-                      // color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      // fontStyle: FontStyle.italic
-                    ),
-                  ),),
-              ]),
+              SizedBox(
+                height: 100,
+                width: double.infinity,
+                child: Container(
+                  color: Colors.grey,
+                  child: Text('${text!}'),
+                ),
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [
+              //     Text.rich(
+              //       TextSpan(
+              //       text: text!,
+              //       style: TextStyle(
+              //         fontSize: 20,
+              //         // color: Colors.red,
+              //         fontWeight: FontWeight.bold,
+              //         // fontStyle: FontStyle.italic
+              //       ),
+              //     ),),
+              // ]),
               // 出品者情報
               SizedBox(height: 10.0,),
               Row(
@@ -159,7 +184,7 @@ class ItemPage extends StatelessWidget {
                     TextSpan(
                     text: "出品者",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 20,
                       color: Colors.blue,
                       fontWeight: FontWeight.bold,
                       // fontStyle: FontStyle.italic
@@ -187,8 +212,8 @@ class ItemPage extends StatelessWidget {
               ]),
             ],
       )
+    )
     );
-
   }
 }
 

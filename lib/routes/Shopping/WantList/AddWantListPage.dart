@@ -30,8 +30,8 @@ class _AddWantListState extends State<AddWantListPage> {
   String? storageURL;
   String? userID;
   String date = DateTime.now().toIso8601String();
-  String text = '新品';
   String? userName;
+  String? itemName;
 
   Future addItem() async{
     
@@ -56,11 +56,11 @@ class _AddWantListState extends State<AddWantListPage> {
       // if(imageURL != null) {
         FirebaseFirestore.instance.collection('wantList').add({
           'itemURL': imageURL!,
-          'title': '${_text}',
+          'title': '${itemName}',
           'price': price,
           'contributorID': "${userID}",
           'date': '${date}',
-          'text': '${text}',
+          'text': '${_text}',
           'userName': '${userName}'
         });
       // }
@@ -118,6 +118,12 @@ class _AddWantListState extends State<AddWantListPage> {
       imageURL = fileURL;
     });
     return returnURL!;
+  }
+
+  void _handleItemName(String e) {
+    setState(() {
+      itemName = e;
+    });
   }
 
   void _handleText(String e) {
@@ -207,11 +213,27 @@ class _AddWantListState extends State<AddWantListPage> {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   cursorColor: Colors.black,
+                  maxLength: 15,
+                  onChanged: _handleItemName,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.mode_edit),
+                    labelText: '商品名（例：ニンテンドースイッチ）',
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 90,
+                width: 350,
+                child: TextField(
+                  enabled: true,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  cursorColor: Colors.black,
                   maxLength: 300,
                   onChanged: _handleText,
                   decoration: const InputDecoration(
                     icon: Icon(Icons.mode_edit),
-                    labelText: '商品名（例：ニンテンドースイッチ）',
+                    labelText: '商品に関する詳細（好ましい状態など）',
                   ),
                 ),
               ),
@@ -241,9 +263,9 @@ class _AddWantListState extends State<AddWantListPage> {
                           await addItem();  
                           // Navigator.of(context).pop();                    
                           await Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => WantListPage(),
-                          ),
+                            context,
+                            MaterialPageRoute(builder: (context) => WantListPage(),),
+                            // (route) => true,
                           );
                         } catch(e) {
                           print(e);
@@ -254,7 +276,11 @@ class _AddWantListState extends State<AddWantListPage> {
                         }
                       }
                 ),
-              )
+              ),
+              SizedBox(
+                height: 30,
+                width: 50,
+              ),
             ]
           )
         ),

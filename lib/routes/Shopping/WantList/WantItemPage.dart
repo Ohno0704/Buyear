@@ -37,7 +37,7 @@ class WantItemPage extends StatelessWidget {
       appBar: NewGradientAppBar(
         gradient:
           LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
-        title: Text("aaa"),// Text('${itemName}'),
+        title: Text("ほしいものリスト"),// Text('${itemName}'),
       ),
         body: Column(
             children: <Widget>[
@@ -51,6 +51,20 @@ class WantItemPage extends StatelessWidget {
                     ),
                 )
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                    text: itemName!,
+                    style: TextStyle(
+                      fontSize: 20,
+                      // color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      // fontStyle: FontStyle.italic
+                    ),
+                  ),),
+              ]),
               // 価格
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -79,27 +93,35 @@ class WantItemPage extends StatelessWidget {
                     TextSpan(
                     text: "商品の説明",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 20,
                       color: Colors.blue,
                       fontWeight: FontWeight.bold,
                       // fontStyle: FontStyle.italic
                     ),
                   ),),
               ]),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text.rich(
-                    TextSpan(
-                    text: text!,
-                    style: TextStyle(
-                      fontSize: 20,
-                      // color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      // fontStyle: FontStyle.italic
-                    ),
-                  ),),
-              ]),
+              SizedBox(
+                height: 100,
+                width: double.infinity,
+                child: Container(
+                  color: Colors.grey,
+                  child: Text('${text!}'),
+                ),
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [
+              //     Text.rich(
+              //       TextSpan(
+              //       text: text!,
+              //       style: TextStyle(
+              //         fontSize: 20,
+              //         // color: Colors.red,
+              //         fontWeight: FontWeight.bold,
+              //         // fontStyle: FontStyle.italic
+              //       ),
+              //     ),),
+              // ]),
               // 出品者情報
               SizedBox(height: 10.0,),
               Row(
@@ -109,7 +131,7 @@ class WantItemPage extends StatelessWidget {
                     TextSpan(
                     text: "希望者",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 20,
                       color: Colors.blue,
                       fontWeight: FontWeight.bold,
                       // fontStyle: FontStyle.italic

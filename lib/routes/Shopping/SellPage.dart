@@ -31,6 +31,7 @@ class _SellPageState extends State<SellPage> {
   String? storageURL;
   String? userName;
   String? contributorID;
+  String? itemName;
 
   Future addItem() async{
     
@@ -59,6 +60,7 @@ class _SellPageState extends State<SellPage> {
           'contributorID': contributorID,
           'text':_text,
           'userName': userName,
+          'itemName': itemName,
         });
       // }
 
@@ -126,6 +128,12 @@ class _SellPageState extends State<SellPage> {
   void _handlePrice(String e) {
     setState(() {
       price = e;
+    });
+  }
+
+  void _handleItemName(String e) {
+    setState(() {
+      itemName = e;
     });
   }
 
@@ -205,6 +213,22 @@ class _SellPageState extends State<SellPage> {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   cursorColor: Colors.black,
+                  maxLength: 30,
+                  onChanged: _handleItemName,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.mode_edit),
+                    labelText: '商品名',
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 90,
+                width: 350,
+                child: TextField(
+                  enabled: true,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  cursorColor: Colors.black,
                   maxLength: 300,
                   onChanged: _handleText,
                   decoration: const InputDecoration(
@@ -251,7 +275,11 @@ class _SellPageState extends State<SellPage> {
                         }
                       }
                 ),
-              )
+              ),
+              SizedBox(
+                height: 30,
+                width: 50,
+              ),
             ]
           )
         ),
