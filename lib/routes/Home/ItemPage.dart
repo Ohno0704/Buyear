@@ -94,16 +94,32 @@ class ItemPage extends StatelessWidget {
           reverse: true,
           child: Column(
             children: <Widget>[
-              Center(
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 300.0,
-                  child: Image.network(
-                    itemURL!,
-                    fit: BoxFit.contain,
+              InteractiveViewer(
+                minScale: 0.1,
+                maxScale: 5,
+                child: Container(
+                  child: Center(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.network(
+                          itemURL!,
+                          fit: BoxFit.contain,
+                        ),
+                      ],
                     ),
-                )
-              ),
+                  ),
+              )),
+              // Center(
+              //   child: SizedBox(
+              //     width: double.infinity,
+              //     height: 300.0,
+              //     child: Image.network(
+              //       itemURL!,
+              //       fit: BoxFit.contain,
+              //       ),
+              //   )
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
