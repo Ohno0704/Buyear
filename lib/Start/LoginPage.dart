@@ -12,6 +12,8 @@ class LoginPage extends StatefulWidget {
 
 class _MyAuthPageState extends State<LoginPage> {
 
+  final GlobalKey<FormState> _mail_key = GlobalKey<FormState>();
+  final GlobalKey<FormState> _password_key = GlobalKey<FormState>();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   // 登録、ログインに関する情報を表示
@@ -24,6 +26,8 @@ class _MyAuthPageState extends State<LoginPage> {
   String? newUsername;
   String loginMailAdress = '';
   String loginPassword = '';
+
+  String tut_filter = "@tut.jp";
 
   @override
   Widget build(BuildContext context) {
@@ -42,23 +46,43 @@ class _MyAuthPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const SizedBox(height: 16.0),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'メールアドレス（〇〇〇@tut.jp）'),
+              Form(
+                key: _mail_key,
+                child: TextFormField(
                 onChanged: (String text) {
                   setState(() {
                     newMailAdress = text;
                   });
                 },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'パスワード'),
+                validator: (value) {
+                  if(!value!.contains(tut_filter)) {
+                    return ('学校のメールアドレスを使用してください');
+                  }
+                },
+                onSaved: (value) => null,
+                decoration: InputDecoration(labelText: 'メールアドレス（〇〇〇@tut.jp）'),
                 // パスワードが見えないようにする
                 // obscureText: true,
+                ),
+              ),
+              Form(
+                key: _password_key,
+                child: TextFormField(
                 onChanged: (String text) {
                   setState(() {
                     newPassword = text;
                   });
                 },
+                validator: (value) {
+                  if(value!.length < 6) {
+                    return ('6桁以上のパスワードにしましょう');
+                  }
+                },
+                onSaved: (value) => null,
+                decoration: InputDecoration(labelText: 'パスワード（6桁以上）'),
+                // パスワードが見えないようにする
+                // obscureText: true,
+                ),
               ),
               Form(
                 key: _key,
@@ -77,8 +101,8 @@ class _MyAuthPageState extends State<LoginPage> {
                 decoration: InputDecoration(labelText: 'ユーザーネーム'),
                 // パスワードが見えないようにする
                 // obscureText: true,
-              ),
                 ),
+              ),
               Container(
                 padding: EdgeInsets.all(8),
                 // メッセージ表示
@@ -91,6 +115,10 @@ class _MyAuthPageState extends State<LoginPage> {
                   child: Text('ユーザー登録'),
                   onPressed: () async {
                     try {
+                      if (!_mail_key.currentState!.validate()) return;
+                      _mail_key.currentState!.save();
+                      if (!_password_key.currentState!.validate()) return;
+                      _password_key.currentState!.save();
                       if (!_key.currentState!.validate()) return;
                       _key.currentState!.save();
                       // メール/パスワードでユーザー登録
