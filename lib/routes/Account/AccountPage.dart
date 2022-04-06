@@ -108,7 +108,7 @@ class _AccountPageState extends State<AccountPage> {
                     final nameText = name_controller.text;
                     final snackBar = SnackBar(
                       backgroundColor: Colors.green,
-                      content: Text('自己紹介を更新しました！'),
+                      content: Text('ユーザーネームを更新しました！'),
                     );
                     userState.setUserName(nameText);
                     // userState.setIntroduce(newIntroduce);
@@ -120,64 +120,64 @@ class _AccountPageState extends State<AccountPage> {
                 SizedBox(
                   height: 20.0,
                 ),
-                Text(
-                  "自己紹介", 
-                  style: TextStyle(
-                    color:  Colors.blue[300],
-                    fontSize: 25.0,
-                  ),
-                ),
-                Text(
-                  "${userIntroduce}", 
-                  style: TextStyle(
-                    fontSize: 18.0,
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Text(
-                  "自己紹介の更新", 
-                  style: TextStyle(
-                    color:  Colors.blue[300],
-                    fontSize: 25.0,
-                  ),
-                ),
-                TextField(
-                  controller: introduce_controller,
-                  maxLines: 3,
-                  keyboardType: TextInputType.multiline,
-                  textAlign: TextAlign.left,
-                  decoration: new InputDecoration(
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black, width: 1.0),
-                    ),
-                  ),
-                  onChanged: (text){
-                    setState(() {
-                      newIntroduce = text;
-                    });
-                  },
+                // Text(
+                //   "自己紹介", 
+                //   style: TextStyle(
+                //     color:  Colors.blue[300],
+                //     fontSize: 25.0,
+                //   ),
+                // ),
+                // Text(
+                //   "${userIntroduce}", 
+                //   style: TextStyle(
+                //     fontSize: 18.0,
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 20.0,
+                // ),
+                // Text(
+                //   "自己紹介の更新", 
+                //   style: TextStyle(
+                //     color:  Colors.blue[300],
+                //     fontSize: 25.0,
+                //   ),
+                // ),
+                // TextField(
+                //   controller: introduce_controller,
+                //   maxLines: 3,
+                //   keyboardType: TextInputType.multiline,
+                //   textAlign: TextAlign.left,
+                //   decoration: new InputDecoration(
+                //     filled: true,
+                //     focusedBorder: OutlineInputBorder(
+                //       borderSide: BorderSide(color: Colors.black, width: 1.0),
+                //     ),
+                //   ),
+                //   onChanged: (text){
+                //     setState(() {
+                //       newIntroduce = text;
+                //     });
+                //   },
                   // decoration: InputDecoration.collapsed(
                   //   hintText: "簡単な自己紹介文を決めましょう！"
                   // ),
-                ),
-                ElevatedButton(
-                  child: Text('更新'),
-                  onPressed: () async{
-                    final introduceText = introduce_controller.text;
-                    final snackBar = SnackBar(
-                      backgroundColor: Colors.green,
-                      content: Text('自己紹介を更新しました！'),
-                    );
-                    userState.setIntroduce(introduceText);
-                    // userState.setIntroduce(newIntroduce);
-                    // userIntroduce = userState.userIntroduce;
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    introduce_controller.clear();
-                  }
-                ),
+                // ),
+                // ElevatedButton(
+                //   child: Text('更新'),
+                //   onPressed: () async{
+                //     final introduceText = introduce_controller.text;
+                //     final snackBar = SnackBar(
+                //       backgroundColor: Colors.green,
+                //       content: Text('自己紹介を更新しました！'),
+                //     );
+                //     userState.setIntroduce(introduceText);
+                //     // userState.setIntroduce(newIntroduce);
+                //     // userIntroduce = userState.userIntroduce;
+                //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                //     introduce_controller.clear();
+                //   }
+                // ),
               ],
             ),
           ),

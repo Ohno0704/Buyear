@@ -177,20 +177,6 @@ class ItemPage extends StatelessWidget {
                   child: Text('${text!}'),
                 ),
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.start,
-              //   children: [
-              //     Text.rich(
-              //       TextSpan(
-              //       text: text!,
-              //       style: TextStyle(
-              //         fontSize: 20,
-              //         // color: Colors.red,
-              //         fontWeight: FontWeight.bold,
-              //         // fontStyle: FontStyle.italic
-              //       ),
-              //     ),),
-              // ]),
               // 出品者情報
               SizedBox(height: 10.0,),
               Row(

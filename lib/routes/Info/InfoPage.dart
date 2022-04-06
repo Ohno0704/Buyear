@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/routes/Account/MyPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_1/routes/Info/PerInfo.dart';
+import 'package:flutter_application_1/routes/Info/CercleInfo.dart';
+import 'package:flutter_application_1/routes/Info/JobInfo.dart';
 
 class InfoPage extends StatelessWidget {
   final Stream<QuerySnapshot> _info_school_Stream = FirebaseFirestore.instance.collection('info_school').snapshots();
@@ -36,58 +37,61 @@ class InfoPage extends StatelessWidget {
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(" 学内情報", style: TextStyle(fontSize: 20),),
-          StreamBuilder<QuerySnapshot>(
-          stream: _info_school_Stream,
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+          SizedBox(
+            height: 10.0,
+          ),
+        //   Text(" 学内情報", style: TextStyle(fontSize: 20),),
+        //   StreamBuilder<QuerySnapshot>(
+        //   stream: _info_school_Stream,
+        //   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
 
-            if (snapshot.hasError) {
-              return Text('Something went wrong');
-            }
+        //     if (snapshot.hasError) {
+        //       return Text('Something went wrong');
+        //     }
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            }
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       return CircularProgressIndicator();
+        //     }
 
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: 20.0),
-              height: 200,
-              child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: snapshot.data!.docs.length,
-              padding: EdgeInsets.all(2.0),
-              itemBuilder: (BuildContext context, int index) {
-                final bool checked = checkedList.contains(index);
-                DocumentSnapshot? data = snapshot.data!.docs[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PerInfo(data["title"]),
-                          fullscreenDialog: true,
-                        )
-                      );
-                    },
-                    child:Container(
-                      width: 160.0,
-                      child: Card(
-                        child: Wrap(
-                          children: <Widget>[
-                            Image.network(data["imageURL"]),
-                            ListTile(
-                              title: Text(data["title"]),
-                              subtitle: Text(data["subTitle"]),
-                            )
-                          ],
-                        )
-                      )
-                    )
-                  );    
-                })
-            );
-            }
-        ),
+        //     return Container(
+        //       margin: EdgeInsets.symmetric(vertical: 20.0),
+        //       height: 200,
+        //       child: ListView.builder(
+        //       scrollDirection: Axis.horizontal,
+        //       itemCount: snapshot.data!.docs.length,
+        //       padding: EdgeInsets.all(2.0),
+        //       itemBuilder: (BuildContext context, int index) {
+        //         final bool checked = checkedList.contains(index);
+        //         DocumentSnapshot? data = snapshot.data!.docs[index];
+        //           return GestureDetector(
+        //             onTap: () {
+        //               Navigator.push(
+        //                 context,
+        //                 MaterialPageRoute(
+        //                   builder: (context) => PerInfo(data["title"]),
+        //                   fullscreenDialog: true,
+        //                 )
+        //               );
+        //             },
+        //             child:Container(
+        //               width: 160.0,
+        //               child: Card(
+        //                 child: Wrap(
+        //                   children: <Widget>[
+        //                     Image.network(data["imageURL"]),
+        //                     ListTile(
+        //                       title: Text(data["title"]),
+        //                       subtitle: Text(data["subTitle"]),
+        //                     )
+        //                   ],
+        //                 )
+        //               )
+        //             )
+        //           );    
+        //         })
+        //     );
+        //     }
+        // ),
         Text(" サークル情報", style: TextStyle(fontSize: 20),),
           StreamBuilder<QuerySnapshot>(
           stream: _info_circle_Stream,
@@ -116,7 +120,7 @@ class InfoPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PerInfo(data["title"]),
+                          builder: (context) => PerInfo('images/自動車部.png', data['info'], data['subTitle'], data["title"]),
                           fullscreenDialog: true,
                         )
                       );
@@ -126,7 +130,8 @@ class InfoPage extends StatelessWidget {
                       child: Card(
                         child: Wrap(
                           children: <Widget>[
-                            Image.network(data["imageURL"]),
+                            // Image.network(data["imageURL"]),
+                            Image.asset('images/自動車部.png', fit: BoxFit.contain,),
                             ListTile(
                               title: Text(data["title"]),
                               subtitle: Text(data["subTitle"]),
@@ -168,7 +173,7 @@ class InfoPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PerInfo(data["title"]),
+                          builder: (context) => JobInfo('images/キャンピングカーバイト.jpg', data['info'], data['subInfo'],data['subTitle'], data["title"]),
                           fullscreenDialog: true,
                         )
                       );
@@ -178,7 +183,7 @@ class InfoPage extends StatelessWidget {
                       child: Card(
                         child: Wrap(
                           children: <Widget>[
-                            Image.network(data["imageURL"]),
+                            Image.asset('images/キャンピングカーバイト.jpg', fit: BoxFit.contain,),
                             ListTile(
                               title: Text(data["title"]),
                               subtitle: Text(data["subTitle"]),
@@ -191,6 +196,9 @@ class InfoPage extends StatelessWidget {
                 })
             );
             }
+        ),
+        SizedBox(
+          height: 150.0,
         ),
         ],
       )
