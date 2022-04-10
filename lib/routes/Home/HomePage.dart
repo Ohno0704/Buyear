@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   
-  final Stream<QuerySnapshot> _userStream = FirebaseFirestore.instance.collection('items').snapshots();
+  final Stream<QuerySnapshot> _userStream = FirebaseFirestore.instance.collection('items').orderBy("createdAt", descending: true).snapshots();
   final List<int> checkedList = [];
 
   Image? _img;

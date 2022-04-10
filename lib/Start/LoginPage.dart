@@ -191,8 +191,14 @@ class _MyAuthPageState extends State<LoginPage> {
                         email: loginMailAdress,
                         password: loginPassword,
                       );
+                      final uid = loginResult.user!.uid;
                       // ユーザー情報を更新
+                      final QuerySnapshot userSnapshot = await FirebaseFirestore.instance.collection("user").where("userID", isEqualTo: uid).get();
+                      final userProfile = userSnapshot.docs.first.data() as Map<String, dynamic>;
+                      final loginUserName = userProfile["userName"];
                       userState.setUser(loginResult.user!);
+                      userState.setUserName(loginUserName!);
+                      userState.setUserID(uid);
                       // ログインに成功した場合
                       // チャット画面に遷移＋ログイン画面を破棄
                       await Navigator.of(context).pushReplacement(

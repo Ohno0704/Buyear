@@ -1,33 +1,42 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/routes/Chat/Personal/domain/Personal.dart';
+import 'package:flutter_application_1/user.dart';
+import 'package:provider/provider.dart';
 
 class PersonalChatModel extends ChangeNotifier {
-  final  _userList = FirebaseFirestore.instance.collection("chat_room");
-
   List<Personal>? friends;
 
   void fetchPersonalChat() async{
-    final QuerySnapshot snapshot = await _userList.get();
+    final myUserId = FirebaseAuth.instance.currentUser!.uid;
+    final QuerySnapshot chatRoomSnapshot = await FirebaseFirestore.instance.collection("chat_room").where("users", arrayContains: myUserId).get();
+    
+    List<Personal> personals = [];
 
-    final List<Personal> friends = snapshot.docs.map((DocumentSnapshot document) {
-
+    for (var document in chatRoomSnapshot.docs) {
       Map<String, dynamic>? data = document.data() as Map<String, dynamic>;
-      final String id = document.id;
-      final String name = data['name'];
-      // final String date = data['date'];
-      // final String text = data['text'];
-      // final String uid = data['uid'];
-      
-      // return Personal(id, name, date, text, uid);
-      return Personal(id, name);
-    }).toList();
+      final List users = document["users"];
+      print("Users: $users");
 
-      this.friends = friends;
+      final slaveId = users.firstWhere((user){
+        return user != myUserId;
+      },);
+
+      print("相手のユーザーID: $slaveId");
+      final QuerySnapshot userSnapshot = await FirebaseFirestore.instance.collection("user").where("userID", isEqualTo: slaveId).get();
+      final slaveProfile = userSnapshot.docs.first.data() as Map<String, dynamic>;
+      final slaveName = slaveProfile["userName"];
+      print(slaveName);
+
+      personals.add(Personal(slaveId,slaveName, document.id));
+    }
+    
+      this.friends = personals;
       notifyListeners();
   }
 
   Future deletefriend(Personal friend) {
-    return FirebaseFirestore.instance.collection("chat_room").doc(friend.id).delete();
+    return FirebaseFirestore.instance.collection("chat_room").doc(friend.documentId).delete();
   }
 }

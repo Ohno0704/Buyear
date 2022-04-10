@@ -139,7 +139,7 @@ class _PersonalChatState extends State<PersonalChat> {
                           onTap: () {
                             Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                                return ChattingPage(friend.id, friend.name);
+                                return ChattingPage(friend);
                             }));
                           },
                         ),
