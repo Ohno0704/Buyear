@@ -261,12 +261,12 @@ class _AddWantListState extends State<AddWantListPage> {
                         try {
                           
                           await addItem();  
-                          // Navigator.of(context).pop();                    
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => WantListPage(),),
+                          Navigator.of(context).pop();                    
+                          // await Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => WantListPage(),),
                             // (route) => true,
-                          );
+                          // );
                         } catch(e) {
                           print(e);
                           final snackBar = SnackBar(

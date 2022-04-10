@@ -20,7 +20,7 @@ class _AccountPageState extends State<AccountPage> {
     final UserState userState = Provider.of<UserState>(context);
     final String userName = userState.userName!;
     final String userIntroduce = userState.userIntroduce;
-    String newUserName = "";
+    String? newUserName = "";
     String newIntroduce = "";
 
     return Scaffold(
@@ -120,6 +120,7 @@ class _AccountPageState extends State<AccountPage> {
                 SizedBox(
                   height: 20.0,
                 ),
+                // 自己紹介
                 // Text(
                 //   "自己紹介", 
                 //   style: TextStyle(
