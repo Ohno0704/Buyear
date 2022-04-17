@@ -6,10 +6,10 @@ class AddBoardModel extends ChangeNotifier {
   String? title;
   String? date;
   String? contributorID;
+  final now = DateTime.now();
 
-  Future addBoard() async{
-
-    if(title == null || title == "") {
+  Future addBoard() async {
+    if (title == null || title == "") {
       throw 'タイトルが入力されていません';
     }
 
@@ -19,12 +19,17 @@ class AddBoardModel extends ChangeNotifier {
     date = DateTime.now().toIso8601String();
 
     await FirebaseFirestore.instance.collection('posts').add({
+      'createdAt': now,
       'title': title,
       'date': date,
       'contributorID': contributorID,
     });
 
-    await FirebaseFirestore.instance.collection('mutter').doc('${documentID}').collection('コメント').add({
+    await FirebaseFirestore.instance
+        .collection('mutter')
+        .doc('${documentID}')
+        .collection('コメント')
+        .add({
       'comment': 'なにかつぶやいてみましょう！',
       'contributorID': contributorID,
       'date': DateTime.now().toIso8601String(),

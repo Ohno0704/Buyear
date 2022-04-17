@@ -13,20 +13,20 @@ class RootWidget extends StatefulWidget {
   @override
   _RootWidgetState createState() => _RootWidgetState();
 }
- 
+
 class _RootWidgetState extends State<RootWidget> {
   // _RootWidgetState(this.user);
   // final User user;
   int _selectedIndex = 0;
   final _bottomNavigationBarItems = <BottomNavigationBarItem>[];
- 
+
   static const _footerIcons = [
     Icons.home,
     Icons.shop,
     Icons.content_paste,
     Icons.chat,
   ];
- 
+
   static const _footerItemNames = [
     'ホーム',
     '売る',
@@ -42,7 +42,7 @@ class _RootWidgetState extends State<RootWidget> {
     ChatPage(),
   ];
   // ==============
- 
+
   @override
   void initState() {
     super.initState();
@@ -51,38 +51,28 @@ class _RootWidgetState extends State<RootWidget> {
       _bottomNavigationBarItems.add(_UpdateDeactiveState(i));
     }
   }
- 
+
   /// インデックスのアイテムをアクティベートする
   BottomNavigationBarItem _UpdateActiveState(int index) {
     return BottomNavigationBarItem(
-        icon: Icon(
-          _footerIcons[index],
-          color: Colors.black87,
-        ),
-        title: Text(
-          _footerItemNames[index],
-          style: TextStyle(
-            color: Colors.black87,
-          ),
-        )
+      icon: Icon(
+        _footerIcons[index],
+        color: Colors.black87,
+      ),
+      label: _footerItemNames[index],
     );
   }
- 
+
   BottomNavigationBarItem _UpdateDeactiveState(int index) {
     return BottomNavigationBarItem(
-        icon: Icon(
-          _footerIcons[index],
-          color: Colors.black26,
-        ),
-        title: Text(
-          _footerItemNames[index],
-          style: TextStyle(
-            color: Colors.black26,
-          ),
-        )
+      icon: Icon(
+        _footerIcons[index],
+        color: Colors.black26,
+      ),
+      label: _footerItemNames[index],
     );
   }
- 
+
   void _onItemTapped(int index) {
     setState(() {
       _bottomNavigationBarItems[_selectedIndex] =
@@ -91,7 +81,7 @@ class _RootWidgetState extends State<RootWidget> {
       _selectedIndex = index;
     });
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

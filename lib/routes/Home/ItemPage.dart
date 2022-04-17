@@ -18,7 +18,8 @@ import 'package:uuid/uuid.dart';
 // }
 
 class ItemPage extends StatelessWidget {
-  ItemPage(this. documentID, this.itemURL, this.price, this.text, this.userName, this.contributorID, this.itemName);
+  ItemPage(this.documentID, this.itemURL, this.price, this.text, this.userName,
+      this.contributorID, this.itemName);
 
   // 商品情報
   final _itemData = FirebaseFirestore.instance.collection('items');
@@ -37,191 +38,190 @@ class ItemPage extends StatelessWidget {
     // final User user = userState.user!;
     String? userID = userState.userID;
     return Scaffold(
-      appBar: NewGradientAppBar(
-        gradient:
-          LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
-        title: Text('商品情報'),
-        actions: <Widget>[
-          userState.userID == contributorID
-          ? IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () async {
-              // 商品を削除
-              showConfirmDialog(context, userName!, documentID!);
-            },
-          ):Text("")
-        ],
-      ),
-      
-      persistentFooterButtons: <Widget>[
-        userState.userID != contributorID
-        ? Center(
-            child: RaisedButton(
-                    child: Text('購入するためにフレンドになる'),
-                    onPressed: () async{
-                      Future<QuerySnapshot> snapshot;
-                      snapshot = FirebaseFirestore.instance
-                      .collection("chat_room")
-                      .where('name', isEqualTo: userName)
-                      .get();
-                      int document_num = 0;
-                      // bool existFriend = true; // すでに追加済みのフレンドか確認する
-                      snapshot.then((value) {
-                        print(value.docs.length);
-                        document_num = value.docs.length;
-                        if(document_num == 0) {
+        appBar: NewGradientAppBar(
+          gradient: LinearGradient(colors: [
+            Colors.blue.shade200,
+            Colors.blue.shade300,
+            Colors.blue.shade400
+          ]),
+          title: Text('商品情報'),
+          actions: <Widget>[
+            userState.userID == contributorID
+                ? IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () async {
+                      // 商品を削除
+                      showConfirmDialog(context, userName!, documentID!);
+                    },
+                  )
+                : Text("")
+          ],
+        ),
+        persistentFooterButtons: <Widget>[
+          userState.userID != contributorID
+              ? Center(
+                  child: RaisedButton(
+                      child: Text('購入するためにフレンドになる'),
+                      onPressed: () async {
+                        final snapshot = await FirebaseFirestore.instance
+                            .collection("chat_room")
+                            .where('users.$userID', isEqualTo: true)
+                            .where('users.$contributorID', isEqualTo: true)
+                            .get();
+                        print(snapshot.docs.length);
+                        final document_num = snapshot.docs.length;
+                        if (document_num == 0) {
                           FirebaseFirestore.instance
-                          .collection("chat_room")
-                          .add({
-                            'name': userName,
-                          });
+                              .collection("chat_room")
+                              .add(
+                            {
+                              'users': {
+                                userID: true,
+                                contributorID: true,
+                              },
+                            },
+                          );
                           showFriendAdd(context, userName!);
                         } else {
                           showExistFriend(context, userName!);
                         }
-                      });
-                    }
-              ),
-          ):Center(child: Text(
-                      "チャットが来るのを待ちましょう！", 
-                      style: TextStyle(
-                        // color:  Colors.blue[300],
-                        fontSize: 15.0,
-                      ),
-                    ),)
-        ],
-        body: SingleChildScrollView(
-          reverse: true,
-          child: Column(
-            children: <Widget>[
-              InteractiveViewer(
-                minScale: 0.1,
-                maxScale: 5,
-                child: Container(
-                  child: Center(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Image.network(
-                          itemURL!,
-                          fit: BoxFit.contain,
-                        ),
-                      ],
+
+                        bool existFriend = true; // すでに追加済みのフレンドか確認する
+                      }),
+                )
+              : Center(
+                  child: Text(
+                    "チャットが来るのを待ちましょう！",
+                    style: TextStyle(
+                      // color:  Colors.blue[300],
+                      fontSize: 15.0,
                     ),
                   ),
-              )),
-              // Center(
-              //   child: SizedBox(
-              //     width: double.infinity,
-              //     height: 300.0,
-              //     child: Image.network(
-              //       itemURL!,
-              //       fit: BoxFit.contain,
-              //       ),
-              //   )
-              // ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                )
+        ],
+        body: SingleChildScrollView(
+            reverse: true,
+            child: Column(
+              children: <Widget>[
+                InteractiveViewer(
+                    minScale: 0.1,
+                    maxScale: 5,
+                    child: Container(
+                      child: Center(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Image.network(
+                              itemURL!,
+                              fit: BoxFit.contain,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
+                // Center(
+                //   child: SizedBox(
+                //     width: double.infinity,
+                //     height: 300.0,
+                //     child: Image.network(
+                //       itemURL!,
+                //       fit: BoxFit.contain,
+                //       ),
+                //   )
+                // ),
+                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                   Text.rich(
                     TextSpan(
-                    text: itemName!,
-                    style: TextStyle(
-                      fontSize: 20,
-                      // color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      // fontStyle: FontStyle.italic
+                      text: itemName!,
+                      style: TextStyle(
+                        fontSize: 20,
+                        // color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        // fontStyle: FontStyle.italic
+                      ),
                     ),
-                  ),),
-              ]),
-              // 価格
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                  ),
+                ]),
+                // 価格
+                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                   Text.rich(
                     TextSpan(
-                    text: price!,
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      // fontStyle: FontStyle.italic
+                      text: '￥${price!}',
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        // fontStyle: FontStyle.italic
+                      ),
                     ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: "円"
-                      )
-                    ]
-                  ),),
-              ]),
-              // 商品の説明
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                  ),
+                ]),
+                // 商品の説明
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Text.rich(
                     TextSpan(
-                    text: "商品の説明",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                      // fontStyle: FontStyle.italic
+                      text: "商品の説明",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        // fontStyle: FontStyle.italic
+                      ),
                     ),
-                  ),),
-              ]),
-              SizedBox(
-                height: 100,
-                width: double.infinity,
-                child: Container(
-                  color: Colors.grey,
-                  child: Text('${text!}'),
+                  ),
+                ]),
+                SizedBox(
+                  height: 100,
+                  width: double.infinity,
+                  child: Container(
+                    color: Colors.grey,
+                    child: Text('${text!}'),
+                  ),
                 ),
-              ),
-              // 出品者情報
-              SizedBox(height: 10.0,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                // 出品者情報
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Text.rich(
                     TextSpan(
-                    text: "出品者",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                      // fontStyle: FontStyle.italic
+                      text: "出品者",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        // fontStyle: FontStyle.italic
+                      ),
                     ),
-                  ),),
-              ]),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                  ),
+                ]),
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Text.rich(
                     TextSpan(
-                    text: userName!,
-                    style: TextStyle(
-                      fontSize: 20,
-                      // color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      // fontStyle: FontStyle.italic
+                      text: userName!,
+                      style: TextStyle(
+                        fontSize: 20,
+                        // color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        // fontStyle: FontStyle.italic
+                      ),
+                      // children: <TextSpan>[
+                      //   TextSpan(
+                      //     text: "円"
+                      //   )
+                      // ]
                     ),
-                    // children: <TextSpan>[
-                    //   TextSpan(
-                    //     text: "円"
-                    //   )
-                    // ]
-                  ),),
-              ]),
-            ],
-      )
-    )
-    );
+                  ),
+                ]),
+              ],
+            )));
   }
 }
 
-Future showConfirmDialog(BuildContext context, String title, String documentID) {
-    return showDialog(
-      context: context, 
+Future showConfirmDialog(
+    BuildContext context, String title, String documentID) {
+  return showDialog(
+      context: context,
       barrierDismissible: false,
       builder: (_) {
         return AlertDialog(
@@ -234,8 +234,11 @@ Future showConfirmDialog(BuildContext context, String title, String documentID) 
             ),
             TextButton(
               child: Text("はい"),
-              onPressed: () async{
-                FirebaseFirestore.instance.collection("items").doc(documentID).delete();
+              onPressed: () async {
+                FirebaseFirestore.instance
+                    .collection("items")
+                    .doc(documentID)
+                    .delete();
                 await Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) {
                     return RootWidget();
@@ -245,20 +248,18 @@ Future showConfirmDialog(BuildContext context, String title, String documentID) 
                   backgroundColor: Colors.red,
                   content: Text("出品を取り消しました"),
                 );
-                ScaffoldMessenger.of(context)
-                .showSnackBar(snackBar);
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
-            ),         
+            ),
           ],
         );
-      }
-    );
-  }
+      });
+}
 
 // フレンド追加前と後でわざわざ二つ関数用意しているバカ
 Future showFriendAdd(BuildContext context, String friendName) {
-    return showDialog(
-      context: context, 
+  return showDialog(
+      context: context,
       barrierDismissible: false,
       builder: (_) {
         return AlertDialog(
@@ -267,19 +268,18 @@ Future showFriendAdd(BuildContext context, String friendName) {
           actions: [
             TextButton(
               child: Text("はい"),
-              onPressed: () async{
+              onPressed: () async {
                 Navigator.pop(context);
               },
-            ),         
+            ),
           ],
         );
-      }
-    );
-  }
+      });
+}
 
 Future showExistFriend(BuildContext context, String friendName) {
-    return showDialog(
-      context: context, 
+  return showDialog(
+      context: context,
       barrierDismissible: false,
       builder: (_) {
         return AlertDialog(
@@ -287,12 +287,11 @@ Future showExistFriend(BuildContext context, String friendName) {
           actions: [
             TextButton(
               child: Text("OK"),
-              onPressed: () async{
+              onPressed: () async {
                 Navigator.pop(context);
               },
-            ),         
+            ),
           ],
         );
-      }
-    );
-  }
+      });
+}
