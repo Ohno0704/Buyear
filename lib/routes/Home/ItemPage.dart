@@ -129,12 +129,12 @@ class ItemPage extends StatelessWidget {
                 //       ),
                 //   )
                 // ),
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Text.rich(
                     TextSpan(
                       text: itemName!,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 30,
                         // color: Colors.red,
                         fontWeight: FontWeight.bold,
                         // fontStyle: FontStyle.italic
@@ -143,7 +143,7 @@ class ItemPage extends StatelessWidget {
                   ),
                 ]),
                 // 価格
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Text.rich(
                     TextSpan(
                       text: '￥${price!}',
@@ -157,24 +157,31 @@ class ItemPage extends StatelessWidget {
                   ),
                 ]),
                 // 商品の説明
-                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  Text.rich(
-                    TextSpan(
-                      text: "商品の説明",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        // fontStyle: FontStyle.italic
-                      ),
-                    ),
+                SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: Container(
+                    color: Colors.grey[400],
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text.rich(
+                            TextSpan(
+                              text: "商品の説明2",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                // fontStyle: FontStyle.italic
+                              ),
+                            ),
+                          ),
+                        ]),
                   ),
-                ]),
+                ),
                 SizedBox(
                   height: 100,
                   width: double.infinity,
                   child: Container(
-                    color: Colors.grey,
                     child: Text('${text!}'),
                   ),
                 ),
@@ -182,19 +189,27 @@ class ItemPage extends StatelessWidget {
                 SizedBox(
                   height: 10.0,
                 ),
-                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  Text.rich(
-                    TextSpan(
-                      text: "出品者",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        // fontStyle: FontStyle.italic
-                      ),
-                    ),
+                SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: Container(
+                    color: Colors.grey[400],
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text.rich(
+                            TextSpan(
+                              text: "出品者",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                // fontStyle: FontStyle.italic
+                              ),
+                            ),
+                          ),
+                        ]),
                   ),
-                ]),
+                ),
                 Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Text.rich(
                     TextSpan(

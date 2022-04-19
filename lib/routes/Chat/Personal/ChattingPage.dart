@@ -43,6 +43,7 @@ class _ChatPageState extends State<ChattingPage> {
         .collection('chat_room')
         .doc(widget.friend.documentId)
         .collection('contents')
+        .orderBy("createdAt", descending: true)
         .get();
 
     final message = getData.docs

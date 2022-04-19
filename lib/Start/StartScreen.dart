@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/Start/LoginPage.dart';
 
-
 class StartScreen extends StatefulWidget {
   StartScreen({Key? key, required this.title}) : super(key: key);
 
@@ -13,34 +12,32 @@ class StartScreen extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<StartScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NewGradientAppBar(
-        title: Text('Enjoy University Life With Buyear!'),
-        gradient:
-          LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400])
-      ),
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            // top: 5.0,
-            right: 0.0,
-            width: 420.0,
-            height: 500.0,
-            child: StartImage(),
+        appBar: NewGradientAppBar(
+            title: Text('Enjoy University Life With Buyear!'),
+            gradient: LinearGradient(colors: [
+              Colors.blue.shade200,
+              Colors.blue.shade300,
+              Colors.blue.shade400
+            ])),
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 500,
+                width: 500,
+                child: StartImage(),
+              ),
+              SizedBox(
+                height: 80,
+                width: 500,
+                child: LoginButton(),
+              ),
+            ],
           ),
-          Positioned(
-            bottom: 50.0,
-            left: 125.0,
-            width: 150.0,
-            height: 50.0,
-            child: LoginButton(),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
@@ -54,18 +51,18 @@ class LoginButton extends StatelessWidget {
           shadowColor: Colors.red,
         ),
         child: const Text('Press to Start!'),
-        onPressed: () async{
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage(),
-                  ),
-                );
-              },
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginPage(),
+            ),
+          );
+        },
       ),
     );
   }
 }
-
 
 class StartImage extends StatelessWidget {
   @override
@@ -76,7 +73,7 @@ class StartImage extends StatelessWidget {
       child: Image.asset(
         'images/buyear_rogo.jpeg',
         fit: BoxFit.contain,
-        ),
+      ),
     );
   }
 }

@@ -7,27 +7,33 @@ class MutterListModel extends ChangeNotifier {
 
   List<Mutter>? mutters;
 
-  void fetchMutterList(String boardTitle) async{
-    final  _mutters = FirebaseFirestore.instance.collection("mutter").doc('${boardTitle}').collection('コメント');
+  void fetchMutterList(String boardTitle) async {
+    final _mutters = FirebaseFirestore.instance
+        .collection("mutter")
+        .doc('${boardTitle}')
+        .collection('コメント')
+        .orderBy('createdAt', descending: false);
     final QuerySnapshot snapshot = await _mutters.get();
 
     final List<Mutter> mutters = snapshot.docs.map((DocumentSnapshot document) {
-
       Map<String, dynamic>? data = document.data() as Map<String, dynamic>;
       final String id = document.id;
       // final String title = data['title'];
       final String date = data['date'];
       final String comment = data['comment'];
       final String contributorID = data['contributorID'];
-      
+
       return Mutter(id, date, comment, contributorID);
     }).toList();
 
-      this.mutters = mutters;
-      notifyListeners();
+    this.mutters = mutters;
+    notifyListeners();
   }
 
   Future deleteboard(Mutter mutter) {
-    return FirebaseFirestore.instance.collection("mutter").doc(mutter.id).delete();
+    return FirebaseFirestore.instance
+        .collection("mutter")
+        .doc(mutter.id)
+        .delete();
   }
 }

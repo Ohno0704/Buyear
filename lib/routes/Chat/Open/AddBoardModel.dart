@@ -30,7 +30,8 @@ class AddBoardModel extends ChangeNotifier {
         .doc('${documentID}')
         .collection('コメント')
         .add({
-      'comment': 'なにかつぶやいてみましょう！',
+      'createdAt': now,
+      'comment': '',
       'contributorID': contributorID,
       'date': DateTime.now().toIso8601String(),
     });

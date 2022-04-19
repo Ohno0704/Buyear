@@ -4,30 +4,37 @@ import 'package:flutter_application_1/routes/Chat/Open/domain/Board.dart';
 import 'package:flutter_application_1/routes/Chat/Open/MutterListModel.dart';
 
 class BoardListModel extends ChangeNotifier {
-  final  _userBoard = FirebaseFirestore.instance.collection("posts");
+  final _userBoard = FirebaseFirestore.instance
+      .collection("posts")
+      .orderBy("createdAt", descending: true);
 
   List<Board>? boards;
 
-  void fetchBoardList() async{
+  void fetchBoardList() async {
     final QuerySnapshot snapshot = await _userBoard.get();
 
     final List<Board> boards = snapshot.docs.map((DocumentSnapshot document) {
-
       Map<String, dynamic>? data = document.data() as Map<String, dynamic>;
       final String id = document.id;
       final String title = data['title'];
       final String date = data['date'];
       final String contributorID = data['contributorID'];
-      
+
       return Board(id, title, date, contributorID);
     }).toList();
 
-      this.boards = boards;
-      notifyListeners();
+    this.boards = boards;
+    notifyListeners();
   }
 
   Future deleteboard(Board board) {
-    FirebaseFirestore.instance.collection("mutter").doc('${board.title}').delete();
-    return FirebaseFirestore.instance.collection("posts").doc(board.id).delete();
+    FirebaseFirestore.instance
+        .collection("mutter")
+        .doc('${board.title}')
+        .delete();
+    return FirebaseFirestore.instance
+        .collection("posts")
+        .doc(board.id)
+        .delete();
   }
 }
