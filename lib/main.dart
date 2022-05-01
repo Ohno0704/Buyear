@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/routes/Home/HomePage.dart';
 import 'package:flutter_application_1/routes/root.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/Start/StartScreen.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_application_1/routes/Shopping/WantList/WantListPage.dart
 import 'package:flutter_application_1/routes/Shopping/SellPage.dart';
 import 'package:flutter_application_1/user.dart';
 import 'firebase_options.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       create: (context) => UserState(),
       child: MaterialApp(
         routes: <String, WidgetBuilder>{
+          // TODO 各ページの階層をここにまとめる
           '/WantListPage': (BuildContext context) => WantListPage(),
           '/SellPage': (BuildContext context) => SellPage(),
           // '/settings': (BuildContext context) => SettingsPage(),
@@ -106,3 +107,9 @@ class _LoginCheckState extends State<LoginCheck> {
     );
   }
 }
+
+// Future test() async{
+//   final prefs = await SharedPreferences.getInstance();
+//   await prefs.setInt('counter', 10);
+//   final int? counter = prefs.getInt('counter');
+// }

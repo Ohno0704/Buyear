@@ -160,6 +160,33 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   children: [
+                      //     Text(
+                      //       "パスワード",
+                      //       style: TextStyle(
+                      //         color: Colors.blue[300],
+                      //         fontSize: 25.0,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   children: [
+                      //     Text(
+                      //       "${userMailadress}",
+                      //       style: TextStyle(
+                      //         // color: Colors.blue[300],
+                      //         fontSize: 25.0,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       // 自己紹介
                       // Text(
                       //   "自己紹介",

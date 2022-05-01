@@ -1,3 +1,7 @@
+/*
+buyearのロゴが現れる最初の画面
+*/
+
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/Start/LoginPage.dart';
@@ -41,6 +45,7 @@ class _MyHomePageState extends State<StartScreen> {
   }
 }
 
+// ログインボタンに関するクラス
 class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -64,6 +69,7 @@ class LoginButton extends StatelessWidget {
   }
 }
 
+// buyearのロゴ画像に関するクラス
 class StartImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

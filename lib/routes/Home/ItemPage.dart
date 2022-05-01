@@ -60,7 +60,7 @@ class ItemPage extends StatelessWidget {
         persistentFooterButtons: <Widget>[
           userState.userID != contributorID
               ? Center(
-                  child: RaisedButton(
+                  child: ElevatedButton(
                       child: Text('購入するためにフレンドになる'),
                       onPressed: () async {
                         final snapshot = await FirebaseFirestore.instance
