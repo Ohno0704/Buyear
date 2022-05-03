@@ -38,13 +38,9 @@ class _SellPageState extends State<SellPage> {
   String? contributorID;
   String? itemName;
   final now = DateTime.now();
-  Uint8List? uint8list;
-  XFile? web_file;
-  String? temp_path;
   Image? _img;
+  String? storagePath;
 
-  // final path = 'hoge';
-  // final path = '${now.toString()}';
   firebase_storage.Reference? storageReference;
 
   Future addItem() async {
@@ -52,14 +48,6 @@ class _SellPageState extends State<SellPage> {
       if (_text == null || _text == "") {
         throw '商品に関する説明が入力されていません';
       }
-
-      // if (imageURL == null || imageURL == "") {
-      //   throw '画像が入力されていません';
-      // }
-
-      // if (_image == null) {
-      //   throw '画像が入力されていません';
-      // }
 
       if (imageURL == null) {
         throw '画像が入力されていません';
@@ -114,56 +102,37 @@ class _SellPageState extends State<SellPage> {
       });
       // imageURL = storageReference!.getDownloadURL().toString();
       _img = new Image(image: new CachedNetworkImageProvider(imageURL!));
-      print("11111");
-      print(imageURL);
-      print("111111");
     });
+    storagePath = path;
   }
 
   Future _getImage(bool gallery) async {
     ImagePicker picker = ImagePicker();
     XFile? pickedFile;
 
-    if (kIsWeb) {
-      // web用処理
+    // スマホアプリ用処理
 
-      // uint8list = await ImagePickerWeb.getImageAsBytes();
-
-      setState(() {
-        if (uint8list != null) {
-          // web_file = XFile.fromRawPath(uint8list!);
-          _images.add(XFile(web_file!.path));
-          _image = XFile(web_file!.path);
-          print("through");
-        } else {
-          print('No image selected.');
-        }
-      });
-    } else {
-      // スマホアプリ用処理
-
-      if (gallery) {
-        pickedFile = await picker.pickImage(
-          source: ImageSource.gallery,
-        );
-      }
-      // Otherwise open camera to get new photo
-      else {
-        pickedFile = await picker.pickImage(
-          source: ImageSource.camera,
-        );
-      }
-
-      setState(() {
-        if (pickedFile != null) {
-          _images.add(XFile(pickedFile.path));
-
-          // _image = File(pickedFile.path); // Use if you only need a single picture
-        } else {
-          print('No image selected.');
-        }
-      });
+    if (gallery) {
+      pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+      );
     }
+    // Otherwise open camera to get new photo
+    else {
+      pickedFile = await picker.pickImage(
+        source: ImageSource.camera,
+      );
+    }
+
+    setState(() {
+      if (pickedFile != null) {
+        _images.add(XFile(pickedFile.path));
+
+        // _image = File(pickedFile.path); // Use if you only need a single picture
+      } else {
+        print('No image selected.');
+      }
+    });
   }
 
   Future<void> saveImages(List<XFile> _images, DocumentReference ref) async {
@@ -183,19 +152,12 @@ class _SellPageState extends State<SellPage> {
     firebase_storage.UploadTask uploadTask;
     Uint8List? downloadedData = await storageReference!.getData();
     uploadTask = storageReference.putData(await _image.readAsBytes());
-    if (kIsWeb) {
-      storageReference = firebase_storage.FirebaseStorage.instance
-          .ref()
-          .child('items/${basename(_image.path)}');
-      storageURL = web_file!.path;
-      // uploadTask = storageReference.putFile(_image);
-    } else {
-      storageReference = firebase_storage.FirebaseStorage.instance
-          .ref()
-          .child('items/${basename(_image.path)}');
-      storageURL = _image.path;
-      // uploadTask = storageReference.putFile(_image);
-    }
+
+    storageReference = firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('items/${basename(_image.path)}');
+    storageURL = _image.path;
+    // uploadTask = storageReference.putFile(_image);
 
     await uploadTask;
     print('File Uploaded');
@@ -242,6 +204,11 @@ class _SellPageState extends State<SellPage> {
             imageRef.delete();
             Navigator.of(context).pop();
           } else {
+            firebase_storage.Reference imageRef = firebase_storage
+                .FirebaseStorage.instance
+                .ref()
+                .child('items/${userState.userID}/${basename(storagePath!)}');
+            imageRef.delete();
             Navigator.of(context).pop();
           }
           return Future.value(false);
@@ -305,10 +272,8 @@ class _SellPageState extends State<SellPage> {
                           width: 150,
                           height: 200,
                         )
-                      // : Image.memory(uint8list!) // TODO webかスマホアプリ化で切り替える
-                      // : Image.network(imageURL!),
                       : _img,
-                  // : Image.file(_image!),
+                  // : Image.file(_image!), // スマホ用
                 ),
                 SizedBox(
                   height: 30,
