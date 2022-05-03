@@ -1,9 +1,12 @@
+import 'dart:html';
+import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/routes/root.dart';
 import 'dart:async';
-import 'dart:io';
+// import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -11,7 +14,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart';
 import 'package:flutter_application_1/user.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:cached_network_image/cached_network_image.dart';
 
 class SellPage extends StatefulWidget {
   @override
@@ -19,8 +23,8 @@ class SellPage extends StatefulWidget {
 }
 
 class _SellPageState extends State<SellPage> {
-  List<File> _images = [];
-  File? _image;
+  List<XFile> _images = [];
+  XFile? _image;
   DocumentReference sightingRef =
       FirebaseFirestore.instance.collection("items").doc();
   var storage = firebase_storage.FirebaseStorage.instance;
@@ -34,6 +38,14 @@ class _SellPageState extends State<SellPage> {
   String? contributorID;
   String? itemName;
   final now = DateTime.now();
+  Uint8List? uint8list;
+  XFile? web_file;
+  String? temp_path;
+  Image? _img;
+
+  // final path = 'hoge';
+  // final path = '${now.toString()}';
+  firebase_storage.Reference? storageReference;
 
   Future addItem() async {
     setState(() {
@@ -45,7 +57,11 @@ class _SellPageState extends State<SellPage> {
       //   throw '画像が入力されていません';
       // }
 
-      if (_image == null) {
+      // if (_image == null) {
+      //   throw '画像が入力されていません';
+      // }
+
+      if (imageURL == null) {
         throw '画像が入力されていません';
       }
 
@@ -67,35 +83,90 @@ class _SellPageState extends State<SellPage> {
     });
   }
 
-  Future _getImage(bool gallery) async {
-    ImagePicker picker = ImagePicker();
-    XFile? pickedFile;
-    // PickedFile pickedFile;
-    // Let user select photo from gallery
-    if (gallery) {
-      pickedFile = await picker.pickImage(
-        source: ImageSource.gallery,
-      );
-    }
-    // Otherwise open camera to get new photo
-    else {
-      pickedFile = await picker.pickImage(
-        source: ImageSource.camera,
-      );
-    }
+  void uploadFromWeb({@required Function(File? file)? onSelected}) {
+    FileUploadInputElement uploadInput = FileUploadInputElement()
+      ..accept = 'image/*';
+    uploadInput.click();
 
-    setState(() {
-      if (pickedFile != null) {
-        _images.add(File(pickedFile.path));
-
-        // _image = File(pickedFile.path); // Use if you only need a single picture
-      } else {
-        print('No image selected.');
-      }
+    uploadInput.onChange.listen((event) {
+      final file = uploadInput.files!.first;
+      final reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        onSelected!(file);
+        print('done');
+      });
     });
   }
 
-  Future<void> saveImages(List<File> _images, DocumentReference ref) async {
+  void uploadToStorage(UserState user) async {
+    // final dateTime = DateTime.now();
+    final userId = user.userID;
+    final path = '$userId/$now';
+
+    uploadFromWeb(onSelected: (file) async {
+      storageReference = firebase_storage.FirebaseStorage.instance
+          .refFromURL('gs://buyear-e477f.appspot.com/')
+          .child('items/$path.png');
+      await storageReference!.putBlob(file);
+      await storageReference!.getDownloadURL().then((fileURL) {
+        imageURL = fileURL;
+      });
+      // imageURL = storageReference!.getDownloadURL().toString();
+      _img = new Image(image: new CachedNetworkImageProvider(imageURL!));
+      print("11111");
+      print(imageURL);
+      print("111111");
+    });
+  }
+
+  Future _getImage(bool gallery) async {
+    ImagePicker picker = ImagePicker();
+    XFile? pickedFile;
+
+    if (kIsWeb) {
+      // web用処理
+
+      // uint8list = await ImagePickerWeb.getImageAsBytes();
+
+      setState(() {
+        if (uint8list != null) {
+          // web_file = XFile.fromRawPath(uint8list!);
+          _images.add(XFile(web_file!.path));
+          _image = XFile(web_file!.path);
+          print("through");
+        } else {
+          print('No image selected.');
+        }
+      });
+    } else {
+      // スマホアプリ用処理
+
+      if (gallery) {
+        pickedFile = await picker.pickImage(
+          source: ImageSource.gallery,
+        );
+      }
+      // Otherwise open camera to get new photo
+      else {
+        pickedFile = await picker.pickImage(
+          source: ImageSource.camera,
+        );
+      }
+
+      setState(() {
+        if (pickedFile != null) {
+          _images.add(XFile(pickedFile.path));
+
+          // _image = File(pickedFile.path); // Use if you only need a single picture
+        } else {
+          print('No image selected.');
+        }
+      });
+    }
+  }
+
+  Future<void> saveImages(List<XFile> _images, DocumentReference ref) async {
     _images.forEach((image) async {
       String _imageURL = await uploadFile(image);
       ref.update({
@@ -104,21 +175,26 @@ class _SellPageState extends State<SellPage> {
     });
   }
 
-  Future<String> uploadFile(File _image) async {
-    // final task = await firebase_storage.FirebaseStorage.instance.ref('items/${doc.id}').putFile(_image);
-    // final _imageURL = await task.ref.getDownloadURL();
-    // return _imageURL;
-    firebase_storage.Reference storageReference = firebase_storage
-        .FirebaseStorage.instance
-        .ref()
-        .child('items/${basename(_image.path)}');
-    storageURL = _image.path;
+  // firebaseStrageにアップロード
+  Future<String> uploadFile(XFile _image) async {
+    // firebase_storage.FirebaseStorage.instance.ref("items").putFile(web_file!);
 
+    firebase_storage.Reference? storageReference;
     firebase_storage.UploadTask uploadTask;
+    Uint8List? downloadedData = await storageReference!.getData();
+    uploadTask = storageReference.putData(await _image.readAsBytes());
     if (kIsWeb) {
-      uploadTask = storageReference.putData(await _image.readAsBytes());
+      storageReference = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child('items/${basename(_image.path)}');
+      storageURL = web_file!.path;
+      // uploadTask = storageReference.putFile(_image);
     } else {
-      uploadTask = storageReference.putFile(_image);
+      storageReference = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child('items/${basename(_image.path)}');
+      storageURL = _image.path;
+      // uploadTask = storageReference.putFile(_image);
     }
 
     await uploadTask;
@@ -156,6 +232,7 @@ class _SellPageState extends State<SellPage> {
     userName = _userName;
     contributorID = userState.userID;
     return WillPopScope(
+        // 出品せずにpopするとアップしたstrageの画像を消去する
         onWillPop: () async {
           if (storageURL != null) {
             firebase_storage.Reference imageRef = firebase_storage
@@ -206,8 +283,12 @@ class _SellPageState extends State<SellPage> {
                       ),
                       elevation: 8,
                       onPressed: () async {
-                        await _getImage(true);
-                        await saveImages(_images, sightingRef);
+                        if (kIsWeb) {
+                          uploadToStorage(userState);
+                        } else {
+                          await _getImage(true);
+                          await saveImages(_images, sightingRef);
+                        }
                       },
                       padding: EdgeInsets.all(15),
                       shape: CircleBorder(),
@@ -218,13 +299,16 @@ class _SellPageState extends State<SellPage> {
                 SizedBox(
                   height: 150,
                   width: 180,
-                  child: _image == null
+                  child: imageURL == null
                       ? Container(
                           color: Colors.grey,
                           width: 150,
                           height: 200,
                         )
-                      : Image.file(_image!),
+                      // : Image.memory(uint8list!) // TODO webかスマホアプリ化で切り替える
+                      // : Image.network(imageURL!),
+                      : _img,
+                  // : Image.file(_image!),
                 ),
                 SizedBox(
                   height: 30,
