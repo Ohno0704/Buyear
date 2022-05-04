@@ -87,7 +87,7 @@ class _SellPageState extends State<SellPage> {
     });
   }
 
-  void uploadToStorage(UserState user) async {
+  Future uploadToStorage(UserState user) async {
     // final dateTime = DateTime.now();
     final userId = user.userID;
     final path = '$userId/$now';
@@ -101,7 +101,8 @@ class _SellPageState extends State<SellPage> {
         imageURL = fileURL;
       });
       // imageURL = storageReference!.getDownloadURL().toString();
-      _img = new Image(image: new CachedNetworkImageProvider(imageURL!));
+      // _img = new Image(image: new CachedNetworkImageProvider(imageURL!));
+      _img = new Image.network(imageURL!);
     });
     storagePath = path;
   }
@@ -251,7 +252,7 @@ class _SellPageState extends State<SellPage> {
                       elevation: 8,
                       onPressed: () async {
                         if (kIsWeb) {
-                          uploadToStorage(userState);
+                          await uploadToStorage(userState);
                         } else {
                           await _getImage(true);
                           await saveImages(_images, sightingRef);

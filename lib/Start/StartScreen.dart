@@ -39,6 +39,17 @@ class _MyHomePageState extends State<StartScreen> {
                 width: 500,
                 child: LoginButton(),
               ),
+              // SizedBox(
+              //   height: 100,
+              // ),
+              SizedBox(
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text('version:0.0.2'),
+                    ],
+                  ))
             ],
           ),
         ));
