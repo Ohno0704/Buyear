@@ -75,6 +75,7 @@ class ItemPage extends StatelessWidget {
                               .collection("chat_room")
                               .add(
                             {
+                              'createdAt': DateTime.now(),
                               'users': {
                                 userID: true,
                                 contributorID: true,
@@ -119,16 +120,6 @@ class ItemPage extends StatelessWidget {
                         ),
                       ),
                     )),
-                // Center(
-                //   child: SizedBox(
-                //     width: double.infinity,
-                //     height: 300.0,
-                //     child: Image.network(
-                //       itemURL!,
-                //       fit: BoxFit.contain,
-                //       ),
-                //   )
-                // ),
                 Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Text.rich(
                     TextSpan(

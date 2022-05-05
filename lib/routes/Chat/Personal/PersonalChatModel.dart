@@ -12,6 +12,7 @@ class PersonalChatModel extends ChangeNotifier {
     final myUserId = FirebaseAuth.instance.currentUser!.uid;
     final QuerySnapshot chatRoomSnapshot = await FirebaseFirestore.instance
         .collection("chat_room")
+        // .orderBy("createdAt", descending: true)
         .where("users.$myUserId", isEqualTo: true)
         .get();
 

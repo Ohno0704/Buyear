@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_application_1/user.dart';
@@ -88,51 +90,55 @@ class _AccountPageState extends State<AccountPage> {
                       SizedBox(
                         height: 10.0,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "ユーザーネームの更新",
-                            style: TextStyle(
-                              color: Colors.blue[300],
-                              fontSize: 25.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                      TextField(
-                        controller: name_controller,
-                        maxLines: 1,
-                        keyboardType: TextInputType.multiline,
-                        textAlign: TextAlign.left,
-                        decoration: new InputDecoration(
-                          filled: true,
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 1.0),
-                          ),
-                        ),
-                        onChanged: (text) {
-                          setState(() {
-                            newUserName = text;
-                          });
-                        },
-                      ),
-                      ElevatedButton(
-                          child: Text('更新'),
-                          onPressed: () async {
-                            final nameText = name_controller.text;
-                            final snackBar = SnackBar(
-                              backgroundColor: Colors.green,
-                              content: Text('ユーザーネームを更新しました！'),
-                            );
-                            userState.setUserName(nameText);
-                            // userState.setIntroduce(newIntroduce);
-                            // userIntroduce = userState.userIntroduce;
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                            name_controller.clear();
-                          }),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   children: [
+                      //     Text(
+                      //       "ユーザーネームの更新",
+                      //       style: TextStyle(
+                      //         color: Colors.blue[300],
+                      //         fontSize: 25.0,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // TextField(
+                      //   controller: name_controller,
+                      //   maxLines: 1,
+                      //   keyboardType: TextInputType.multiline,
+                      //   textAlign: TextAlign.left,
+                      //   decoration: new InputDecoration(
+                      //     filled: true,
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderSide:
+                      //           BorderSide(color: Colors.black, width: 1.0),
+                      //     ),
+                      //   ),
+                      //   onChanged: (text) {
+                      //     setState(() {
+                      //       newUserName = text;
+                      //     });
+                      //   },
+                      // ),
+                      // ElevatedButton(
+                      //     child: Text('更新'),
+                      //     onPressed: () async {
+                      //       final nameText = name_controller.text;
+                      //       final snackBar = SnackBar(
+                      //         backgroundColor: Colors.green,
+                      //         content: Text('ユーザーネームを更新しました！'),
+                      //       );
+                      //       userState.setUserName(nameText);
+                      //       final myUserId = FirebaseAuth.instance.currentUser!.uid;
+                      //       await FirebaseFirestore.instance
+                      //           .collection("user")
+                      //           .doc().update({'userName': '${nameText}');
+                      //           // .where("users.$myUserId", isEqualTo: true).
+
+                      //       ScaffoldMessenger.of(context)
+                      //           .showSnackBar(snackBar);
+                      //       name_controller.clear();
+                      //     }),
                       SizedBox(
                         height: 20.0,
                       ),

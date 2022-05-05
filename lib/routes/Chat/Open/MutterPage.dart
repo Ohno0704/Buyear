@@ -1,4 +1,3 @@
-import 'package:flutter_application_1/routes/Chat/Open/MutterListModel.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Chat/Open/domain/Mutter.dart';
@@ -40,8 +39,8 @@ class _MutterPageState extends State<MutterPage> {
   void _addMessage(String _comment) {
     setState(() {
       FirebaseFirestore.instance
-          .collection('mutter')
-          .doc('${boardTitle}')
+          .collection('posts')
+          .doc('${documentID}')
           .collection('コメント')
           .add({
         'createdAt': now,
@@ -65,107 +64,97 @@ class _MutterPageState extends State<MutterPage> {
   Widget build(BuildContext context) {
     final UserState userState = Provider.of<UserState>(context);
     contributorID = userState.userID;
-    return ChangeNotifierProvider<MutterListModel>(
-        create: (_) => MutterListModel()..fetchMutterList(boardTitle!),
-        child: Scaffold(
-          appBar: NewGradientAppBar(
-            gradient: LinearGradient(colors: [
-              Colors.blue.shade200,
-              Colors.blue.shade300,
-              Colors.blue.shade400
-            ]),
-            title: Text('${boardTitle}'),
-          ),
-          body: Center(
-            child: Consumer<MutterListModel>(
-              builder: (context, model, child) {
-                final List<Mutter>? mutters = model.mutters;
+    return Scaffold(
+      appBar: NewGradientAppBar(
+        gradient: LinearGradient(colors: [
+          Colors.blue.shade200,
+          Colors.blue.shade300,
+          Colors.blue.shade400
+        ]),
+        title: Text('${boardTitle}'),
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection("posts")
+            .doc('${documentID}')
+            .collection('コメント')
+            .orderBy('date', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
 
-                if (mutters == null) {
-                  return CircularProgressIndicator();
-                }
-
-                final List<Widget> widgets = mutters
-                    .map((mutter) => ListTile(
-                          title: Text(mutter.comment),
-                          subtitle: Text(mutter.date),
-                          // documentID = mutter.id;
-                          // onTap: () {
-                          //   Navigator.of(context)
-                          //       .push(MaterialPageRoute(builder: (context) {
-                          //     return BoardPage(board.title);
-                          //   }));
-                          // },
-                        ))
-                    .toList();
-                return Stack(alignment: Alignment.bottomCenter, children: <
-                    Widget>[
-                  ListView(
-                    controller: _scrollController,
-                    children: widgets,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      new Container(
-                          color: Colors.green[100],
-                          child: Column(children: <Widget>[
-                            new Form(
-                                key: _formKey,
-                                child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                      new Flexible(
-                                          child: new TextFormField(
-                                        controller: messageTextInputCtl,
-                                        keyboardType: TextInputType.multiline,
-                                        maxLines: 5,
-                                        minLines: 1,
-                                        decoration: const InputDecoration(
-                                          hintText: 'コメントを入力してください',
-                                        ),
-                                        onTap: () {
-                                          // タイマーを入れてキーボード分スクロールする様に
+          final List<DocumentSnapshot> documents = snapshot.data!.docs;
+          return Stack(alignment: Alignment.bottomCenter, children: <Widget>[
+            ListView(
+              controller: _scrollController,
+              children: documents.map((document) {
+                return ListTile(
+                  title: Text(document['comment']),
+                  subtitle: Text(document['date']),
+                );
+              }).toList(),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                new Container(
+                    color: Colors.green[100],
+                    child: Column(children: <Widget>[
+                      new Form(
+                          key: _formKey,
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                new Flexible(
+                                    child: new TextFormField(
+                                  controller: messageTextInputCtl,
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: 5,
+                                  minLines: 1,
+                                  decoration: const InputDecoration(
+                                    hintText: 'コメントを入力してください',
+                                  ),
+                                  onTap: () {
+                                    // タイマーを入れてキーボード分スクロールする様に
+                                    Timer(
+                                      Duration(milliseconds: 200),
+                                      _scrollToBottom,
+                                    );
+                                  },
+                                )),
+                                Material(
+                                  color: Colors.green[100],
+                                  child: Center(
+                                    child: Ink(
+                                      decoration: const ShapeDecoration(
+                                        color: Colors.green,
+                                        shape: CircleBorder(),
+                                      ),
+                                      child: IconButton(
+                                        icon: Icon(Icons.send),
+                                        color: Colors.white,
+                                        onPressed: () {
+                                          _addMessage(messageTextInputCtl.text);
+                                          FocusScope.of(context).unfocus();
+                                          messageTextInputCtl.clear();
                                           Timer(
                                             Duration(milliseconds: 200),
                                             _scrollToBottom,
                                           );
                                         },
-                                      )),
-                                      Material(
-                                        color: Colors.green[100],
-                                        child: Center(
-                                          child: Ink(
-                                            decoration: const ShapeDecoration(
-                                              color: Colors.green,
-                                              shape: CircleBorder(),
-                                            ),
-                                            child: IconButton(
-                                              icon: Icon(Icons.send),
-                                              color: Colors.white,
-                                              onPressed: () {
-                                                _addMessage(
-                                                    messageTextInputCtl.text);
-                                                FocusScope.of(context)
-                                                    .unfocus();
-                                                messageTextInputCtl.clear();
-                                                Timer(
-                                                  Duration(milliseconds: 200),
-                                                  _scrollToBottom,
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ])),
-                          ])),
-                    ],
-                  )
-                ]);
-              },
-            ),
-          ),
-        ));
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ])),
+                    ])),
+              ],
+            )
+          ]);
+        },
+      ),
+    );
   }
 }

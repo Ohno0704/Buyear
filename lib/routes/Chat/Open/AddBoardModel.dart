@@ -25,15 +25,15 @@ class AddBoardModel extends ChangeNotifier {
       'contributorID': contributorID,
     });
 
-    await FirebaseFirestore.instance
-        .collection('mutter')
-        .doc('${documentID}')
-        .collection('コメント')
-        .add({
-      'createdAt': now,
-      'comment': '',
-      'contributorID': contributorID,
-      'date': DateTime.now().toIso8601String(),
-    });
+    // await FirebaseFirestore.instance
+    //     .collection('mutter')
+    //     .doc('${documentID}')
+    //     .collection('コメント')
+    //     .add({
+    //   'createdAt': now,
+    //   'comment': '',
+    //   'contributorID': contributorID,
+    //   'date': DateTime.now().toIso8601String(),
+    // });
   }
 }

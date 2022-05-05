@@ -36,18 +36,15 @@ class _MyHomePageState extends State<StartScreen> {
               ),
               SizedBox(
                 height: 80,
-                width: 500,
+                width: 400,
                 child: LoginButton(),
               ),
-              // SizedBox(
-              //   height: 100,
-              // ),
               SizedBox(
                   height: 50,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('version:0.0.2'),
+                      Text('version:1.0.2'),
                     ],
                   ))
             ],
@@ -85,7 +82,7 @@ class StartImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
+      width: 350,
       height: 100,
       child: Image.asset(
         'images/buyear_rogo.jpeg',

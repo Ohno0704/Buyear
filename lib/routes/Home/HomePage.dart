@@ -25,38 +25,6 @@ class _HomePageState extends State<HomePage> {
   Image? _img;
   Text? _text;
 
-  Future<void> _download() async {
-    // ログイン処理
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: "test@test.com", password: "testtest");
-
-    // ファイルのダウンロード
-    // テキスト
-    FirebaseStorage storage = FirebaseStorage.instance;
-    Reference textRef = storage.ref().child("DL").child("hello.txt");
-    //Reference ref = storage.ref("DL/hello.txt"); // refで一度に書いてもOK
-
-    var data = await textRef.getData();
-
-    // 画像
-    Reference imageRef = storage.ref().child("DL").child("icon.png");
-    String imageUrl = await imageRef.getDownloadURL();
-
-    // // 画面に反映
-    // setState(() {
-    //   _img = Image.network(imageUrl);
-    //   _text = Text(ascii.decode(data));
-    // });
-
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    File downloadToFile = File("${appDocDir.path}/download-logo.png");
-    try {
-      await imageRef.writeToFile(downloadToFile);
-    } catch (e) {
-      print(e);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

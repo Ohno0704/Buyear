@@ -205,11 +205,11 @@ class _SellPageState extends State<SellPage> {
             imageRef.delete();
             Navigator.of(context).pop();
           } else {
-            firebase_storage.Reference imageRef = firebase_storage
-                .FirebaseStorage.instance
-                .ref()
-                .child('items/${userState.userID}/${basename(storagePath!)}');
-            imageRef.delete();
+            // firebase_storage.Reference imageRef = firebase_storage
+            //     .FirebaseStorage.instance
+            //     .ref()
+            //     .child('items/${userState.userID}/${basename(storagePath!)}');
+            // imageRef.delete();
             Navigator.of(context).pop();
           }
           return Future.value(false);
