@@ -23,7 +23,7 @@ class InquiryPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "匿名でのお問い合わせ(Googleフォーム)",
+                  "お問い合わせ(Googleフォーム)",
                   style: TextStyle(
                     color: Colors.blue[300],
                     fontSize: 25.0,

@@ -1,8 +1,13 @@
+import 'dart:html';
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Shopping/WantList/WantListPage.dart';
+// import 'package:flutter_application_1/routes/Shopping/WantList/WantListPage.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'dart:async';
-import 'dart:io';
+// import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -11,16 +16,18 @@ import 'package:path/path.dart';
 import 'package:flutter_application_1/user.dart';
 import 'package:provider/provider.dart';
 
-class AddWantListPage extends StatefulWidget {
+import 'package:cached_network_image/cached_network_image.dart';
 
+class AddWantListPage extends StatefulWidget {
   @override
   _AddWantListState createState() => _AddWantListState();
 }
 
 class _AddWantListState extends State<AddWantListPage> {
-  List<File> _images = [];
-  File? _image;
-  DocumentReference sightingRef = FirebaseFirestore.instance.collection("wantList").doc();
+  List<XFile> _images = [];
+  XFile? _image;
+  DocumentReference sightingRef =
+      FirebaseFirestore.instance.collection("wantList").doc();
   var storage = firebase_storage.FirebaseStorage.instance;
   bool isLoading = false;
   List<String?> listOfItem = []; //商品画像ファイル名
@@ -30,42 +37,77 @@ class _AddWantListState extends State<AddWantListPage> {
   String? storageURL;
   String? userID;
   String date = DateTime.now().toIso8601String();
+  final now = DateTime.now();
   String? userName;
   String? itemName;
 
-  Future addItem() async{
-    
-    setState(() {
+  firebase_storage.Reference? storageReference;
 
-      if(_text == null || _text == "") {
+  Image? _img;
+  String? storagePath;
+
+  Future addItem() async {
+    setState(() {
+      if (_text == null || _text == "") {
         throw '商品に関する説明が入力されていません';
       }
-      
-      // if (imageURL == null || imageURL == "") {
-      //   throw '画像が入力されていません';
-      // }
 
-      if (_image == null) {
+      if (imageURL == null) {
         throw '画像が入力されていません';
       }
 
-      if(price == null || price == "") {
+      if (price == null || price == "") {
         throw '希望価格が入力されていません';
       }
 
       // if(imageURL != null) {
-        FirebaseFirestore.instance.collection('wantList').add({
-          'itemURL': imageURL!,
-          'title': '${itemName}',
-          'price': price,
-          'contributorID': "${userID}",
-          'date': '${date}',
-          'text': '${_text}',
-          'userName': '${userName}'
-        });
+      FirebaseFirestore.instance.collection('wantList').add({
+        'itemURL': imageURL!,
+        'title': '${itemName}',
+        'price': price,
+        'contributorID': "${userID}",
+        'date': '${date}',
+        'text': '${_text}',
+        'userName': '${userName}'
+      });
       // }
-
     });
+  }
+
+  void uploadFromWeb({@required Function(File? file)? onSelected}) {
+    FileUploadInputElement uploadInput = FileUploadInputElement()
+      ..accept = 'image/*';
+    uploadInput.click();
+
+    uploadInput.onChange.listen((event) {
+      final file = uploadInput.files!.first;
+      final reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        onSelected!(file);
+        print('done');
+      });
+    });
+  }
+
+  Future uploadToStorage(UserState user) async {
+    // final dateTime = DateTime.now();
+    final userId = user.userID;
+    final path = '$userId/$now';
+
+    uploadFromWeb(onSelected: (file) async {
+      storageReference = firebase_storage.FirebaseStorage.instance
+          .refFromURL('gs://buyear-e477f.appspot.com/')
+          .child('items/$path.png');
+      await storageReference!.putBlob(file);
+      await storageReference!.getDownloadURL().then((fileURL) {
+        imageURL = fileURL;
+      });
+      // imageURL = storageReference!.getDownloadURL().toString();
+      // _img = new Image(image: new CachedNetworkImageProvider(imageURL!));
+      _img = new Image.network(imageURL!);
+    });
+    storagePath = path;
   }
 
   Future _getImage(bool gallery) async {
@@ -73,48 +115,57 @@ class _AddWantListState extends State<AddWantListPage> {
     PickedFile? pickedFile;
     // PickedFile pickedFile;
     // Let user select photo from gallery
-    if(gallery) {
+    if (gallery) {
       pickedFile = await picker.getImage(
-          source: ImageSource.gallery,);
-    } 
+        source: ImageSource.gallery,
+      );
+    }
     // Otherwise open camera to get new photo
-    else{
+    else {
       pickedFile = await picker.getImage(
-          source: ImageSource.camera,);
+        source: ImageSource.camera,
+      );
     }
 
     setState(() {
       if (pickedFile != null) {
-        _images.add(File(pickedFile.path));
-        _image = File(pickedFile.path); // Use if you only need a single picture
+        _images.add(XFile(pickedFile.path));
+        // _images.add(File(pickedFile.path));
+        // _image = File(pickedFile.path); // Use if you only need a single picture
       } else {
         print('No image selected.');
       }
     });
   }
 
-  Future<void> saveImages(List<File> _images, DocumentReference ref) async {
-      _images.forEach((image) async {
-        String _imageURL = await uploadFile(image);
-        ref.update({"wantList": FieldValue.arrayUnion([_imageURL])});
+  Future<void> saveImages(List<XFile> _images, DocumentReference ref) async {
+    _images.forEach((image) async {
+      String _imageURL = await uploadFile(image);
+      ref.update({
+        "wantList": FieldValue.arrayUnion([_imageURL])
       });
+    });
   }
 
-  Future<String> uploadFile(File _image) async {
-    
+  Future<String> uploadFile(XFile _image) async {
     // final task = await firebase_storage.FirebaseStorage.instance.ref('items/${doc.id}').putFile(_image);
     // final _imageURL = await task.ref.getDownloadURL();
     // return _imageURL;
-    firebase_storage.Reference storageReference = firebase_storage.FirebaseStorage.instance
+
+    firebase_storage.Reference? storageReference;
+    firebase_storage.UploadTask uploadTask;
+    uploadTask = storageReference!.putData(await _image.readAsBytes());
+
+    storageReference = firebase_storage.FirebaseStorage.instance
         .ref()
         .child('wantList/${basename(_image.path)}');
     storageURL = _image.path;
-    firebase_storage.UploadTask uploadTask = storageReference.putFile(_image);
+
     await uploadTask;
     print('File Uploaded');
     String? returnURL;
     await storageReference.getDownloadURL().then((fileURL) {
-      returnURL =  fileURL;
+      returnURL = fileURL;
       imageURL = fileURL;
     });
     return returnURL!;
@@ -144,148 +195,159 @@ class _AddWantListState extends State<AddWantListPage> {
     userName = userState.userName;
     userID = userState.userID;
     return WillPopScope(
-      onWillPop: () async{
-        if(storageURL != null) {
-          firebase_storage.Reference imageRef = firebase_storage.FirebaseStorage.instance
-          .ref()
-          .child('wantList/${basename(storageURL!)}');
-          imageRef.delete();
-          Navigator.of(context).pop();
-        } else {
-          Navigator.of(context).pop();
-        }
-        return Future.value(false);
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: NewGradientAppBar(
-          centerTitle: true,
-          title: Text("ほしいものを追加"),
-          gradient:
-            LinearGradient(colors: [Colors.blue.shade200, Colors.blue.shade300, Colors.blue.shade400]),
-        ),
-        body: SingleChildScrollView(
-          reverse: true,
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 35,
-                width: 100,
-                child: Text("画像を追加", style: TextStyle(fontSize: 20),),
-              ),
-              SizedBox(
-                height: 80,
-                width: 80,
-                child: RawMaterialButton(
-                  fillColor: Theme.of(context).accentColor,
-                  child: Icon(Icons.add_photo_alternate_rounded,
-                  color: Colors.white,),
-                  elevation: 8,
-                  onPressed: () async{                          
-                    await _getImage(true);
-                    await saveImages(_images,sightingRef);
-                  },
-                  padding: EdgeInsets.all(15),
-                  shape: CircleBorder(),
-                )
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              SizedBox(
-                height: 150,
-                width: 180,
-                child: _image == null ? Container(color: Colors.grey, width: 150, height: 200,) : Image.file(_image!),
-              ),
-              SizedBox(
-                height: 30,
-                width: 50,
-              ),
-              SizedBox(
-                height: 90,
-                width: 350,
-                child: TextField(
-                  enabled: true,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  cursorColor: Colors.black,
-                  maxLength: 15,
-                  onChanged: _handleItemName,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.mode_edit),
-                    labelText: '商品名（例：ニンテンドースイッチ）',
+        onWillPop: () async {
+          if (storageURL != null) {
+            firebase_storage.Reference imageRef = firebase_storage
+                .FirebaseStorage.instance
+                .ref()
+                .child('wantList/${basename(storageURL!)}');
+            imageRef.delete();
+            Navigator.of(context).pop();
+          } else {
+            Navigator.of(context).pop();
+          }
+          return Future.value(false);
+        },
+        child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            appBar: NewGradientAppBar(
+              centerTitle: true,
+              title: Text("ほしいものを追加"),
+              gradient: LinearGradient(colors: [
+                Colors.blue.shade200,
+                Colors.blue.shade300,
+                Colors.blue.shade400
+              ]),
+            ),
+            body: SingleChildScrollView(
+              reverse: true,
+              child: Center(
+                  child: Column(children: [
+                SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 35,
+                  width: 100,
+                  child: Text(
+                    "画像を追加",
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 90,
-                width: 350,
-                child: TextField(
-                  enabled: true,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  cursorColor: Colors.black,
-                  maxLength: 300,
-                  onChanged: _handleText,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.mode_edit),
-                    labelText: '商品に関する詳細（好ましい状態など）',
+                SizedBox(
+                    height: 80,
+                    width: 80,
+                    child: RawMaterialButton(
+                      fillColor: Theme.of(context).accentColor,
+                      child: Icon(
+                        Icons.add_photo_alternate_rounded,
+                        color: Colors.white,
+                      ),
+                      elevation: 8,
+                      onPressed: () async {
+                        if (kIsWeb) {
+                          await uploadToStorage(userState);
+                        } else {
+                          await _getImage(true);
+                          await saveImages(_images, sightingRef);
+                        }
+                      },
+                      padding: EdgeInsets.all(15),
+                      shape: CircleBorder(),
+                    )),
+                SizedBox(
+                  height: 30,
+                ),
+                SizedBox(
+                  height: 150,
+                  width: 180,
+                  child: imageURL == null
+                      ? Container(
+                          color: Colors.grey,
+                          width: 150,
+                          height: 200,
+                        )
+                      : _img,
+                ),
+                SizedBox(
+                  height: 30,
+                  width: 50,
+                ),
+                SizedBox(
+                  height: 90,
+                  width: 350,
+                  child: TextField(
+                    enabled: true,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    cursorColor: Colors.black,
+                    maxLength: 15,
+                    onChanged: _handleItemName,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.mode_edit),
+                      labelText: '商品名（例：ニンテンドースイッチ）',
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 90,
-                width: 350,
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[ 
-                    FilteringTextInputFormatter.digitsOnly // ③ 数字入力のみ許可する
-                  ], 
-                  onChanged: _handlePrice,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.mode_edit),
-                    labelText: '希望価格',
+                SizedBox(
+                  height: 90,
+                  width: 350,
+                  child: TextField(
+                    enabled: true,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    cursorColor: Colors.black,
+                    maxLength: 300,
+                    onChanged: _handleText,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.mode_edit),
+                      labelText: '商品に関する詳細（好ましい状態など）',
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 80,
-                width: 180,
-                child: ElevatedButton(
+                SizedBox(
+                  height: 90,
+                  width: 350,
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly // ③ 数字入力のみ許可する
+                    ],
+                    onChanged: _handlePrice,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.mode_edit),
+                      labelText: '希望価格',
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 80,
+                  width: 180,
+                  child: ElevatedButton(
                       child: Text('リストに追加'),
-                      onPressed: () async{
+                      onPressed: () async {
                         try {
-                          
-                          await addItem();  
-                          Navigator.of(context).pop();                    
-                          // await Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => WantListPage(),),
-                            // (route) => true,
+                          await addItem();
+                          Navigator.of(context).pop();
+                          // Navigator.of(context).pushReplacement(
+                          //   MaterialPageRoute(
+                          //     builder: (BuildContext context) => WantListPage(),
+                          //   ),
                           // );
-                        } catch(e) {
+                        } catch (e) {
                           print(e);
                           final snackBar = SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text(e.toString()));
+                              backgroundColor: Colors.red,
+                              content: Text(e.toString()));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
-                      }
+                      }),
                 ),
-              ),
-              SizedBox(
-                height: 30,
-                width: 50,
-              ),
-            ]
-          )
-        ),
-        )
-      )
-    );
+                SizedBox(
+                  height: 30,
+                  width: 50,
+                ),
+              ])),
+            )));
   }
 }
