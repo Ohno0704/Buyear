@@ -21,6 +21,7 @@ class _AccountPageState extends State<AccountPage> {
     final UserState userState = Provider.of<UserState>(context);
     final String userName = userState.userName!;
     final String userMailadress = userState.user!.email!;
+    final String uid = userState.user!.uid;
     final String userIntroduce = userState.userIntroduce;
     String? newUserName = "";
     String newIntroduce = "";
@@ -168,6 +169,36 @@ class _AccountPageState extends State<AccountPage> {
                       ),
                       SizedBox(
                         height: 20.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "ユーザーID",
+                            style: TextStyle(
+                              color: Colors.blue[300],
+                              fontSize: 25.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${uid}",
+                            style: TextStyle(
+                              // color: Colors.blue[300],
+                              fontSize: 25.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.0,
                       ),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.start,
