@@ -44,7 +44,7 @@ class _MyHomePageState extends State<StartScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('version:1.1.2'),
+                      Text('version:1.1.3'),
                     ],
                   ))
             ],

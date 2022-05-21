@@ -1,45 +1,44 @@
+// フリマ機能実装後一部修正
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/routes/Home/HomePage.dart';
 import 'package:flutter_application_1/routes/Shopping/ShoppingPage.dart';
 import 'package:flutter_application_1/routes/Info/InfoPage.dart';
 import 'package:flutter_application_1/routes/Chat/ChatPage.dart';
+import 'package:flutter_application_1/routes/Chat/Open/OpenChat.dart';
 
 class RootWidget extends StatefulWidget {
-  // RootWidget(this.user);
-  // final User user;
-  // RootWidget({Key? key}) : super(key: key);
 
   @override
   _RootWidgetState createState() => _RootWidgetState();
 }
 
 class _RootWidgetState extends State<RootWidget> {
-  // _RootWidgetState(this.user);
-  // final User user;
   int _selectedIndex = 0;
   final _bottomNavigationBarItems = <BottomNavigationBarItem>[];
 
   static const _footerIcons = [
-    Icons.home,
-    Icons.shop,
-    Icons.content_paste,
+    // Icons.home,
+    // Icons.shop,
     Icons.chat,
+    Icons.content_paste,
   ];
 
   static const _footerItemNames = [
-    'ホーム',
-    '売る',
+    // 'ホーム',
+    // '売る',
+    '学内掲示板',
     '情報誌',
-    'チャット',
   ];
 
   // === 追加部分 ===
   var _routes = [
-    HomePage(),
-    ShoppingPage(),
+    // HomePage(),
+    // ShoppingPage(),
+    // ChatPage(),
+    OpenChat(),
     InfoPage(),
-    ChatPage(),
   ];
   // ==============
 

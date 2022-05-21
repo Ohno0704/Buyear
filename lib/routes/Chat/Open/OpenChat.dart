@@ -1,13 +1,15 @@
+/* 掲示板一覧ページ */
+
 import 'package:flutter_application_1/routes/Chat/Open/BoardListModel.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routes/Chat/Open/AddBoardPage.dart';
 import 'package:flutter_application_1/routes/Chat/Open/domain/Board.dart';
 import 'package:flutter_application_1/routes/Chat/Open/MutterPage.dart';
+import 'package:flutter_application_1/routes/Account/MyPage.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OpenChat extends StatelessWidget {
   String content = '';
@@ -19,6 +21,28 @@ class OpenChat extends StatelessWidget {
     return ChangeNotifierProvider<BoardListModel>(
       create: (_) => BoardListModel()..fetchBoardList(),
       child: Scaffold(
+        // appbar:フリマ機能実装後は消す
+        appBar: NewGradientAppBar(
+            centerTitle: true,
+            title: Text("学内掲示板"),
+            automaticallyImplyLeading: false,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyPage(),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.account_circle))
+            ],
+            gradient: LinearGradient(colors: [
+              Colors.blue.shade200,
+              Colors.blue.shade300,
+              Colors.blue.shade400
+            ])),
         body: Center(
           child: Consumer<BoardListModel>(
             builder: (context, model, child) {
@@ -37,9 +61,6 @@ class OpenChat extends StatelessWidget {
                           text: board.title,
                           style: TextStyle(
                             fontSize: 18,
-                            // color: Colors.red,
-                            // fontWeight: FontWeight.bold,
-                            // fontStyle: FontStyle.italic
                           ),
                         ),),
                         subtitle: Text(board.date),
